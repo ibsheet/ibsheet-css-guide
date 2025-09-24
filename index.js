@@ -116,7 +116,8 @@ const contents = {
 };
 
 const themes = ['IBGR', 'IBMR', 'IBMT', 'IBSP', 'IBGY'];
-let prefixTheme = 'IB';
+// let prefixTheme = 'IB';
+let prefixTheme = 'IBGY'; // 초기값을 Gray 테마로 설정
 
 function loadTab(tabId) {
   // const panel = document.getElementById("inspector-panel");
@@ -203,6 +204,9 @@ document.getElementById('theme-selector').addEventListener('change', function() 
       break;
     case 'simple':
       prefixTheme = 'IBSP';
+      break;
+    case 'gray':
+      prefixTheme = 'IBGY';
       break;
     default:
       prefixTheme = 'IB';

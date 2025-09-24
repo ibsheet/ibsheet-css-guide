@@ -157,7 +157,17 @@ function getMonacoEditorOptions(value = '') {
     // overflow-y:auto 인 패널(#inspector-panel) 내부에서 컬러피커/자동완성 등이 잘리지 않도록
     // 위젯을 body 아래로 고정(fixed) 렌더링
     fixedOverflowWidgets: true,
-    overflowWidgetsDomNode: document.body
+    overflowWidgetsDomNode: document.body,
+    // base64 배경 이미지 처리를 위한 렌더링 최적화
+    renderValidationDecorations: 'off',
+    showUnused: false,
+    renderLineHighlight: 'none',
+    occurrencesHighlight: false,
+    renderWhitespace: 'none',
+    // 스크롤 및 레이아웃 최적화 (배경 이미지 대응)
+    smoothScrolling: true,
+    mouseWheelScrollSensitivity: 1,
+    fastScrollSensitivity: 5
   };
 }
 
@@ -536,6 +546,50 @@ function createCustomCssEditor(containerId, value = '') {
       }
     });
     
+    // base64 배경 이미지 감지 및 처리 로직
+    const handleBase64BackgroundImages = () => {
+      try {
+        const model = safeGetModel();
+        if (!model) return;
+        
+        const cssContent = model.getValue();
+        // base64 배경 이미지가 포함된 CSS 감지
+        const hasBase64Background = /background[^;]*url\s*\(\s*['"]?data:image/.test(cssContent);
+        
+        if (hasBase64Background) {
+          // 에디터 컨테이너에 base64 배경 이미지 클래스 추가
+          container.classList.add('monaco-editor-base64-bg');
+          
+          // 레이아웃 재계산 강제 실행
+          setTimeout(() => {
+            try {
+              editor.layout();
+              // line number 위치 재조정
+              const lineNumberElements = container.querySelectorAll('.line-numbers');
+              lineNumberElements.forEach(el => {
+                el.style.transform = 'translateZ(0)';
+                el.style.backfaceVisibility = 'hidden';
+              });
+            } catch (layoutError) {
+              console.warn('Layout adjustment error:', layoutError);
+            }
+          }, 50);
+        } else {
+          container.classList.remove('monaco-editor-base64-bg');
+        }
+      } catch (error) {
+        console.warn('Error handling base64 background images:', error);
+      }
+    };
+    
+    // 초기 base64 배경 이미지 확인
+    setTimeout(handleBase64BackgroundImages, 100);
+    
+    // 내용 변경 시 base64 배경 이미지 재확인
+    editor.onDidChangeModelContent(() => {
+      setTimeout(handleBase64BackgroundImages, 100);
+    });
+    
     // 레이아웃 강제 업데이트
     setTimeout(() => {
       if (editor && typeof editor.layout === 'function') {
@@ -756,6 +810,50 @@ function createClassCssEditor(containerId, value = '', className = '') {
       } catch (error) {
         console.warn('Error in content change handler for class editor:', error);
       }
+    });
+    
+    // base64 배경 이미지 감지 및 처리 로직 (클래스별 에디터용)
+    const handleBase64BackgroundImages = () => {
+      try {
+        const model = safeGetModel();
+        if (!model) return;
+        
+        const cssContent = model.getValue();
+        // base64 배경 이미지가 포함된 CSS 감지
+        const hasBase64Background = /background[^;]*url\s*\(\s*['"]?data:image/.test(cssContent);
+        
+        if (hasBase64Background) {
+          // 에디터 컨테이너에 base64 배경 이미지 클래스 추가
+          container.classList.add('monaco-editor-base64-bg');
+          
+          // 레이아웃 재계산 강제 실행
+          setTimeout(() => {
+            try {
+              editor.layout();
+              // line number 위치 재조정
+              const lineNumberElements = container.querySelectorAll('.line-numbers');
+              lineNumberElements.forEach(el => {
+                el.style.transform = 'translateZ(0)';
+                el.style.backfaceVisibility = 'hidden';
+              });
+            } catch (layoutError) {
+              console.warn('Layout adjustment error for class editor:', className, layoutError);
+            }
+          }, 50);
+        } else {
+          container.classList.remove('monaco-editor-base64-bg');
+        }
+      } catch (error) {
+        console.warn('Error handling base64 background images for class editor:', className, error);
+      }
+    };
+    
+    // 초기 base64 배경 이미지 확인
+    setTimeout(handleBase64BackgroundImages, 100);
+    
+    // 내용 변경 시 base64 배경 이미지 재확인
+    editor.onDidChangeModelContent(() => {
+      setTimeout(handleBase64BackgroundImages, 100);
     });
     
     // 레이아웃 강제 업데이트
