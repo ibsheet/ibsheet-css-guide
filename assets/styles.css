@@ -1,0 +1,1433 @@
+/* 전역 애니메이션 설정 */
+* {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+*:hover {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #1a1a1a;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 50%, #ffffff 100%);
+  background-attachment: fixed;
+  scroll-behavior: smooth;
+}
+
+.container {
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: 420px 1fr;
+  grid-template-areas: "inspector main-area";
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+}
+
+/* 메인 영역 (tab bar + content) */
+.main-area {
+  grid-area: main-area;
+  display: grid;
+  grid-template-rows: 70px 1fr;
+  grid-template-areas:
+    "tab-bar"
+    "content";
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  overflow: hidden;
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: -4px 0 30px rgba(0, 0, 0, 0.1);
+  border-radius: 0 0 0 20px;
+}
+/* 탭바 영역 */
+#tab-bar {
+  grid-area: tab-bar;
+  background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(248,249,250,0.9) 100%);
+  backdrop-filter: blur(15px);
+  border-bottom: 1px solid rgba(233, 236, 239, 0.5);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+}
+
+/* 메인 컨텐츠 영역 */
+#tab-views {
+  grid-area: content;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(10px);
+  overflow: auto;
+  position: relative;
+  padding: 20px;
+}
+
+/* 탭 바 스타일 - 모던 미니멀 디자인 */
+.tab-bar {
+  grid-area: tab-bar;
+  display: flex;
+  background: linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(250,251,252,0.98) 100%);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  padding: 8px 24px;
+  margin: 0;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+  height: 70px;
+  overflow: hidden;
+  align-items: center;
+  gap: 4px;
+}
+
+/* 테마 셀렉터 스타일 - 탭 버튼과 일관성 있는 디자인 */
+#theme-selector {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  padding: 12px 20px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  color: #4a5568;
+  border-radius: 10px;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  font-family: inherit;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+  min-width: 150px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234a5568' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+  padding-right: 40px;
+}
+
+#theme-selector::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.05), transparent);
+  transition: left 0.4s ease;
+}
+
+#theme-selector:hover::before {
+  left: 100%;
+}
+
+#theme-selector:hover {
+  background: rgba(255, 255, 255, 0.95);
+  color: #1a202c;
+  border-color: rgba(0, 0, 0, 0.15);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231a202c' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+}
+
+#theme-selector:focus {
+  outline: 2px solid #4a5568;
+  outline-offset: 2px;
+  box-shadow: 
+    0 0 0 4px rgba(74, 85, 104, 0.2),
+    0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+#theme-selector option {
+  background: #ffffff;
+  color: #1a202c;
+  padding: 8px 12px;
+  font-weight: 500;
+}
+
+.tab-btn {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  padding: 12px 24px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  color: #4a5568;
+  border-radius: 10px;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  font-family: inherit;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+}
+
+.tab-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.05), transparent);
+  transition: left 0.4s ease;
+}
+
+.tab-btn:hover::before {
+  left: 100%;
+}
+
+.tab-btn:hover {
+  background: rgba(255, 255, 255, 0.95);
+  color: #1a202c;
+  border-color: rgba(0, 0, 0, 0.15);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.tab-btn.active {
+  background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
+  color: white;
+  border-color: transparent;
+  box-shadow: 
+    0 4px 20px rgba(45, 55, 72, 0.3),
+    0 1px 3px rgba(0, 0, 0, 0.2);
+  transform: translateY(-1px);
+}
+
+.tab-btn.active::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 1px;
+}
+
+/* 탭 뷰 영역 */
+#tab-views {
+  flex: 1;
+  background: #ffffff;
+  padding: 24px;
+}
+
+/* 탭 컨텐츠 영역 */
+.tab-content-area {
+  grid-area: content;
+  height: calc(100vh - 70px);
+  overflow: visible;
+  position: relative;
+}
+
+/* 탭 컨텐츠 - 모노크롬 글래스모피즘 디자인 */
+.tab-content { 
+  display: none; 
+  padding: 30px;
+  height: 100%;
+  box-sizing: border-box;
+  overflow-x: auto;
+  overflow-y: auto;
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 0.9) 0%, 
+    rgba(248, 248, 248, 0.8) 100%);
+  backdrop-filter: blur(15px);
+  border-radius: 20px;
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    0 0 0 1px rgba(0, 0, 0, 0.05) inset;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  line-height: 1.6;
+  color: #1a1a1a;
+  margin: 20px;
+}
+
+/* sheet div 요소들이 잘리지 않도록 설정 */
+.tab-content div[id^="sheetDiv"] {
+  min-width: max-content;
+}
+
+.tab-content.active { 
+  display: block; 
+  animation: slideInUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow-x: auto;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Tab content 내부 요소들 스타일링 */
+.tab-content h2 {
+  color: #2c3e50;
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin: 0 0 24px 0;
+  padding-bottom: 12px;
+  border-bottom: 3px solid #3498db;
+  letter-spacing: -0.02em;
+}
+
+.tab-content .explain {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  padding: 16px 20px;
+  margin: 20px 0;
+  border-radius: 8px;
+  border-left: 4px solid #17a2b8;
+  font-size: 14px;
+  color: #495057;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.tab-content .explain p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* 설명 영역 스타일 개선 */
+.tab-content .explain {
+  background: linear-gradient(135deg, #e8f4fd 0%, #f0f8ff 100%);
+  padding: 20px 24px;
+  margin: 24px 0;
+  border-radius: 12px;
+  border-left: 4px solid #0d6efd;
+  font-size: 14px;
+  color: #495057;
+  box-shadow: 0 4px 12px rgba(13, 110, 253, 0.1);
+  position: relative;
+}
+
+.tab-content .explain::before {
+  content: "💡";
+  position: absolute;
+  top: 20px;
+  left: 10px;
+  font-size: 18px;
+}
+
+.tab-content .explain p {
+  margin: 0;
+  line-height: 1.6;
+  padding-left: 24px;
+}
+
+/* 구분선 추가 */
+.tab-content br {
+  display: block;
+  margin: 16px 0;
+  content: "";
+  border-bottom: 1px solid #e9ecef;
+}
+
+.tab-content .infoArea {
+  box-shadow: inset 0 0 0 2px rgb(203 60 182);
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+.tab-content .tabSheetMainDivTag, .tab-content .tabFocusCursorTag {
+  display: none;
+}
+
+.inspector-guide-content {
+  max-width: 500px;
+  overflow-y: auto;
+  padding: 32px 28px;
+  box-sizing: border-box;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+.inspector-guide-content .guide-icon {
+  font-size: 3em;
+  margin-bottom: 20px;
+  opacity: 0.8;
+  filter: grayscale(100%);
+}
+
+.inspector-guide-content h3 {
+  margin: 0 0 16px 0;
+  color: rgba(255, 255, 255, 0.95);
+  font-size: 1.4em;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.inspector-guide-content p {
+  margin: 0 0 24px 0;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.6;
+  font-size: 0.95em;
+}
+
+.guide-content {
+  max-width: 500px;
+  overflow-y: auto;
+  padding: 12px;
+  box-sizing: border-box;
+}
+
+.guide-content h4 {
+  margin: 0 0 8px 0;
+  color: #333;
+  font-size: 14px;
+}
+
+.guide-content p {
+  margin: 0 0 4px 0;
+  color: #666;
+  line-height: 1.4;
+  font-size: 12px;
+  /* text-overflow: ellipsis;
+  white-space: pre;
+  overflow: hidden; */
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Inspector 패널 - 프리미엄 모노크롬 디자인 */
+.inspector-panel {
+  grid-area: inspector;
+  position: relative;
+  height: 100vh;
+  background: 
+    linear-gradient(145deg, 
+      rgba(15, 15, 15, 0.95) 0%, 
+      rgba(25, 25, 25, 0.98) 30%,
+      rgba(10, 10, 10, 0.96) 70%,
+      rgba(20, 20, 20, 0.95) 100%),
+    radial-gradient(ellipse at top right, 
+      rgba(255, 255, 255, 0.02) 0%, 
+      transparent 50%),
+    radial-gradient(ellipse at bottom left, 
+      rgba(255, 255, 255, 0.01) 0%, 
+      transparent 50%);
+  backdrop-filter: blur(40px) saturate(180%);
+  color: #ffffff;
+  z-index: 1000;
+  box-shadow: 
+    6px 0 40px rgba(0, 0, 0, 0.4),
+    inset -1px 0 0 rgba(255, 255, 255, 0.08),
+    inset 1px 0 0 rgba(255, 255, 255, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.02);
+  border-right: 1px solid rgba(255, 255, 255, 0.15);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'SF Pro Display', 'SF Pro Text', sans-serif;
+  contain: none;
+  border-radius: 0 24px 0 0;
+  animation: slideInLeft 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow-y: auto;
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* 프리미엄 스크롤바 디자인 */
+.inspector-panel::-webkit-scrollbar {
+  width: 8px;
+}
+
+.inspector-panel::-webkit-scrollbar-track {
+  background: linear-gradient(180deg,
+    rgba(255, 255, 255, 0.05) 0%,
+    rgba(255, 255, 255, 0.02) 50%,
+    rgba(255, 255, 255, 0.05) 100%);
+  border-radius: 4px;
+  margin: 4px 0;
+}
+
+.inspector-panel::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, 
+    rgba(255, 255, 255, 0.25) 0%, 
+    rgba(255, 255, 255, 0.15) 50%,
+    rgba(255, 255, 255, 0.25) 100%);
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.inspector-panel::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, 
+    rgba(255, 255, 255, 0.35) 0%, 
+    rgba(255, 255, 255, 0.25) 50%,
+    rgba(255, 255, 255, 0.35) 100%);
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+@keyframes shimmer {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+.guide-steps {
+  text-align: left;
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 0.03) 0%, 
+    rgba(255, 255, 255, 0.01) 100%);
+  border-radius: 12px;
+  padding: 20px 24px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.step {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9em;
+  margin-bottom: 12px;
+  padding-left: 20px;
+  position: relative;
+  line-height: 1.5;
+  transition: all 0.2s ease;
+}
+
+.step:last-child {
+  margin-bottom: 0;
+}
+
+.step::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 8px;
+  width: 6px;
+  height: 6px;
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 0.6) 0%, 
+    rgba(255, 255, 255, 0.3) 100%);
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
+}
+
+/* Inspector 패널이 활성화되면 가이드 숨김 */
+.inspector-panel.active .inspector-guide {
+  display: none;
+}
+
+/* Inspector 콘텐츠 - 프리미엄 간격 및 스타일 */
+.inspector-panel > div {
+  padding: 0 28px 28px 28px;
+  position: relative;
+  z-index: 3;
+}
+
+/* 섹션 제목 - 고급스러운 디자인 */
+.inspector-panel strong {
+  display: inline-block;
+  font-size: 1.15em;
+  color: #ffffff;
+  font-weight: 700;
+  margin-bottom: 16px;
+  margin-top: 28px;
+  padding: 12px 18px 12px 20px;
+  position: relative;
+  letter-spacing: -0.01em;
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 0.08) 0%, 
+    rgba(255, 255, 255, 0.04) 100%);
+  border-radius: 8px;
+  border-left: 3px solid rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(10px);
+  box-shadow: 
+    0 4px 12px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.inspector-panel strong:hover {
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 0.12) 0%, 
+    rgba(255, 255, 255, 0.06) 100%);
+  border-left-color: rgba(255, 255, 255, 0.8);
+  transform: translateX(2px);
+}
+
+.inspector-panel strong::before {
+  content: '';
+  position: absolute;
+  left: -3px;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(135deg, #2196f3 0%, #9c27b0 100%);
+  border-radius: 0 2px 2px 0;
+}
+
+.inspector-panel strong:first-of-type {
+  margin-top: 0;
+}
+
+/* 태그 정보 스타일 - Monaco Editor 제외 */
+.inspector-panel > #inspector-content > div:not([id*="editor"]):not([class*="monaco"]) {
+  margin-bottom: 18px;
+  line-height: 1.6;
+}
+
+/* 프리미엄 리스트 스타일 */
+.inspector-panel ul {
+  margin: 16px 0;
+  padding-left: 0;
+  list-style-type: none;
+}
+
+.inspector-panel ul li {
+  position: relative;
+  padding: 10px 16px 10px 40px;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  margin-bottom: 8px;
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 0.03) 0%, 
+    rgba(255, 255, 255, 0.01) 100%);
+  border-radius: 8px;
+  border-left: 2px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(5px);
+}
+
+.inspector-panel ul li:hover {
+  color: #ffffff;
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 0.08) 0%, 
+    rgba(255, 255, 255, 0.04) 100%);
+  border-left-color: rgba(255, 255, 255, 0.4);
+  transform: translateX(4px);
+  box-shadow: 
+    0 4px 12px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.inspector-panel ul li:before {
+  content: "⦿";
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: normal;
+  font-size: 12px;
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: all 0.3s ease;
+}
+
+.inspector-panel ul li:hover:before {
+  color: rgba(255, 255, 255, 0.9);
+  transform: translateY(-50%) scale(1.2);
+}
+
+/* CSS 클래스 이름 스타일 - 개선된 디자인 */
+.css-class-name {
+  font-weight: 600;
+  font-size: 1.1em;
+  color: #a5d6a7;
+  margin: 6px 0 6px 0;
+  padding: 6px 16px;
+  background: linear-gradient(135deg, rgba(129, 199, 132, 0.15) 0%, rgba(102, 187, 106, 0.15) 100%);
+  border: 1px solid rgba(129, 199, 132, 0.3);
+  border-radius: 8px;
+  border-left: 4px solid #81c784;
+  position: relative;
+  letter-spacing: -0.01em;
+  backdrop-filter: blur(4px);
+}
+
+/* Monaco Editor 컨테이너 - 개선된 스타일 */
+#custom-css-editor-container,
+[id^="css-edit-container-"] {
+  width: 100%;
+  height: 140px; /* 높이 20px 증가 */
+  margin: 12px 0;
+  border: 1px solid #505050;
+  border-radius: 8px;
+  overflow: visible; /* colorpicker가 표시될 수 있도록 변경 */
+  position: relative; /* 위젯 컨테이너 역할 */
+  z-index: 1001; /* inspector-panel보다 높게 설정 */
+  box-shadow: 
+    0 4px 12px rgba(0,0,0,0.3),
+    inset 0 1px 0 rgba(255,255,255,0.1);
+  backdrop-filter: blur(4px);
+  transition: all 0.2s ease;
+}
+
+#custom-css-editor-container:hover,
+[id^="css-edit-container-"]:hover {
+  border-color: #64b5f6;
+  box-shadow: 
+    0 4px 20px rgba(0,0,0,0.4),
+    0 0 0 1px rgba(100, 181, 246, 0.3);
+}
+
+/* CSS 에디터 */
+.css-edit {
+  width: 100%;
+  height: 120px;
+  font-family: 'Fira Code', 'Courier New', monospace;
+  background: #1a1a1a;
+  color: #f8f8f2;
+  border: 1px solid #404040;
+  border-radius: 6px;
+  padding: 12px;
+  margin-top: 8px;
+  font-size: 13px;
+  line-height: 1.4;
+  resize: vertical;
+  transition: border-color 0.2s ease;
+}
+
+.css-edit:focus {
+  outline: none;
+  border-color: #64b5f6;
+  box-shadow: 0 0 0 2px rgba(100, 181, 246, 0.2);
+}
+
+/* 컬러 라벨 - 개선된 스타일 */
+.label-color {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+  font-size: 0.9em;
+  padding: 8px 12px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.05) 100%);
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  transition: all 0.2s ease;
+  backdrop-filter: blur(4px);
+}
+
+.label-color:hover {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.08) 100%);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
+}
+
+.label-color input[type="color"] {
+  margin-left: 8px;
+  width: 32px;
+  height: 24px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.label-color input[type="color"]:hover {
+  transform: scale(1.1);
+}
+
+/* 코드 섹션 스타일 - Monaco Editor 스타일 */
+.code-section {
+  background: #1e1e1e;
+  border: 1px solid #454545;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 12px 0;
+  font-family: 'Fira Code', 'Courier New', 'Consolas', 'Monaco', monospace;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #d4d4d4;
+  overflow-x: auto;
+  position: relative;
+  box-shadow: 
+    0 4px 12px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(4px);
+}
+
+.code-section::before {
+  content: 'CSS';
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  font-size: 10px;
+  color: #569cd6;
+  background: rgba(86, 156, 214, 0.15);
+  padding: 2px 6px;
+  border-radius: 3px;
+  border: 1px solid rgba(86, 156, 214, 0.3);
+}
+
+.code-section .css-selector {
+  color: #d7ba7d;
+  font-weight: 600;
+}
+
+.code-section .css-property {
+  color: #92c5f8;
+  margin-left: 16px;
+}
+
+.code-section .css-value {
+  color: #ce9178;
+}
+
+.code-section .css-bracket {
+  color: #ffd700;
+  font-weight: bold;
+}
+
+.code-section .css-comment {
+  color: #6a9955;
+  font-style: italic;
+}
+
+/* Tippy 툴팁 내부 코드 섹션을 위한 스타일 */
+.tippy-content .code-section {
+  background: #1e1e1e;
+  border: 1px solid #454545;
+  border-radius: 6px;
+  padding: 12px;
+  margin: 8px 0;
+  font-family: 'Fira Code', 'Courier New', 'Consolas', monospace;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #d4d4d4;
+  white-space: pre;
+  overflow-x: auto;
+  max-width: 100%;
+  position: relative;
+}
+
+.tippy-content .code-section pre {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+.tippy-content .code-section .highlight-selector {
+  color: #d7ba7d;
+  font-weight: 600;
+}
+
+.tippy-content .code-section .highlight-property {
+  color: #92c5f8;
+}
+
+.tippy-content .code-section .highlight-value {
+  color: #ce9178;
+}
+
+.tippy-content .code-section .highlight-bracket {
+  color: #ffd700;
+}
+
+/* 버튼 스타일 - 개선된 디자인 */
+.css-apply-btn, #custom-css-apply, #custom-css-download {
+  background: linear-gradient(135deg, #64b5f6 0%, #42a5f5 100%);
+  color: white;
+  border: 1px solid rgba(255,255,255,0.2);
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 500;
+  margin-top: 8px;
+  margin-right: 6px;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 
+    0 2px 6px rgba(100, 181, 246, 0.3),
+    inset 0 1px 0 rgba(255,255,255,0.2);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  font-family: inherit;
+}
+
+.css-apply-btn:hover, #custom-css-apply:hover {
+  background: linear-gradient(135deg, #42a5f5 0%, #2196f3 100%);
+  transform: translateY(-1px);
+  box-shadow: 
+    0 4px 12px rgba(66, 165, 245, 0.4),
+    inset 0 1px 0 rgba(255,255,255,0.3);
+}
+
+.css-apply-btn:active, #custom-css-apply:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.css-apply-btn {
+  display: block !important;
+  margin: 6px auto !important;
+  text-align: center !important;
+}
+
+/* 섹션 구분 */
+#custom-css-edit-wrap, #css-define-edit-wrap {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 15px;
+  margin: 15px 0;
+}
+
+/* 스크롤바 스타일 */
+.inspector-panel::-webkit-scrollbar {
+  width: 8px;
+}
+
+.inspector-panel::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.inspector-panel::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+}
+
+.inspector-panel::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.monaco-editor .overflow-guard {
+  overflow: visible !important;
+}
+
+/* Monaco Editor 폰트 렌더링 최적화 - 한글 지원 개선 */
+.monaco-editor {
+  font-smooth: never !important;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+  text-rendering: optimizeLegibility !important;
+}
+
+.monaco-editor .view-lines {
+  font-family: "D2Coding", "Consolas", "Monaco", "맑은 고딕", "Malgun Gothic", "Noto Sans KR", monospace !important;
+  font-size: 14px !important;
+  line-height: 20px !important;
+  font-weight: normal !important;
+  letter-spacing: 0 !important;
+  font-variant-ligatures: none !important;
+}
+
+.monaco-editor .view-line {
+  font-variant-ligatures: none !important;
+  text-rendering: optimizeSpeed !important;
+  font-feature-settings: normal !important;
+}
+
+/* Monaco Editor 커서 및 선택 영역 최적화 */
+.monaco-editor .cursor {
+  width: 1px !important;
+}
+
+/* Monaco Editor 컨테이너 자체 스타일 강제 - 한글 폰트 지원 */
+.monaco-editor .monaco-editor-background {
+  font-family: "D2Coding", "Consolas", "Monaco", "맑은 고딕", "Malgun Gothic", "Noto Sans KR", monospace !important;
+}
+
+.monaco-editor .margin {
+  font-family: "D2Coding", "Consolas", "Monaco", "맑은 고딕", "Malgun Gothic", "Noto Sans KR", monospace !important;
+}
+
+/* Monaco Editor 내부 div 요소들 보호 - Inspector CSS 덮어쓰기 방지 및 한글 폰트 적용 */
+.monaco-editor div,
+.monaco-editor .view-lines div,
+.monaco-editor .view-line,
+.monaco-editor .overflow-guard div,
+.monaco-editor .monaco-scrollable-element div,
+#custom-css-editor-container div,
+#css-edit-container div,
+[id*="css-edit-container"] div {
+  margin-bottom: 0 !important;
+  line-height: normal !important;
+  font-family: "D2Coding", "Consolas", "Monaco", "맑은 고딕", "Malgun Gothic", "Noto Sans KR", monospace !important;
+  font-size: 14px !important;
+}
+
+.monaco-editor .color-decoration,
+.monaco-editor .color-box {
+  cursor: pointer !important;
+  display: inline-block !important;
+  width: 0.8em !important;
+  height: 0.8em !important;
+  border: 1px solid rgba(128, 128, 128, 0.5) !important;
+  margin-right: 0.1em !important;
+}
+
+/* Monaco Editor hover widget - 중복 방지 */
+.monaco-editor .monaco-hover,
+.monaco-hover {
+  z-index: 999999 !important;
+  position: fixed !important;
+}
+
+/* 중복된 monaco-hover 요소들 숨김 */
+.monaco-hover:not(:last-of-type) {
+  display: none !important;
+}
+
+/* Body에 직접 추가된 monaco-hover들 중 중복된 것들 숨김 */
+body > .monaco-hover + .monaco-hover {
+  display: none !important;
+}
+
+.monaco-editor .squiggly-d-error,
+.monaco-editor .squiggly-d-warning,
+.monaco-editor .squiggly-d-info {
+  display: none !important;
+}
+
+.monaco-editor .colorpicker-widget .colorpicker-body {
+  background-color: black;
+}
+
+/* 반응형 디자인 - 작은 화면 */
+@media (max-width: 1200px) {
+  .container {
+    grid-template-columns: 360px 1fr;
+  }
+  
+  .inspector-panel h2 {
+    font-size: 1.3rem;
+    padding: 20px 16px 16px 16px;
+  }
+  
+  .inspector-panel > div {
+    padding: 0 16px 20px 16px;
+  }
+  
+  .tab-bar {
+    padding: 8px 16px;
+    gap: 2px;
+  }
+  
+  .tab-btn {
+    padding: 10px 18px;
+    font-size: 13px;
+    min-height: 40px;
+  }
+  
+  #theme-selector {
+    min-width: 130px;
+    font-size: 13px;
+    padding: 10px 18px;
+    padding-right: 36px;
+    min-height: 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    grid-template-columns: 320px 1fr;
+  }
+  
+  .tab-btn {
+    padding: 8px 12px;
+    font-size: 12px;
+    min-height: 36px;
+    border-radius: 8px;
+  }
+  
+  .tab-bar {
+    height: 60px;
+    padding: 6px 12px;
+    gap: 1px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    flex-wrap: nowrap;
+  }
+  
+  .tab-bar::-webkit-scrollbar {
+    height: 2px;
+  }
+  
+  .tab-bar::-webkit-scrollbar-thumb {
+    background: rgba(99, 102, 241, 0.3);
+    border-radius: 1px;
+  }
+  
+  .main-area {
+    grid-template-rows: 60px 1fr;
+  }
+  
+  #tab-views {
+    padding: 12px;
+  }
+  
+  #theme-selector {
+    min-width: 110px;
+    font-size: 12px;
+    padding: 8px 12px;
+    padding-right: 32px;
+    min-height: 36px;
+    border-radius: 8px;
+    background-size: 14px;
+    background-position: right 10px center;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    grid-template-columns: 280px 1fr;
+  }
+  
+  .tab-btn {
+    padding: 6px 10px;
+    font-size: 11px;
+    min-height: 32px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  
+  .tab-bar {
+    height: 50px;
+    padding: 4px 8px;
+    flex-wrap: wrap;
+    gap: 2px;
+  }
+  
+  .main-area {
+    grid-template-rows: 50px 1fr;
+  }
+  
+  #theme-selector {
+    min-width: 90px;
+    font-size: 11px;
+    padding: 6px 8px;
+    padding-right: 28px;
+    min-height: 32px;
+    background-size: 12px;
+    background-position: right 8px center;
+    flex-shrink: 0;
+  }
+}
+
+/* 스크롤바 전역 스타일링 */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.2) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.2);
+  border-radius: 4px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: rgba(255,255,255,0.3);
+}
+
+/* 포커스 스타일 개선 */
+.tab-btn:focus,
+.css-apply-btn:focus,
+#custom-css-apply:focus {
+  outline: 2px solid #4a5568;
+  outline-offset: 2px;
+  box-shadow: 
+    0 0 0 4px rgba(74, 85, 104, 0.2),
+    0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.tab-btn:focus-visible {
+  outline: 2px solid #4a5568;
+  outline-offset: 2px;
+  border-color: #4a5568;
+}
+
+/* 키보드 네비게이션 개선 */
+.tab-btn:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* 활성 탭의 포커스 상태 */
+.tab-btn.active:focus {
+  outline: 2px solid rgba(255, 255, 255, 0.8);
+  outline-offset: 2px;
+  box-shadow: 
+    0 0 0 4px rgba(255, 255, 255, 0.3),
+    0 4px 20px rgba(45, 55, 72, 0.4),
+    0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* 색상 대비 개선 */
+.tab-btn {
+  color: #374151; /* 더 어두운 회색으로 대비 개선 */
+}
+
+.tab-btn:hover {
+  color: #1f2937; /* 호버 시 더 진한 색상 */
+}
+
+/* 고대비 모드 지원 */
+@media (prefers-contrast: high) {
+  .tab-btn {
+    border: 2px solid #374151;
+    color: #000000;
+  }
+  
+  .tab-btn:hover {
+    border-color: #4a5568;
+    background: #f7fafc;
+  }
+  
+  .tab-btn.active {
+    background: #2d3748;
+    border: 2px solid #2d3748;
+    color: #ffffff;
+  }
+  
+  .tab-btn:focus {
+    outline: 3px solid #4a5568;
+    outline-offset: 2px;
+  }
+  
+  #theme-selector {
+    border: 2px solid #374151;
+    color: #000000;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000000' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+  }
+  
+  #theme-selector:hover {
+    border-color: #4a5568;
+    background: #f7fafc;
+    color: #000000;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000000' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 16px;
+  }
+  
+  #theme-selector:focus {
+    outline: 3px solid #4a5568;
+    outline-offset: 2px;
+  }
+}
+
+/* 접근성 개선 */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Monaco Editor 위젯이 inspector-content 영역 밖에서도 보이도록 설정 */
+#inspector-content {
+  overflow: visible !important;
+  position: relative !important;
+}
+
+/* Monaco Editor Colorpicker 위젯 최적화 */
+.monaco-editor .colorpicker-widget {
+  z-index: 2147483647 !important;
+  contain: none !important;
+  overflow: visible !important;
+  background: #1e1e1e !important;
+  border: 1px solid #454545 !important;
+  border-radius: 6px !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
+}
+
+.monaco-editor .colorpicker-widget .colorpicker-header {
+  background: #2d2d30 !important;
+  border-bottom: 1px solid #454545 !important;
+  padding: 8px !important;
+}
+
+.monaco-editor .colorpicker-widget .colorpicker-body {
+  background: #1e1e1e !important;
+  padding: 12px !important;
+}
+
+/* Monaco Editor 색상 데코레이터 (인라인 색상 표시) */
+.monaco-editor .colorpicker-color-decoration {
+  width: 12px !important;
+  height: 12px !important;
+  border-radius: 3px !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  margin-right: 4px !important;
+}
+
+/* Monaco Editor hover 위젯도 colorpicker와 같은 레벨로 */
+.monaco-editor .monaco-hover {
+  z-index: 2147483647 !important;
+  position: fixed !important;
+  contain: none !important;
+  background: #1e1e1e !important;
+  border: 1px solid #454545 !important;
+  border-radius: 6px !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Monaco Editor suggest widget (자동완성) */
+.monaco-editor .suggest-widget {
+  z-index: 2147483647 !important;
+  contain: none !important;
+  background: #1e1e1e !important;
+  border: 1px solid #454545 !important;
+  border-radius: 6px !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* 모든 Monaco 위젯들이 Inspector 패널을 벗어날 수 있도록 */
+body > .monaco-editor .colorpicker-widget,
+body > .colorpicker-widget,
+body > .monaco-hover,
+body > .suggest-widget {
+  z-index: 2147483647 !important;
+}
+
+.inspected-element-highlight, .inspected-element-highlight * {
+  background: 
+    repeating-linear-gradient(
+      -45deg,
+      rgba(34, 197, 94, 0.3) 0px,
+      rgba(34, 197, 94, 0.3) 10px,
+      rgba(74, 222, 128, 0.2) 10px,
+      rgba(74, 222, 128, 0.2) 20px
+    ) !important;
+  background-attachment: fixed !important;
+  animation: css-editing-shimmer 2s linear infinite !important;
+  box-shadow: 
+    inset 0 0 0 2px rgba(34, 197, 94, 0.6),
+    0 0 0 1px rgba(34, 197, 94, 0.3) !important;
+  z-index: 50 !important;
+}
+
+/* CSS 정의 편집 시 해당 클래스명을 가진 요소들에 적용할 파란색 줄무늬 배경 스타일 */
+.css-editing-highlight, .css-editing-highlight * {
+  background: 
+    repeating-linear-gradient(
+      45deg,
+      rgba(30, 144, 255, 0.3) 0px,
+      rgba(30, 144, 255, 0.3) 10px,
+      rgba(100, 181, 246, 0.2) 10px,
+      rgba(100, 181, 246, 0.2) 20px
+    ) !important;
+  background-attachment: fixed !important;
+  animation: css-editing-shimmer 2s linear infinite !important;
+  box-shadow: 
+    inset 0 0 0 2px rgba(30, 144, 255, 0.6),
+    0 0 0 1px rgba(30, 144, 255, 0.3) !important;
+  z-index: 50 !important;
+}
+
+@keyframes css-editing-shimmer {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 28px 28px;
+  }
+}
+
+.monaco-hover-content {
+  max-height: max-content !important;
+  height: max-content !important;
+}
+
+.monaco-hover {
+  max-height: max-content !important;
+  height: max-content !important;
+}
+
+.hover-row.markdown-hover {
+  line-height: 14px;
+}
+
+.monaco-hover-content .hover-row .hover-contents {
+    min-width: 0;
+    display: flex;
+    flex-direction: column
+}
+
+.monaco-hover {
+  background-color: var(--vscode-editorHoverWidget-background);
+  border: 1px solid var(--vscode-editorHoverWidget-border);
+  border-radius: 3px;
+  color: var(--vscode-editorHoverWidget-foreground)
+}
+
+.colorpicker-widget {
+  height: auto !important;
+}
+
+/* Monaco Editor 읽기 전용 라인 스타일 */
+.monaco-editor .readonly-line {
+  background: rgba(128, 128, 128, 0.1) !important;
+  border-left: 3px solid rgba(255, 193, 7, 0.6) !important;
+  position: relative !important;
+}
+
+.monaco-editor .readonly-line::after {
+  content: '🔒';
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 12px;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* 읽기 전용 라인 호버 효과 */
+.monaco-editor .readonly-line:hover {
+  background: rgba(255, 193, 7, 0.1) !important;
+  border-left-color: rgba(255, 193, 7, 0.8) !important;
+}
+
+.monaco-editor .readonly-line:hover::after {
+  opacity: 0.9;
+}

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>Element Inspector</title>
+  <link rel="stylesheet" href="assets/styles.css" />
+  <link rel="stylesheet" href="assets/tippy/light.css" />
+  <link rel="stylesheet" href="https://demo.ibsheet.com/ibsheet/v8/samples/customer-sample/assets/ibsheet/css/default/main.css" crossorigin="anonymous"/>
+  <link rel="stylesheet" href="https://demo.ibsheet.com/ibsheet/v8/samples/customer-sample/assets/ibsheet/css/grace/main.css" crossorigin="anonymous"/>
+  <link rel="stylesheet" href="https://demo.ibsheet.com/ibsheet/v8/samples/customer-sample/assets/ibsheet/css/material/main.css" crossorigin="anonymous"/>
+  <link rel="stylesheet" href="https://demo.ibsheet.com/ibsheet/v8/samples/customer-sample/assets/ibsheet/css/mint/main.css" crossorigin="anonymous"/>
+  <link rel="stylesheet" href="https://demo.ibsheet.com/ibsheet/v8/samples/customer-sample/assets/ibsheet/css/simple/main.css" crossorigin="anonymous"/>
+  
+</head>
+<body>
+  <div class="container">
+    <div id="inspector-panel" class="inspector-panel">
+      <div id="inspector-guide" class="inspector-guide">
+        <div class="inspector-guide-content">
+          <div class="guide-icon">🔍</div>
+          <h3>Inspector 가이드</h3>
+          <p>IBSheet 요소를 클릭하면<br>스타일 정보를 확인할 수 있습니다.</p>
+          <div class="guide-steps">
+            <div class="step">1. 표의 셀이나 헤더를 클릭</div>
+            <div class="step">2. 스타일 정보가 여기에 표시됩니다</div>
+            <div class="step">3. CSS를 직접 편집하고 적용 가능</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="main-area">
+      <div class="tab-bar">
+        <button class="tab-btn active" data-tab="main-content">기본</button>
+        <button class="tab-btn" data-tab="sort-content">정렬</button>
+        <button class="tab-btn" data-tab="filter-content">필터</button>
+        <button class="tab-btn" data-tab="focus-content">포커스</button>
+        <button class="tab-btn" data-tab="tree-content">트리</button>
+        <button class="tab-btn" data-tab="subtotal-content">소계</button>
+        <button class="tab-btn" data-tab="group-content">그룹</button>
+        <select id="theme-selector">
+          <option value="" disabled selected>테마 선택</option>
+          <option value="default">Default</option>
+          <option value="grace">Grace</option>
+          <option value="material">Material</option>
+          <option value="mint">Mint</option>
+          <option value="simple">Simple</option>
+        </select>
+      </div>
+      <div id="tab-views" class="tab-content-area">
+        <div class="tab-content active" id="main-content"></div>
+        <div class="tab-content" id="sort-content"></div>
+        <div class="tab-content" id="filter-content"></div>
+        <div class="tab-content" id="focus-content"></div>
+        <div class="tab-content" id="tree-content"></div>
+        <div class="tab-content" id="subtotal-content"></div>
+        <div class="tab-content" id="group-content"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 기타 스크립트 (Monaco Editor 전에 로드) -->
+  <script src="assets/tippy/popper.min.js"></script>
+  <script src="assets/tippy/tippy-bundle.umd.min.js"></script>
+  <script src="assets/css-utils.js"></script>
+  <script src="assets/tippy-manager.js"></script>
+  <script src="assets/css-highlighter.js"></script>
+  <script src="index.js"></script>
+  
+  <!-- Monaco Editor CDN (다른 스크립트들 이후에 로드) -->
+  <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.41.0/min/vs/loader.js"></script>
+  <script src="assets/inspector.js"></script>
+
+</body>
+</html>
