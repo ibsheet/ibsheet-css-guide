@@ -220,7 +220,6 @@ document.getElementById('theme-selector').addEventListener('change', function() 
 })
 
 function setAlternateColor() {
-  console.log('@@@ setAlternateColor @@@');
   // ColorAlternate 클래스에서 background-color 가져오기
   const colorAlternateClass = `.${prefixTheme}ColorAlternate`;
   let backgroundColor = null;
@@ -252,7 +251,6 @@ function setAlternateColor() {
 }
 
 function setReadOnlyColor() {
-  console.log('@@@ setReadOnlyColor @@@');
   // ColorReadOnly 클래스에서 background-color 가져오기
   const colorReadOnlyClass = `.${prefixTheme}ColorReadOnly`;
   let backgroundColor = null;

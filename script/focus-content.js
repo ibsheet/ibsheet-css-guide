@@ -1,6 +1,5 @@
 var FocusContent = document.getElementById('focus-content');
 if (FocusContent) {
-  console.log('##### do FocusContent #####');
   const tabFocusCursorTag = document.getElementsByClassName('tabFocusCursorTag');
   const tabFocusDivTag = document.getElementsByClassName('tabFocusDivTag');
 
