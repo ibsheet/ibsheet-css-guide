@@ -27,8 +27,10 @@ html, body {
   grid-template-rows: 1fr;
   grid-template-columns: 420px 1fr;
   grid-template-areas: "inspector main-area";
-  height: 100vh;
-  width: 100vw;
+  /* height: 100vh; */
+  /* width: 100vw; */
+  height: 1080px;
+  width: 1920px;
   overflow: hidden;
   backdrop-filter: blur(10px);
 }
@@ -229,12 +231,14 @@ html, body {
   flex: 1;
   background: #ffffff;
   padding: 24px;
+  padding-bottom: 0;
 }
 
 /* 탭 컨텐츠 영역 */
 .tab-content-area {
   grid-area: content;
-  height: calc(100vh - 70px);
+  /* height: calc(100vh - 70px); */
+  height: 900px;
   overflow: visible;
   position: relative;
 }
@@ -242,8 +246,9 @@ html, body {
 /* 탭 컨텐츠 - 모노크롬 글래스모피즘 디자인 */
 .tab-content { 
   display: none; 
-  padding: 30px;
-  height: 100%;
+  padding: 15px;
+  padding-bottom: 0;
+  height: 90%;
   box-sizing: border-box;
   overflow-x: auto;
   overflow-y: auto;
@@ -270,7 +275,7 @@ html, body {
 .tab-content.active { 
   display: block; 
   animation: slideInUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  overflow-x: auto;
+  /* overflow-x: auto; */
 }
 
 @keyframes slideInUp {
@@ -327,8 +332,9 @@ html, body {
 .tab-content .explain::before {
   content: "💡";
   position: absolute;
-  top: 20px;
+  top: 50%;
   left: 10px;
+  transform: translateY(-50%);
   font-size: 18px;
 }
 
@@ -426,7 +432,8 @@ html, body {
 .inspector-panel {
   grid-area: inspector;
   position: relative;
-  height: 100vh;
+  /* height: 100vh; */
+  height: 1080px;
   background: 
     linear-gradient(145deg, 
       rgba(15, 15, 15, 0.95) 0%, 
@@ -696,60 +703,6 @@ html, body {
     inset 0 1px 0 rgba(255,255,255,0.1);
   backdrop-filter: blur(4px);
   transition: all 0.2s ease;
-  /* base64 배경 이미지 처리 최적화 */
-  contain: layout style paint !important;
-  isolation: isolate !important;
-}
-
-/* Monaco Editor base64 배경 이미지 특별 처리 */
-#custom-css-editor-container .monaco-editor[class*="background-image"],
-[id^="css-edit-container-"] .monaco-editor[class*="background-image"],
-.monaco-editor .view-line:has([data-background-image]),
-.monaco-editor .view-line[style*="background-image"] {
-  /* base64 배경 이미지가 있을 때 line number 정렬 강제 보정 */
-  position: relative !important;
-}
-
-.monaco-editor .view-line:has([data-background-image]) .margin,
-.monaco-editor .view-line[style*="background-image"] .margin {
-  /* base64 배경 이미지 라인에서 line number 위치 고정 */
-  position: sticky !important;
-  left: 0 !important;
-  background: var(--vscode-editor-background, #1e1e1e) !important;
-  z-index: 100 !important;
-}
-
-/* Monaco Editor base64 배경 이미지 컨테이너 클래스 스타일 */
-.monaco-editor-base64-bg .monaco-editor {
-  /* base64 배경 이미지 사용 시 전체 에디터 최적화 */
-  contain: layout style paint !important;
-  isolation: isolate !important;
-}
-
-.monaco-editor-base64-bg .monaco-editor .margin {
-  /* base64 배경 이미지 사용 시 line number 영역 강화 */
-  position: relative !important;
-  z-index: 1000 !important;
-  background: #1e1e1e !important;
-  border-right: 1px solid #454545 !important;
-}
-
-.monaco-editor-base64-bg .monaco-editor .line-numbers {
-  /* base64 배경 이미지 사용 시 line number 텍스트 보호 */
-  position: relative !important;
-  z-index: 1001 !important;
-  background: inherit !important;
-  color: #858585 !important;
-  font-weight: 400 !important;
-  text-align: right !important;
-  padding-right: 6px !important;
-}
-
-.monaco-editor-base64-bg .monaco-editor .view-lines {
-  /* base64 배경 이미지 사용 시 콘텐츠 영역 분리 */
-  position: relative !important;
-  z-index: 1 !important;
-  isolation: isolate !important;
 }
 
 #custom-css-editor-container:hover,
@@ -984,101 +937,6 @@ html, body {
   background: rgba(255, 255, 255, 0.5);
 }
 
-.monaco-editor .overflow-guard {
-  overflow: hidden !important;
-  position: relative !important;
-}
-
-/* Monaco Editor line number 영역 고정 및 스크롤 제어 - base64 이미지 배경 문제 해결 */
-.monaco-editor .margin,
-.monaco-editor .margin-view-overlays {
-  /* position: sticky !important;
-  top: 0 !important;
-  z-index: 5 !important; */
-  background: inherit !important;
-  overflow: hidden !important;
-  /* base64 배경 이미지 사용 시 line number 위치 보정 */
-  transform: translateZ(0) !important;
-  will-change: transform !important;
-}
-
-/* Monaco Editor line numbers 스타일링 - base64 배경 이미지 대응 */
-.monaco-editor .line-numbers {
-  position: relative !important;
-  z-index: 6 !important;
-  background: inherit !important;
-  /* base64 배경 이미지와 정렬 문제 해결 */
-  transform: translateZ(0) !important;
-  backface-visibility: hidden !important;
-}
-
-/* Monaco Editor 메인 콘텐츠 영역 - base64 배경 이미지 정렬 최적화 */
-.monaco-editor .view-line {
-  /* base64 배경 이미지 사용 시 텍스트 정렬 보정 */
-  transform: translateZ(0) !important; 
-  will-change: transform !important;
-  backface-visibility: hidden !important;
-}
-
-/* Monaco Editor 전체 뷰포트 - base64 배경 이미지 처리 최적화 */
-.monaco-editor .monaco-editor-background {
-  /* 배경 이미지가 line number에 영향주지 않도록 격리 */
-  isolation: isolate !important;
-}
-
-/* Monaco Editor 스크롤 컨테이너 - base64 배경 이미지 동기화 */
-.monaco-editor .monaco-scrollable-element > .scrollbar > .slider {
-  /* 스크롤 시 배경 이미지와 line number 동기화 보장 */
-  transform: translateZ(0) !important;
-}
-
-/* Monaco Editor 뷰 라인 컨테이너 - 배경 이미지 레이아웃 충돌 방지 */  
-.monaco-editor .view-lines-content {
-  /* base64 배경 이미지로 인한 레이아웃 시프트 방지 */
-  contain: layout style paint !important;
-  transform: translateZ(0) !important;
-}
-
-/* Monaco Editor content 영역 스크롤 제어 - base64 배경 이미지 최적화 */
-.monaco-editor .monaco-scrollable-element {
-  top: 0;
-  /* base64 배경 이미지 사용 시 스크롤 성능 향상 */
-  contain: strict !important;
-  transform: translateZ(0) !important;
-}
-
-/* Monaco Editor view lines 컨테이너 - 배경 이미지 레이아웃 안정화 */
-.monaco-editor .view-lines {
-  position: relative !important;
-  overflow: hidden !important;
-  /* base64 배경 이미지로 인한 line number 위치 오류 방지 */
-  contain: layout !important;
-  isolation: isolate !important;
-}
-
-/* Monaco Editor 오버레이 요소들 - base64 배경 이미지 간섭 방지 */
-.monaco-editor .view-overlays {
-  /* 배경 이미지가 오버레이에 영향주지 않도록 격리 */
-  isolation: isolate !important;
-  transform: translateZ(0) !important;
-}
-
-/* Monaco Editor 데코레이션 레이어 - 배경 이미지와 독립적 렌더링 */
-.monaco-editor .view-decorations {
-  /* base64 배경 이미지로부터 데코레이션 보호 */
-  isolation: isolate !important;
-  z-index: 10 !important;
-}
-
-/* Monaco Editor 전체 컨테이너 클리핑 */
-.monaco-editor,
-#custom-css-editor-container .monaco-editor,
-[id^="css-edit-container-"] .monaco-editor {
-  overflow: hidden !important;
-  position: relative !important;
-  border-radius: 8px !important;
-}
-
 /* Monaco Editor 폰트 렌더링 최적화 - 한글 지원 개선 */
 .monaco-editor {
   font-smooth: never !important;
@@ -1216,10 +1074,6 @@ body > .monaco-hover + .monaco-hover {
   
   .main-area {
     grid-template-rows: 60px 1fr;
-  }
-  
-  #tab-views {
-    padding: 12px;
   }
   
   #theme-selector {

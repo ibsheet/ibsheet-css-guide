@@ -82,7 +82,7 @@ function applyHighlightToClass(className) {
   
   // 새로운 요소들에 하이라이트 적용
   let elements = document.querySelectorAll(`.${className}`);
-  console.log('applyHighlightToClass:', className, elements);
+  // console.log('applyHighlightToClass:', className, elements);
   if (className === `${prefixTheme}ColorAlternate`) {
     elements = document.querySelectorAll(`.${prefixTheme}ClassAlternate > td:not(.${prefixTheme}CellIndex)`);
   } else if (className === `${prefixTheme}ColorReadOnly`) {
@@ -151,23 +151,17 @@ function getMonacoEditorOptions(value = '') {
     },
     hover: {
       enabled: true,             // Hover 기능 켜기
-      delay: 100,                // hover 나타나는 시간 (기본은 300ms)
+      delay: 0,                // hover 나타나는 시간 (기본은 300ms)
       sticky: true               // 마우스 hover 시 유지 여부
     },
     // overflow-y:auto 인 패널(#inspector-panel) 내부에서 컬러피커/자동완성 등이 잘리지 않도록
     // 위젯을 body 아래로 고정(fixed) 렌더링
     fixedOverflowWidgets: true,
     overflowWidgetsDomNode: document.body,
-    // base64 배경 이미지 처리를 위한 렌더링 최적화
-    renderValidationDecorations: 'off',
-    showUnused: false,
-    renderLineHighlight: 'none',
-    occurrencesHighlight: false,
-    renderWhitespace: 'none',
     // 스크롤 및 레이아웃 최적화 (배경 이미지 대응)
-    smoothScrolling: true,
-    mouseWheelScrollSensitivity: 1,
-    fastScrollSensitivity: 5
+    // smoothScrolling: true,
+    // mouseWheelScrollSensitivity: 1,
+    // fastScrollSensitivity: 5
   };
 }
 
@@ -189,7 +183,7 @@ async function loadMonacoEditor() {
     // Monaco Editor 경로 설정
     monacoRequire.config({ 
       paths: { 
-        'vs': 'https://cdn.jsdelivr.net/npm/monaco-editor@0.41.0/min/vs' 
+        'vs': 'https://cdn.jsdelivr.net/npm/monaco-editor@0.52.0/min/vs' 
       }
     });
     
@@ -546,50 +540,6 @@ function createCustomCssEditor(containerId, value = '') {
       }
     });
     
-    // base64 배경 이미지 감지 및 처리 로직
-    const handleBase64BackgroundImages = () => {
-      try {
-        const model = safeGetModel();
-        if (!model) return;
-        
-        const cssContent = model.getValue();
-        // base64 배경 이미지가 포함된 CSS 감지
-        const hasBase64Background = /background[^;]*url\s*\(\s*['"]?data:image/.test(cssContent);
-        
-        if (hasBase64Background) {
-          // 에디터 컨테이너에 base64 배경 이미지 클래스 추가
-          container.classList.add('monaco-editor-base64-bg');
-          
-          // 레이아웃 재계산 강제 실행
-          setTimeout(() => {
-            try {
-              editor.layout();
-              // line number 위치 재조정
-              const lineNumberElements = container.querySelectorAll('.line-numbers');
-              lineNumberElements.forEach(el => {
-                el.style.transform = 'translateZ(0)';
-                el.style.backfaceVisibility = 'hidden';
-              });
-            } catch (layoutError) {
-              console.warn('Layout adjustment error:', layoutError);
-            }
-          }, 50);
-        } else {
-          container.classList.remove('monaco-editor-base64-bg');
-        }
-      } catch (error) {
-        console.warn('Error handling base64 background images:', error);
-      }
-    };
-    
-    // 초기 base64 배경 이미지 확인
-    setTimeout(handleBase64BackgroundImages, 100);
-    
-    // 내용 변경 시 base64 배경 이미지 재확인
-    editor.onDidChangeModelContent(() => {
-      setTimeout(handleBase64BackgroundImages, 100);
-    });
-    
     // 레이아웃 강제 업데이트
     setTimeout(() => {
       if (editor && typeof editor.layout === 'function') {
@@ -810,50 +760,6 @@ function createClassCssEditor(containerId, value = '', className = '') {
       } catch (error) {
         console.warn('Error in content change handler for class editor:', error);
       }
-    });
-    
-    // base64 배경 이미지 감지 및 처리 로직 (클래스별 에디터용)
-    const handleBase64BackgroundImages = () => {
-      try {
-        const model = safeGetModel();
-        if (!model) return;
-        
-        const cssContent = model.getValue();
-        // base64 배경 이미지가 포함된 CSS 감지
-        const hasBase64Background = /background[^;]*url\s*\(\s*['"]?data:image/.test(cssContent);
-        
-        if (hasBase64Background) {
-          // 에디터 컨테이너에 base64 배경 이미지 클래스 추가
-          container.classList.add('monaco-editor-base64-bg');
-          
-          // 레이아웃 재계산 강제 실행
-          setTimeout(() => {
-            try {
-              editor.layout();
-              // line number 위치 재조정
-              const lineNumberElements = container.querySelectorAll('.line-numbers');
-              lineNumberElements.forEach(el => {
-                el.style.transform = 'translateZ(0)';
-                el.style.backfaceVisibility = 'hidden';
-              });
-            } catch (layoutError) {
-              console.warn('Layout adjustment error for class editor:', className, layoutError);
-            }
-          }, 50);
-        } else {
-          container.classList.remove('monaco-editor-base64-bg');
-        }
-      } catch (error) {
-        console.warn('Error handling base64 background images for class editor:', className, error);
-      }
-    };
-    
-    // 초기 base64 배경 이미지 확인
-    setTimeout(handleBase64BackgroundImages, 100);
-    
-    // 내용 변경 시 base64 배경 이미지 재확인
-    editor.onDidChangeModelContent(() => {
-      setTimeout(handleBase64BackgroundImages, 100);
     });
     
     // 레이아웃 강제 업데이트
@@ -1148,7 +1054,7 @@ function bindTextareaEvents(panel, styleElem, cssRules) {
               btn.textContent = '적용';
               btn.style.removeProperty('background');
               btn.style.removeProperty('color');
-            }, 2000);
+            }, 1000);
           } else {
             // 다른 내용이면 기존 로직대로 추가/수정
             let customCSS = styleElem.textContent || "";
@@ -1175,7 +1081,7 @@ function bindTextareaEvents(panel, styleElem, cssRules) {
               btn.textContent = '적용';
               btn.style.removeProperty('background');
               btn.style.removeProperty('color');
-            }, 2000);
+            }, 1000);
           }
           
           // 커스텀 CSS 영역만 리렌더
@@ -1524,11 +1430,14 @@ function selectBestCssText(cssTextArray) {
 }
 
 // Inspector 패널 렌더링 및 이벤트 바인딩
-async function showInspector(element, cssRules) {
+async function showInspector(element) {
   const panel = document.getElementById("inspector-panel");
   
   // 패널 활성화 (가이드 숨김)
   // panel.classList.add('active');
+  
+  // 세로 스크롤 초기화
+  panel.scrollTop = 0;
   
   // 기존 에디터들 정리
   disposeEditors();
@@ -1556,13 +1465,8 @@ async function showInspector(element, cssRules) {
     classNames_before.push(`${prefixTheme}ColorReadOnly`);
   }
 
-  // console.log('showIspector called for element:', element);
-  // console.log('classNames_before:', classNames_before);
-
   const classNames = classNames_before.filter(cls => newStyleArr.includes(cls));
-  // console.log('Filtered classNames for inspector:', classNames);
   const classCSS = getClassCSS(classNames, cssRules, true);
-  // console.log('Extracted classCSS:', classCSS);
 
   const styleElem = ensureCustomStyleTag();
   const currentCustomCSS = styleElem.textContent || "";
@@ -1592,9 +1496,12 @@ async function showInspector(element, cssRules) {
               cssText = bestCssText || `.${cn} {\n\n}`;
             }
             
+            // 인덱스가 3 이상인 경우 마지막 div에 더 큰 margin-bottom 적용
+            const marginBottom = idx >= 2 && idx == classNames.length -1 ? '200px' : '16px';
+            
             if (monacoLoaded) {
               return `
-                <div style="margin-bottom:16px;">
+                <div style="margin-bottom:${marginBottom};">
                   <div class='css-class-name'>
                     ▷ ${cn}
                   </div>
@@ -1604,7 +1511,7 @@ async function showInspector(element, cssRules) {
               `;
             } else {
               return `
-                <div style="margin-bottom:16px;">
+                <div style="margin-bottom:${marginBottom};">
                   <div class='css-class-name'>
                     ▷ ${cn}
                   </div>
@@ -1625,7 +1532,7 @@ async function showInspector(element, cssRules) {
       // 먼저 커스텀 CSS 에디터 생성
       setTimeout(() => {
         customCssEditor = createCustomCssEditor('custom-css-editor', currentCustomCSS);
-      }, 100);
+      }, 0);
       
       // 클래스별 CSS Monaco Editor를 순차적으로 생성
       let editorIndex = 0;
@@ -1634,7 +1541,7 @@ async function showInspector(element, cssRules) {
           // 모든 에디터 생성 완료 후 이벤트 바인딩
           setTimeout(() => {
             bindMonacoEditorEvents(panel, styleElem, classNames, classCSS, cssRules);
-          }, 200);
+          }, 0);
           return;
         }
         
@@ -1657,37 +1564,20 @@ async function showInspector(element, cssRules) {
           createClassCssEditor(`css-edit-${idx}`, cssText, cn);
           editorIndex++;
           // 다음 에디터 생성을 위해 더 긴 지연
-          setTimeout(createNextEditor, 150);
+          setTimeout(createNextEditor, 0);
         }, 50);
       }
       
       // 첫 번째 에디터 생성 시작 (커스텀 에디터 생성 후)
-      setTimeout(createNextEditor, 300);
-    }, 300);
+      setTimeout(createNextEditor, 0);
+    }, 0);
   } else {
     // Textarea fallback용 이벤트 바인딩
     bindTextareaEvents(panel, styleElem, cssRules);
   }
 }
 
-// function clearInspector(element) {
-//   const content = document.getElementById('inspector-content');
-
-//   console.log(element);
-//   console.log(element.closest('[class*="monaco-"]'));
-
-//   const monaco = element.closest('[class*="monaco-"]');
-//   if (!monaco) {
-//     disposeCssEditors();
-//   }
-
-
-//   if (content) {
-//     document.getElementById('css-define-section').innerHTML = `<strong>CSS 정의</strong>
-//       <div id="css-define-edit-wrap" style="margin-top:8px;"></div>
-//     `;
-//   }
-// }
+let cssRules;
 
 // Inspector 초기화 및 바인딩
 window.addEventListener('DOMContentLoaded', async () => {
@@ -1722,7 +1612,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     monacoLoaded = false;
   }
   
-  const cssRules = await getCSSRules();
+  cssRules = await getCSSRules();
   const panel = document.getElementById("inspector-panel");
 
   document.body.addEventListener('click', e => {
@@ -1733,9 +1623,11 @@ window.addEventListener('DOMContentLoaded', async () => {
 
     let isParentElement = false;
 
-    if (e.target.closest('#inspector-panel')) {
+    if (e.target.closest('#inspector-panel') || e.target.closest('#icon-content1') || e.target.closest('#icon-content2') || e.target.closest('#icon-content3')) {
       return;
-    } else if (e.target && e.target.nodeType === 1) {
+    }
+    
+    if (e.target && e.target.nodeType === 1) {
       // console.log(e.target);
       // IB로 시작하는 클래스와 infoArea를 가진 가장 가까운 요소 찾기
       // let targetElement = e.target.closest('[class*="IB"]');
@@ -1766,7 +1658,7 @@ window.addEventListener('DOMContentLoaded', async () => {
         if (!isParentElement) {
           targetElement.classList.add('inspected-element-highlight');
         }
-        showInspector(targetElement, cssRules);
+        showInspector(targetElement);
       }
     }
   });

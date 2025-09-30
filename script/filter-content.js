@@ -43,18 +43,16 @@ if (FilterContent) {
   const filterSheetArea = FilterContent.querySelector('#sheetDiv5');
   if (filterSheetArea) {
     const filterSheetInfoAreas = filterSheetArea.querySelectorAll('.infoArea');
-    
-    // 간단한 tippy 설정들 - 이제 스타일시트에서 자동으로 CSS 속성을 가져옵니다
     const filterConfigs = [
-      { index: 0, title: `.${prefixTheme}FilterDialog0Right`, description: '헤더의 필터 아이콘을 클릭하여 문자형 필터 다이얼로그를 호출합니다.', classes: [{selector: `.${prefixTheme}FilterDialog0Right`}, {selector: `.${prefixTheme}FilterDialog1Right` }] },
-      { index: 1, title: `.${prefixTheme}FilterDialog0Right`, description: '헤더의 필터 아이콘을 클릭하여 숫자형 필터 다이얼로그를 호출합니다.', classes: [{selector: `.${prefixTheme}FilterDialog0Right`}, {selector: `.${prefixTheme}FilterDialog1Right` }] },
-      { index: 2, title: `.${prefixTheme}FilterDialog0Right`, description: '헤더의 필터 아이콘을 클릭하여 날짜형 필터 다이얼로그를 호출합니다.', classes: [{selector: `.${prefixTheme}FilterDialog0Right`}, {selector: `.${prefixTheme}FilterDialog1Right` }] },
-      { index: 3, title: `.${prefixTheme}FilterDialog0Right`, description: '헤더의 필터 아이콘을 클릭하여 필터 다이얼로그를 호출합니다.', classes: [{selector: `.${prefixTheme}FilterDialog0Right`}, {selector: `.${prefixTheme}FilterDialog1Right` }] }
+      { title: `.${prefixTheme}FilterDialog0Right`, description: '헤더의 필터 아이콘을 클릭하여 문자형 필터 다이얼로그를 호출합니다.', classes: [{selector: `.${prefixTheme}FilterDialog0Right`}, {selector: `.${prefixTheme}FilterDialog1Right` }] },
+      { title: `.${prefixTheme}FilterDialog0Right`, description: '헤더의 필터 아이콘을 클릭하여 숫자형 필터 다이얼로그를 호출합니다.', classes: [{selector: `.${prefixTheme}FilterDialog0Right`}, {selector: `.${prefixTheme}FilterDialog1Right` }] },
+      { title: `.${prefixTheme}FilterDialog0Right`, description: '헤더의 필터 아이콘을 클릭하여 날짜형 필터 다이얼로그를 호출합니다.', classes: [{selector: `.${prefixTheme}FilterDialog0Right`}, {selector: `.${prefixTheme}FilterDialog1Right` }] },
+      { title: `.${prefixTheme}FilterDialog0Right`, description: '헤더의 필터 아이콘을 클릭하여 필터 다이얼로그를 호출합니다.', classes: [{selector: `.${prefixTheme}FilterDialog0Right`}, {selector: `.${prefixTheme}FilterDialog1Right` }] }
     ];
     
-    filterConfigs.forEach(config => {
-      if (filterSheetInfoAreas[config.index]) {
-        tippy(filterSheetInfoAreas[config.index], {
+    filterConfigs.forEach((config, index) => {
+      if (filterSheetInfoAreas[index]) {
+        tippy(filterSheetInfoAreas[index], {
           content: createTippyContent(config.title, config.description || '', config.classes)
         });
       }
@@ -62,7 +60,7 @@ if (FilterContent) {
   }
   
   // 탭별 tippy 설정
-  var filterTab0Area = FilterContent.querySelector('#tabFilterTag0');
+  const filterTab0Area = FilterContent.querySelector('#tabFilterTag0');
   if (filterTab0Area) {
     const filterTab0InfoAreas = filterTab0Area.querySelectorAll('.infoArea');
     const tab0Configs = [

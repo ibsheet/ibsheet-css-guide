@@ -3,8 +3,10 @@ if (FocusContent) {
   const tabFocusCursorTag = document.getElementsByClassName('tabFocusCursorTag');
   const tabFocusDivTag = document.getElementsByClassName('tabFocusDivTag');
 
-  if (tabFocusCursorTag[0]) {
-    tabFocusCursorTag[0].style.display = 'block';
+  if (tabFocusCursorTag) {
+    if (tabFocusCursorTag[0]) {
+      tabFocusCursorTag[0].style.display = 'block';
+    }
   }
 
   document.body.addEventListener('click', e => {
@@ -17,12 +19,6 @@ if (FocusContent) {
       e.target.nodeType === 1 &&
       e.target.classList.contains(`${prefixTheme}Filter0Value`) &&
       e.target.classList.contains(`${prefixTheme}CellFilter`);
-  
-    const isTargetEnumType =
-      e.target &&
-      e.target.nodeType === 1 &&
-      e.target.classList.contains(`${prefixTheme}EnumLeft`) &&
-      e.target.classList.contains(`${prefixTheme}Cell`);
   
     function divTagHide() {
       Array.from(tabFocusDivTag).forEach(element => {
@@ -49,19 +45,19 @@ if (FocusContent) {
   
       if (isTargetFilter) {
         const tabFilterTag = FocusContent.querySelectorAll(`[class*="${prefixTheme}Filter0Value"][class*="${prefixTheme}CellFilter"]`);
-        if (e.target == tabFilterTag[5]) {
+        if (e.target == tabFilterTag[6]) {
           const tabFocusTag = document.getElementById('tabFocusTag1');
           if (tabFocusTag) {
             tabFocusTag.style.display = 'block';
           }
         } 
-        // else if (e.target == tabFilterTag[7]) {
+        // else if (e.target == tabFilterTag[8]) {
         //   const tabFocusTag = document.getElementById('tabFocusTag2');
         //   if (tabFocusTag) {
         //     tabFocusTag.style.display = 'block';
         //   }
-        // } 
-        else if (e.target == tabFilterTag[8]) {
+        // }
+        else if (e.target == tabFilterTag[9]) {
           const tabFocusTag = document.getElementById('tabFocusTag3');
           if (tabFocusTag) {
             tabFocusTag.style.display = 'block';
@@ -96,8 +92,10 @@ if (FocusContent) {
     if (isTargetFocusedCell) {
       divTagTagHide();
       divTagHide();
-      if (tabFocusCursorTag[1]) {
-        tabFocusCursorTag[1].style.display = 'block';
+      if (tabFocusCursorTag) {
+        if (tabFocusCursorTag[1]) {
+          tabFocusCursorTag[1].style.display = 'block';
+        }
       }
       const tabFocusTag = document.getElementById('tabFocusTag0');
       if (tabFocusTag) {
@@ -109,27 +107,25 @@ if (FocusContent) {
   const focusSheetArea = FocusContent.querySelector('#sheetDiv6');
   if (focusSheetArea) {
     const focusSheetInfoAreas = focusSheetArea.querySelectorAll('.infoArea');
-    
-    // 간단한 tippy 설정들 - 이제 스타일시트에서 자동으로 CSS 속성을 가져옵니다
     const focusConfigs = [
-      { index: 0, title: `.${prefixTheme}BoolX`, description: 'Bool Type의 컬럼의 필터행에서 아무 조건도 선택되지 않을 때 출력되는 아이콘', classes: `.${prefixTheme}BoolX, .${prefixTheme}BoolXRO` },
-      { index: 1, title: `.${prefixTheme}Bool0`, description: 'Bool Type의 컬럼의 필터행에서 선택되지 않은 값들에 대한 필터링 사용 시 출력되는 아이콘', classes: `.${prefixTheme}Bool0, .${prefixTheme}Bool0RO` },
-      { index: 2, title: `.${prefixTheme}Bool1`, description: 'Bool Type의 컬럼의 필터행에서 선택된 값들에 대한 필터링 사용 시 출력되는 아이콘', classes: `.${prefixTheme}Bool1, .${prefixTheme}Bool1RO` },
-      { index: 3, title: `.${prefixTheme}Filter0Left`, description: '문자형 컬럼에서 사용되는 필터행, 아이콘을 클릭하여 필터 조건을 선택할 수 있습니다.', classes: `.${prefixTheme}Filter0Left, .${prefixTheme}Filter0Right, .${prefixTheme}Filter0Menu` },
-      { index: 4, title: `.${prefixTheme}Filter0Left`, description: '숫자형 컬럼에서 사용되는 필터행. 아이콘을 클릭하여 필터 조건을 선택할 수 있습니다.', classes: `.${prefixTheme}Filter0Left, .${prefixTheme}Filter0Right, .${prefixTheme}Filter0Menu` },
-      { index: 5, title: `.${prefixTheme}ClassFocusedCell`, description: '포커스 된 셀에 적용 되는 Class. 영역을 더블 클릭하여 EditMode 활성화 시 설정된 Suggest기능을 확인하실 수 있습니다.', classes: `.${prefixTheme}ClassFocusedCell, .${prefixTheme}ClassFocusedCell *` },
-      { index: 6, title: 'HoverCell', description: 'Hover된 셀에 inline으로 .IBColorHoveredCell의 배경색이 적용됩니다.', classes: `.${prefixTheme}ColorHoveredCell` },
-      { index: 7, title: `.${prefixTheme}ClassNoFocus`, description: 'CanFocus: 0인 영역에 적용 되는 Class', classes: `.${prefixTheme}ClassNoFocus` },
-      { index: 8, title: `.${prefixTheme}ClassReadOnly`, description: 'CanEdit: 0인 영역에 적용 되는 Class<br>(Cfg) ColorState의 영향을 받으며, 설정에 따라 .IBColorReadOnly의 영향을 받습니다.', classes: [{selector: `.${prefixTheme}ClassReadOnly`}, {selector: `.${prefixTheme}ColorReadOnly`}] },
-      { index: 9, title: `.${prefixTheme}FormulaRow`, description: 'Formula행에 적용 되는 Class', classes: `.${prefixTheme}FormulaRow, .${prefixTheme}FormulaRow *` },
-      { index: 10, title: `.${prefixTheme}FocusRowBackground`, description: 'Focus 된 행에 출력되는 Class', classes: `.${prefixTheme}FocusRowBackground` },
-      { index: 11, title: `.${prefixTheme}HoverRowBackground`, description: '마우스가 Hover된 행에 출력되는 Class', classes: `.${prefixTheme}HoverRowBackground` }
+      { title: `.${prefixTheme}BoolX`, description: 'Bool Type의 컬럼의 필터행에서 아무 조건도 선택되지 않을 때 출력되는 아이콘', classes: `.${prefixTheme}BoolX, .${prefixTheme}BoolXRO` },
+      { title: `.${prefixTheme}Bool0`, description: 'Bool Type의 컬럼의 필터행에서 선택되지 않은 값들에 대한 필터링 사용 시 출력되는 아이콘', classes: `.${prefixTheme}Bool0, .${prefixTheme}Bool0RO` },
+      { title: `.${prefixTheme}Bool1`, description: 'Bool Type의 컬럼의 필터행에서 선택된 값들에 대한 필터링 사용 시 출력되는 아이콘', classes: `.${prefixTheme}Bool1, .${prefixTheme}Bool1RO` },
+      { title: `.${prefixTheme}Filter0Left`, description: '문자형 컬럼에서 사용되는 필터행, 아이콘을 클릭하여 필터 조건을 선택할 수 있습니다.', classes: `.${prefixTheme}Filter0Left, .${prefixTheme}Filter0Right, .${prefixTheme}Filter0Menu` },
+      { title: `.${prefixTheme}Filter0Left`, description: '숫자형 컬럼에서 사용되는 필터행. 아이콘을 클릭하여 필터 조건을 선택할 수 있습니다.', classes: `.${prefixTheme}Filter0Left, .${prefixTheme}Filter0Right, .${prefixTheme}Filter0Menu` },
+      { title: `.${prefixTheme}ClassFocusedCell`, description: '포커스 된 셀에 적용 되는 Class. 영역을 더블 클릭하여 EditMode 활성화 시 설정된 Suggest기능을 확인하실 수 있습니다.', classes: `.${prefixTheme}ClassFocusedCell, .${prefixTheme}ClassFocusedCell *` },
+      { title: `.${prefixTheme}ClassNoFocus`, description: 'CanFocus: 0인 영역에 적용 되는 Class', classes: `.${prefixTheme}ClassNoFocus` },
+      { title: `.${prefixTheme}ClassReadOnly`, description: 'CanEdit: 0인 영역에 적용 되는 Class<br>(Cfg) ColorState의 영향을 받으며, 설정에 따라 .IBColorReadOnly의 영향을 받습니다.', classes: [{selector: `.${prefixTheme}ClassReadOnly`}, {selector: `.${prefixTheme}ColorReadOnly`}] },
+      { title: 'HoverCell', description: 'Hover된 셀에 inline으로 .IBColorHoveredCell의 배경색이 적용됩니다.', classes: `.${prefixTheme}ColorHoveredCell` },
+      { title: `.${prefixTheme}FormulaRow`, description: 'Formula행에 적용 되는 Class', classes: `.${prefixTheme}FormulaRow, .${prefixTheme}FormulaRow *` },
+      { title: `.${prefixTheme}FocusRowBackground`, description: 'Focus 된 행에 출력되는 Class', classes: `.${prefixTheme}FocusRowBackground` },
+      { title: `.${prefixTheme}HoverRowBackground`, description: '마우스가 Hover된 행에 출력되는 Class', classes: `.${prefixTheme}HoverRowBackground` }
     ];
-    
-    focusConfigs.forEach(config => {
-      if (focusSheetInfoAreas[config.index]) {
-        tippy(focusSheetInfoAreas[config.index], {
-          content: createTippyContent(config.title, config.description || '', config.classes)
+
+    focusConfigs.forEach((config, index) => {
+      if (focusSheetInfoAreas[index]) {
+        tippy(focusSheetInfoAreas[index], {
+          content: createTippyContent(config.title, config.description, config.classes)
         });
       }
     });
@@ -188,23 +184,23 @@ if (FocusContent) {
   focusSheetRows.forEach((row, rowIndex) => {
     const tds = row.querySelectorAll('td');
     tds.forEach((td, tdIndex) => {
-      if (tdIndex === 7) {
-        td.style.backgroundColor = '#eaeafd';
+      if (tdIndex === 8) {
+        td.style.backgroundColor = '#f4e3e3';
       }
       if (rowIndex === 3) {
-        td.style.backgroundColor = '#eaeafd';
+        td.style.backgroundColor = '#f4e3e3';
       }
     });
   });
 
-  // 필터행에서 특정 컬럼 배경색 적용
+  // // 필터행에서 특정 컬럼 배경색 적용
   const focusSheetMidHead = FocusContent.querySelectorAll(`.${prefixTheme}HeadMid`)[0];
   const focusSheetFilterRows = focusSheetMidHead.querySelectorAll(`.${prefixTheme}FilterRow`);
   focusSheetFilterRows.forEach((row, rowIndex) => {
     const tds = row.querySelectorAll('td');
     tds.forEach((td, tdIndex) => {
-      if (tdIndex === 7) {
-        td.style.backgroundColor = '#eaeafd';
+      if (tdIndex === 8) {
+        td.style.backgroundColor = '#f4e3e3';
       }
     });
   });

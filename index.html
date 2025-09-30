@@ -20,6 +20,11 @@
   <link rel="stylesheet" href="assets/ibsheet/css/simple/main.css" crossorigin="anonymous"/>
   <link rel="stylesheet" href="assets/ibsheet/css/gray/main.css" crossorigin="anonymous"/>
   
+  <!--
+  <script src="assets/ibsheet/ibsheet.js"></script>
+  <script src="assets/ibsheet/locale/ko.js"></script>
+  -->
+
 </head>
 <body>
   <div class="container">
@@ -46,6 +51,13 @@
         <button class="tab-btn" data-tab="tree-content">트리</button>
         <button class="tab-btn" data-tab="subtotal-content">소계</button>
         <button class="tab-btn" data-tab="group-content">그룹</button>
+        
+        <button class="tab-btn" data-tab="icon-content1">아이콘-Bool, Radio컬럼</button>
+        <button class="tab-btn" data-tab="icon-content2">아이콘-기타 컬럼</button>
+        <button class="tab-btn" data-tab="icon-content3">아이콘-헤더</button>
+        <button class="tab-btn" data-tab="icon-content4">아이콘-필터</button>
+        <button class="tab-btn" data-tab="icon-content5">아이콘-기타</button>
+
         <select id="theme-selector">
           <option value="" disabled selected>테마 선택</option>
           <option value="default">Default</option>
@@ -64,6 +76,11 @@
         <div class="tab-content" id="tree-content"></div>
         <div class="tab-content" id="subtotal-content"></div>
         <div class="tab-content" id="group-content"></div>
+        <div class="tab-content" id="icon-content1"></div>
+        <div class="tab-content" id="icon-content2"></div>
+        <div class="tab-content" id="icon-content3"></div>
+        <div class="tab-content" id="icon-content4"></div>
+        <div class="tab-content" id="icon-content5"></div>
       </div>
     </div>
   </div>

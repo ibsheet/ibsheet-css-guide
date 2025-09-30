@@ -75,32 +75,30 @@ if (MainContent) {
   const mainSheetArea = MainContent.querySelector('#sheetDiv1');
   if (mainSheetArea) {
     const mainSheetInfoAreas = mainSheetArea.querySelectorAll('.infoArea');
-    
-    // 간단한 tippy 설정들 - 이제 스타일시트에서 자동으로 CSS 속성을 가져옵니다
     const configs = [
-      { index: 0, title: `.${prefixTheme}InfoRow`, description: '조회된 데이터의 개수나 페이지 네비게이션을 출력합니다.', classes: `.${prefixTheme}InfoRow, .${prefixTheme}InfoRow *`  },
-      { index: 1, title: 'Header Cell', description: '각 컬럼의 헤더 정보를 출력하는 영역입니다.', classes: [{selector: `.${prefixTheme}HeaderText`}, {selector: `.${prefixTheme}CellHeader`}] },
-      { index: 2, title: 'Bool Header Cell', description: 'Header Check를 사용하는 Header Cell입니다.', classes: [{selector: `.${prefixTheme}Check0Left, .${prefixTheme}Check0Center, .${prefixTheme}Check0Right, .${prefixTheme}Check0Top, .${prefixTheme}Check0Bottom`}, {selector: `.${prefixTheme}Check1Left, .${prefixTheme}Check1Center, .${prefixTheme}Check1Right, .${prefixTheme}Check1Top, .${prefixTheme}Check1Bottom`}, {selector: `.${prefixTheme}Check2Left, .${prefixTheme}Check2Center, .${prefixTheme}Check2Right, .${prefixTheme}Check2Top, .${prefixTheme}Check2Bottom`}] },
-      { index: 3, title: 'Text Type', description: 'Text Type의 컬럼에서 사용되는 Class', classes: `.${prefixTheme}Text` },
-      { index: 4, title: 'Lines Type', description: 'Lines Type의 컬럼에서 사용되는 Class', classes: `.${prefixTheme}Lines, .${prefixTheme}Radio, .${prefixTheme}Html, .${prefixTheme}List` },
-      { index: 5, title: 'Enum Type', description: 'Enum Type의 컬럼에서 사용되는 Class', classes: [{selector: `.${prefixTheme}EnumLeft, .${prefixTheme}EnumRight, .${prefixTheme}EnumTop, .${prefixTheme}EnumBottom`}, {selector: `.${prefixTheme}Enum`}] },
-      { index: 6, title: 'Button Type', description: 'Button Type의 컬럼에서 사용되는 Class', classes: [{selector: `.${prefixTheme}Button`}, {selector: `.${prefixTheme}DialogButton, u.${prefixTheme}SheetButton`}] },
-      { index: 7, title: 'Int Type', description: 'Int Type의 컬럼에서 사용되는 Class', classes: `.${prefixTheme}Int, .${prefixTheme}Float, .${prefixTheme}Date` },
-      { index: 8, title: 'Float Type', description: 'Float Type의 컬럼에서 사용되는 Class', classes: `.${prefixTheme}Int, .${prefixTheme}Float, .${prefixTheme}Date` },
-      { index: 9, title: 'Date Type', description: 'Date Type의 컬럼에서 사용되는 Class', classes: `.${prefixTheme}Int, .${prefixTheme}Float, .${prefixTheme}Date` },
-      { index: 10, title: '달력 이미지', description: '클릭하여 달력을 실행하실 수 있습니다.', classes: `.${prefixTheme}Main .${prefixTheme}DateLeft, .${prefixTheme}Main .${prefixTheme}DatesLeft, .${prefixTheme}Main .${prefixTheme}DateRight, .${prefixTheme}Main .${prefixTheme}DatesRight, .${prefixTheme}Main .${prefixTheme}DateTop, .${prefixTheme}Main .${prefixTheme}DatesTop, .${prefixTheme}Main .${prefixTheme}DateBottom, .${prefixTheme}Main .${prefixTheme}DatesBottom` },
-      { index: 11, title: 'Link Type', description: 'Link Type의 컬럼에서 사용되는 Class', classes: `.${prefixTheme}Link` },
-      { index: 12, title: 'Img Type', description: 'Img Type의 컬럼에서 사용되는 Class', classes: `.${prefixTheme}Img, .${prefixTheme}Html` },
-      { index: 13, title: 'Pass Type', description: 'Pass Type의 컬럼에서 사용되는 Class', classes: `.${prefixTheme}Pass` },
-      { index: 14, title: 'Radio Type', description: 'Radio Type의 컬럼에서 사용되는 Class', classes: [{selector: `.${prefixTheme}Lines, .${prefixTheme}Radio, .${prefixTheme}Html, .${prefixTheme}List`}, {selector: `.${prefixTheme}Radio0Left, .${prefixTheme}Radio0Right`}, {selector: `.${prefixTheme}Radio1Left, .${prefixTheme}Radio1Right`}, {selector: `.${prefixTheme}Radio2Left, .${prefixTheme}Radio2Right`}, {selector: `.${prefixTheme}Radio3Left, .${prefixTheme}Radio3Right`} ] },
-      { index: 15, title: 'Bool Type', description: 'Bool Type의 컬럼에서 사용되는 Class', classes: [{selector: `.${prefixTheme}Bool`}, {selector: `.${prefixTheme}Bool0, .${prefixTheme}Bool0RO`}, {selector: `.${prefixTheme}Bool1, .${prefixTheme}Bool1RO`}, {selector: `.${prefixTheme}BoolX, .${prefixTheme}BoolXRO`}, {selector: `.${prefixTheme}Bool2, .${prefixTheme}Bool2RO`}, {selector: `.${prefixTheme}Bool3, .${prefixTheme}Bool3RO`} ] },
-      { index: 16, title: 'Alternate', description: '홀수, 짝수 행에 대하여 번갈아 가며 배경색을 다르게 설정하여 가독성을 높일 수 있는 기능<br>CSS 파일에서 .IBColorAlternate Class를 찾아 수정하시거나 시트 생성 시 Def.Row.AlternateColor를 통해 배경색을 지정할 수 있습니다.<br>Sample에서는 (Cfg) Alternate: 2로 설정되어 짝수행 마다 Alternate 배경색이 적용되고 있습니다.<br>※ AlternateColor는 inline-style로 적용되어 Class로 제어할 수 없습니다.', classes: `.${prefixTheme}ColorAlternate` },
-      { index: 17, title: 'SolidRow', description: 'Header나 Footer에 출력되는 고정 행', classes: `.${prefixTheme}SolidRow` }
+      { title: `.${prefixTheme}InfoRow`, description: '조회된 데이터의 개수나 페이지 네비게이션을 출력합니다.', classes: `.${prefixTheme}InfoRow, .${prefixTheme}InfoRow *`  },
+      { title: 'Header Cell', description: '각 컬럼의 헤더 정보를 출력하는 영역입니다.', classes: [{selector: `.${prefixTheme}HeaderText`}, {selector: `.${prefixTheme}CellHeader`}] },
+      { title: 'Bool Header Cell', description: 'Header Check를 사용하는 Header Cell입니다.', classes: [{selector: `.${prefixTheme}Check0Left, .${prefixTheme}Check0Center, .${prefixTheme}Check0Right, .${prefixTheme}Check0Top, .${prefixTheme}Check0Bottom`}, {selector: `.${prefixTheme}Check1Left, .${prefixTheme}Check1Center, .${prefixTheme}Check1Right, .${prefixTheme}Check1Top, .${prefixTheme}Check1Bottom`}, {selector: `.${prefixTheme}Check2Left, .${prefixTheme}Check2Center, .${prefixTheme}Check2Right, .${prefixTheme}Check2Top, .${prefixTheme}Check2Bottom`}] },
+      { title: 'Enum Type', description: 'Enum Type의 컬럼에서 사용되는 Class', classes: [{selector: `.${prefixTheme}EnumLeft, .${prefixTheme}EnumRight, .${prefixTheme}EnumTop, .${prefixTheme}EnumBottom`}, {selector: `.${prefixTheme}Enum`}] },
+      { title: 'Date Type', description: 'Date Type의 컬럼에서 사용되는 Class', classes: `.${prefixTheme}Int, .${prefixTheme}Float, .${prefixTheme}Date` },
+      { title: '달력 이미지', description: '클릭하여 달력을 실행하실 수 있습니다.', classes: `.${prefixTheme}Main .${prefixTheme}DateLeft, .${prefixTheme}Main .${prefixTheme}DatesLeft, .${prefixTheme}Main .${prefixTheme}DateRight, .${prefixTheme}Main .${prefixTheme}DatesRight, .${prefixTheme}Main .${prefixTheme}DateTop, .${prefixTheme}Main .${prefixTheme}DatesTop, .${prefixTheme}Main .${prefixTheme}DateBottom, .${prefixTheme}Main .${prefixTheme}DatesBottom` },
+      { title: 'Radio Type', description: 'Radio Type의 컬럼에서 사용되는 Class', classes: [{selector: `.${prefixTheme}Lines, .${prefixTheme}Radio, .${prefixTheme}Html, .${prefixTheme}List`}, {selector: `.${prefixTheme}Radio0Left, .${prefixTheme}Radio0Right`}, {selector: `.${prefixTheme}Radio1Left, .${prefixTheme}Radio1Right`}, {selector: `.${prefixTheme}Radio2Left, .${prefixTheme}Radio2Right`}, {selector: `.${prefixTheme}Radio3Left, .${prefixTheme}Radio3Right`} ] },
+      { title: 'Alternate', description: '홀수, 짝수 행에 대하여 번갈아 가며 배경색을 다르게 설정하여 가독성을 높일 수 있는 기능<br>CSS 파일에서 .IBColorAlternate Class를 찾아 수정하시거나 시트 생성 시 Def.Row.AlternateColor를 통해 배경색을 지정할 수 있습니다.<br>Sample에서는 (Cfg) Alternate: 2로 설정되어 짝수행 마다 Alternate 배경색이 적용되고 있습니다.<br>※ AlternateColor는 inline-style로 적용되어 Class로 제어할 수 없습니다.', classes: `.${prefixTheme}ColorAlternate` },
+      { title: 'Text Type', description: 'Text Type의 컬럼에서 사용되는 Class', classes: `.${prefixTheme}Text` },
+      { title: 'Int Type', description: 'Int Type의 컬럼에서 사용되는 Class', classes: `.${prefixTheme}Int, .${prefixTheme}Float, .${prefixTheme}Date` },
+      { title: 'Img Type', description: 'Img Type의 컬럼에서 사용되는 Class', classes: `.${prefixTheme}Img, .${prefixTheme}Html` },
+      { title: 'Lines Type', description: 'Lines Type의 컬럼에서 사용되는 Class', classes: `.${prefixTheme}Lines, .${prefixTheme}Radio, .${prefixTheme}Html, .${prefixTheme}List` },
+      { title: 'Button Type', description: 'Button Type의 컬럼에서 사용되는 Class', classes: [{selector: `.${prefixTheme}Button`}, {selector: `.${prefixTheme}DialogButton, u.${prefixTheme}SheetButton`}] },
+      { title: 'Float Type', description: 'Float Type의 컬럼에서 사용되는 Class', classes: `.${prefixTheme}Int, .${prefixTheme}Float, .${prefixTheme}Date` },
+      { title: 'Link Type', description: 'Link Type의 컬럼에서 사용되는 Class', classes: `.${prefixTheme}Link` },
+      { title: 'Pass Type', description: 'Pass Type의 컬럼에서 사용되는 Class', classes: `.${prefixTheme}Pass` },
+      { title: 'Bool Type', description: 'Bool Type의 컬럼에서 사용되는 Class', classes: [{selector: `.${prefixTheme}Bool`}, {selector: `.${prefixTheme}Bool0, .${prefixTheme}Bool0RO`}, {selector: `.${prefixTheme}Bool1, .${prefixTheme}Bool1RO`}, {selector: `.${prefixTheme}BoolX, .${prefixTheme}BoolXRO`}, {selector: `.${prefixTheme}Bool2, .${prefixTheme}Bool2RO`}, {selector: `.${prefixTheme}Bool3, .${prefixTheme}Bool3RO`} ] },
+      { title: 'SolidRow', description: 'Header나 Footer에 출력되는 고정 행', classes: `.${prefixTheme}SolidRow` }
     ];
-    
-    configs.forEach(config => {
-      if (mainSheetInfoAreas[config.index]) {
-        tippy(mainSheetInfoAreas[config.index], {
+
+    configs.forEach((config, index) => {
+      if (mainSheetInfoAreas[index]) {
+        tippy(mainSheetInfoAreas[index], {
           content: createTippyContent(config.title, config.description, config.classes)
         });
       }

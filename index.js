@@ -113,6 +113,11 @@ const contents = {
   'tree-content': './html/tab-tree.html',
   'subtotal-content': './html/tab-subtotal.html',
   'group-content': './html/tab-group.html',
+  'icon-content1': './html/tab-icon1.html',
+  'icon-content2': './html/tab-icon2.html',
+  'icon-content3': './html/tab-icon3.html',
+  'icon-content4': './html/tab-icon4.html',
+  'icon-content5': './html/tab-icon5.html',
 };
 
 const themes = ['IBGR', 'IBMR', 'IBMT', 'IBSP', 'IBGY'];
@@ -141,8 +146,8 @@ function loadTab(tabId) {
       }
       
       // alternate 색상 설정
-      setAlternateColor();
-      setReadOnlyColor();
+      // setAlternateColor();
+      // setReadOnlyColor();
       
       // tabId에 맞는 JS를 동적으로 로드
       const jsFile = './script/'+tabId + '.js';
@@ -187,8 +192,11 @@ tabs.forEach(tab => {
       loadTab(activeId);
   });
 });
+
 // 최초 메인 탭 로드
 loadTab('main-content');
+// loadTab('group-content');
+// loadTab('icon-content1');
 
 document.getElementById('theme-selector').addEventListener('change', function() {
   const selectedTheme = this.value;
