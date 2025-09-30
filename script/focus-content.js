@@ -185,10 +185,10 @@ if (FocusContent) {
     const tds = row.querySelectorAll('td');
     tds.forEach((td, tdIndex) => {
       if (tdIndex === 8) {
-        td.style.backgroundColor = '#f4e3e3';
+        td.style.backgroundColor = '#FFEEEE';
       }
       if (rowIndex === 3) {
-        td.style.backgroundColor = '#f4e3e3';
+        td.style.backgroundColor = '#FFEEEE';
       }
     });
   });
@@ -200,7 +200,7 @@ if (FocusContent) {
     const tds = row.querySelectorAll('td');
     tds.forEach((td, tdIndex) => {
       if (tdIndex === 8) {
-        td.style.backgroundColor = '#f4e3e3';
+        td.style.backgroundColor = '#FFEEEE';
       }
     });
   });

@@ -79,13 +79,16 @@ function applyHighlightToClass(className) {
   
   // 기존 하이라이트 제거
   removeHighlightFromElements();
+
+  if (!className.startsWith('.')) {
+    className = '.' + className;
+  }
   
   // 새로운 요소들에 하이라이트 적용
-  let elements = document.querySelectorAll(`.${className}`);
-  // console.log('applyHighlightToClass:', className, elements);
-  if (className === `${prefixTheme}ColorAlternate`) {
+  let elements = document.querySelectorAll(`${className}`);
+  if (className === `.${prefixTheme}ColorAlternate`) {
     elements = document.querySelectorAll(`.${prefixTheme}ClassAlternate > td:not(.${prefixTheme}CellIndex)`);
-  } else if (className === `${prefixTheme}ColorReadOnly`) {
+  } else if (className === `.${prefixTheme}ColorReadOnly`) {
     elements = document.querySelectorAll(`td.${prefixTheme}ClassReadOnly`);
   }
 
@@ -184,6 +187,7 @@ async function loadMonacoEditor() {
     monacoRequire.config({ 
       paths: { 
         'vs': 'https://cdn.jsdelivr.net/npm/monaco-editor@0.52.0/min/vs' 
+        // 'vs': '/assets/monaco-editor/min/vs' // 로컬 경로로 설정
       }
     });
     
@@ -1379,7 +1383,7 @@ function renderCustomCssEditor(cssText) {
     return `
       <div id="custom-css-editor" style="width:100%;height:120px;border:1px solid #333;margin-bottom:8px;"></div>
       <div style="margin-bottom:16px;display:block;gap:8px;text-align:center;">
-        <button id="custom-css-apply" style="padding:8px 16px;border:1px solid #007acc;background:#007acc;color:white;border-radius:4px;cursor:pointer;">수정 적용</button>
+        <button id="custom-css-apply" style="padding:8px 16px;border:1px solid #007acc;background:#007acc;color:white;border-radius:4px;cursor:pointer;">적용</button>
         <button id="custom-css-download" style="padding:8px 16px;border:1px solid #28a745;background:#28a745;color:white;border-radius:4px;cursor:pointer;">CSS 파일로 저장</button>
       </div>
     `;
@@ -1388,7 +1392,7 @@ function renderCustomCssEditor(cssText) {
     return `
       <textarea id="custom-css-area" style="width:100%;height:120px;font-family:monospace;background:#212121;color:#f8f8f2; margin-bottom:8px;">${cssText}</textarea>
       <div style="margin-bottom:16px;display:block;gap:8px;text-align:center;">
-        <button id="custom-css-apply" style="padding:8px 16px;border:1px solid #007acc;background:#007acc;color:white;border-radius:4px;cursor:pointer;">수정 적용</button>
+        <button id="custom-css-apply" style="padding:8px 16px;border:1px solid #007acc;background:#007acc;color:white;border-radius:4px;cursor:pointer;">적용</button>
         <button id="custom-css-download" style="padding:8px 16px;border:1px solid #28a745;background:#28a745;color:white;border-radius:4px;cursor:pointer;">CSS 파일로 저장</button>
       </div>
     `;
@@ -1479,7 +1483,7 @@ async function showInspector(element) {
       </div>
       <div id='css-define-section'>
         <strong>CSS 정의</strong>
-        ${classNames.length >= 2 ? '<div style="font-size:12px;color:#888;margin:4px 0;">💡 아래쪽에 출력되는 클래스일수록 우선순위가 높습니다</div>' : ''}
+        ${classNames.length >= 2 ? '<div style="font-size:12px;margin:4px 0;">💡 아래쪽에 출력되는 클래스일수록 우선순위가 높습니다</div>' : ''}
         <div id="css-define-edit-wrap" style="margin-top:8px;">
           
           ${classNames.map((cn, idx) => {
@@ -1503,7 +1507,7 @@ async function showInspector(element) {
               return `
                 <div style="margin-bottom:${marginBottom};">
                   <div class='css-class-name'>
-                    ▷ ${cn}
+                    ▷ .${cn}
                   </div>
                   <div id="css-edit-${idx}" style="width:100%;height:120px;border:1px solid #333;margin-bottom:4px;"></div>
                   <button class="css-apply-btn" data-idx="${idx}" data-classname="${cn}" style="margin-top:4px;">적용</button>
@@ -1513,7 +1517,7 @@ async function showInspector(element) {
               return `
                 <div style="margin-bottom:${marginBottom};">
                   <div class='css-class-name'>
-                    ▷ ${cn}
+                    ▷ .${cn}
                   </div>
                   <textarea id="css-edit-${idx}" style="width:100%;height:120px;font-family:monospace;background:#212121;color:#f8f8f2; margin-bottom:4px;">${cssText}</textarea>
                   <button class="css-apply-btn" data-idx="${idx}" data-classname="${cn}" style="margin-top:4px;">적용</button>
@@ -1669,7 +1673,7 @@ const styleArr = [
   'Date', 'Link', 'Img', 'Pass', 'Radio', 'Check', 'BoolX', 'Bool0', 'Bool1', 'Radio0Left', 
   'Radio1Left', 'Radio0Right', 'Radio1Right', 'RadioChecked', 'EnumHeaderLeft', 'EnumHeaderRight', 'MenuItemText',
   'PickMyUp', 'PickMyDown', 'PickBL', 'PickBR', 'PickSa', 'PickSu', 'PickCell', 'PickWDN', 'PickWD', 'PickOM', 'PickOM', 'PickNow', 
-  'PickSel', 'PickHover', 'Pick2BL', 'Pick2BR', 'Pick2YSel', 'Pick2YHover', 'Pick2M', 'Pick2MSel', 'Pick2MHover', 'Pick2Sep',
+  'PickSel', 'PickHover', 'Pick2BL', 'Pick2BR', 'Pick2YSel', 'Pick2YHover', 'Pick2Y', 'Pick2M', 'Pick2MSel', 'Pick2MHover', 'Pick2Sep',
   'Sort3Right', 'Sort2Right', 'Sort1Right', 'Sort6Right', 'Sort5Right', 'Sort4Right', 
   'Sort3Left', 'Sort2Left', 'Sort1Left', 'Sort6Left', 'Sort5Left', 'Sort4Left', 
   'FilterDialog0Right', 'FilterDialogSearchIcon', 'FocusRowBackground', 'ClassFocusedCell',

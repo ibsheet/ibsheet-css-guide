@@ -107,8 +107,9 @@ const tabs = document.querySelectorAll('.tab-btn');
 const tabContents = document.querySelectorAll('.tab-content');
 const contents = {
   'main-content': './html/tab-main.html',
-  'sort-content': './html/tab-sort.html',
-  'filter-content': './html/tab-filter.html',
+  // 'sort-content': './html/tab-sort.html',
+  // 'filter-content': './html/tab-filter.html',
+  'filternsort-content': './html/tab-filternsort.html',
   'focus-content': './html/tab-focus.html',
   'tree-content': './html/tab-tree.html',
   'subtotal-content': './html/tab-subtotal.html',

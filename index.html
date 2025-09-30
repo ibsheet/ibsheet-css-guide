@@ -31,7 +31,6 @@
     <div id="inspector-panel" class="inspector-panel">
       <div id="inspector-guide" class="inspector-guide">
         <div class="inspector-guide-content">
-          <div class="guide-icon">🔍</div>
           <h3>Inspector 가이드</h3>
           <p>IBSheet 요소를 클릭하면<br>스타일 정보를 확인할 수 있습니다.</p>
           <div class="guide-steps">
@@ -45,8 +44,11 @@
     <div class="main-area">
       <div class="tab-bar">
         <button class="tab-btn active" data-tab="main-content">기본</button>
+        <!--
         <button class="tab-btn" data-tab="sort-content">정렬</button>
         <button class="tab-btn" data-tab="filter-content">필터</button>
+        -->
+        <button class="tab-btn" data-tab="filternsort-content">필터와 정렬</button>
         <button class="tab-btn" data-tab="focus-content">포커스</button>
         <button class="tab-btn" data-tab="tree-content">트리</button>
         <button class="tab-btn" data-tab="subtotal-content">소계</button>
@@ -57,21 +59,14 @@
         <button class="tab-btn" data-tab="icon-content3">아이콘-헤더</button>
         <button class="tab-btn" data-tab="icon-content4">아이콘-필터</button>
         <button class="tab-btn" data-tab="icon-content5">아이콘-기타</button>
-
-        <select id="theme-selector">
-          <option value="" disabled selected>테마 선택</option>
-          <option value="default">Default</option>
-          <option value="grace">Grace</option>
-          <option value="gray">Gray</option>
-          <option value="material">Material</option>
-          <option value="mint">Mint</option>
-          <option value="simple">Simple</option>
-        </select>
       </div>
       <div id="tab-views" class="tab-content-area">
         <div class="tab-content active" id="main-content"></div>
+        <!--
         <div class="tab-content" id="sort-content"></div>
         <div class="tab-content" id="filter-content"></div>
+        -->
+        <div class="tab-content" id="filternsort-content"></div>
         <div class="tab-content" id="focus-content"></div>
         <div class="tab-content" id="tree-content"></div>
         <div class="tab-content" id="subtotal-content"></div>
@@ -82,6 +77,17 @@
         <div class="tab-content" id="icon-content4"></div>
         <div class="tab-content" id="icon-content5"></div>
       </div>
+    </div>
+    <div id="theme-selector-container" class="theme-selector-container">
+      <select id="theme-selector">
+        <option value="" disabled>테마 선택</option>
+        <option value="gray" selected>Gray</option>
+        <option value="default">Default</option>
+        <option value="grace">Grace</option>
+        <option value="material">Material</option>
+        <option value="mint">Mint</option>
+        <option value="simple">Simple</option>
+      </select>
     </div>
   </div>
 

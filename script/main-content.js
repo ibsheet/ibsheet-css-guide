@@ -76,15 +76,15 @@ if (MainContent) {
   if (mainSheetArea) {
     const mainSheetInfoAreas = mainSheetArea.querySelectorAll('.infoArea');
     const configs = [
-      { title: `.${prefixTheme}InfoRow`, description: '조회된 데이터의 개수나 페이지 네비게이션을 출력합니다.', classes: `.${prefixTheme}InfoRow, .${prefixTheme}InfoRow *`  },
-      { title: 'Header Cell', description: '각 컬럼의 헤더 정보를 출력하는 영역입니다.', classes: [{selector: `.${prefixTheme}HeaderText`}, {selector: `.${prefixTheme}CellHeader`}] },
+      { title: `.${prefixTheme}InfoRow`, description: '조회된 데이터의 개수나 페이지 네비게이션을 출력합니다.', classes: `.${prefixTheme}InfoRow, .${prefixTheme}InfoRow *`, placement: 'top' },
+      { title: 'Header Cell', description: '각 컬럼의 헤더 정보를 출력하는 영역입니다.', classes: [{selector: `.${prefixTheme}HeaderText`}, {selector: `.${prefixTheme}CellHeader`}], placement: 'left' },
       { title: 'Bool Header Cell', description: 'Header Check를 사용하는 Header Cell입니다.', classes: [{selector: `.${prefixTheme}Check0Left, .${prefixTheme}Check0Center, .${prefixTheme}Check0Right, .${prefixTheme}Check0Top, .${prefixTheme}Check0Bottom`}, {selector: `.${prefixTheme}Check1Left, .${prefixTheme}Check1Center, .${prefixTheme}Check1Right, .${prefixTheme}Check1Top, .${prefixTheme}Check1Bottom`}, {selector: `.${prefixTheme}Check2Left, .${prefixTheme}Check2Center, .${prefixTheme}Check2Right, .${prefixTheme}Check2Top, .${prefixTheme}Check2Bottom`}] },
       { title: 'Enum Type', description: 'Enum Type의 컬럼에서 사용되는 Class', classes: [{selector: `.${prefixTheme}EnumLeft, .${prefixTheme}EnumRight, .${prefixTheme}EnumTop, .${prefixTheme}EnumBottom`}, {selector: `.${prefixTheme}Enum`}] },
       { title: 'Date Type', description: 'Date Type의 컬럼에서 사용되는 Class', classes: `.${prefixTheme}Int, .${prefixTheme}Float, .${prefixTheme}Date` },
       { title: '달력 이미지', description: '클릭하여 달력을 실행하실 수 있습니다.', classes: `.${prefixTheme}Main .${prefixTheme}DateLeft, .${prefixTheme}Main .${prefixTheme}DatesLeft, .${prefixTheme}Main .${prefixTheme}DateRight, .${prefixTheme}Main .${prefixTheme}DatesRight, .${prefixTheme}Main .${prefixTheme}DateTop, .${prefixTheme}Main .${prefixTheme}DatesTop, .${prefixTheme}Main .${prefixTheme}DateBottom, .${prefixTheme}Main .${prefixTheme}DatesBottom` },
       { title: 'Radio Type', description: 'Radio Type의 컬럼에서 사용되는 Class', classes: [{selector: `.${prefixTheme}Lines, .${prefixTheme}Radio, .${prefixTheme}Html, .${prefixTheme}List`}, {selector: `.${prefixTheme}Radio0Left, .${prefixTheme}Radio0Right`}, {selector: `.${prefixTheme}Radio1Left, .${prefixTheme}Radio1Right`}, {selector: `.${prefixTheme}Radio2Left, .${prefixTheme}Radio2Right`}, {selector: `.${prefixTheme}Radio3Left, .${prefixTheme}Radio3Right`} ] },
-      { title: 'Alternate', description: '홀수, 짝수 행에 대하여 번갈아 가며 배경색을 다르게 설정하여 가독성을 높일 수 있는 기능<br>CSS 파일에서 .IBColorAlternate Class를 찾아 수정하시거나 시트 생성 시 Def.Row.AlternateColor를 통해 배경색을 지정할 수 있습니다.<br>Sample에서는 (Cfg) Alternate: 2로 설정되어 짝수행 마다 Alternate 배경색이 적용되고 있습니다.<br>※ AlternateColor는 inline-style로 적용되어 Class로 제어할 수 없습니다.', classes: `.${prefixTheme}ColorAlternate` },
-      { title: 'Text Type', description: 'Text Type의 컬럼에서 사용되는 Class', classes: `.${prefixTheme}Text` },
+      { title: 'Alternate', description: '홀수, 짝수 행에 대하여 번갈아 가며 배경색을 다르게 설정하여 가독성을 높일 수 있는 기능<br>CSS 파일에서 .IBColorAlternate Class를 찾아 수정하시거나 시트 생성 시 Def.Row.AlternateColor를 통해 배경색을 지정할 수 있습니다.<br>Sample에서는 (Cfg) Alternate: 2로 설정되어 짝수행 마다 Alternate 배경색이 적용되고 있습니다.<br>※ AlternateColor는 inline-style로 적용되어 Class로 제어할 수 없습니다.', classes: `.${prefixTheme}ColorAlternate`, placement: 'left' },
+      { title: 'Text Type', description: 'Text Type의 컬럼에서 사용되는 Class', classes: `.${prefixTheme}Text`, placement: 'left' },
       { title: 'Int Type', description: 'Int Type의 컬럼에서 사용되는 Class', classes: `.${prefixTheme}Int, .${prefixTheme}Float, .${prefixTheme}Date` },
       { title: 'Img Type', description: 'Img Type의 컬럼에서 사용되는 Class', classes: `.${prefixTheme}Img, .${prefixTheme}Html` },
       { title: 'Lines Type', description: 'Lines Type의 컬럼에서 사용되는 Class', classes: `.${prefixTheme}Lines, .${prefixTheme}Radio, .${prefixTheme}Html, .${prefixTheme}List` },
@@ -93,13 +93,14 @@ if (MainContent) {
       { title: 'Link Type', description: 'Link Type의 컬럼에서 사용되는 Class', classes: `.${prefixTheme}Link` },
       { title: 'Pass Type', description: 'Pass Type의 컬럼에서 사용되는 Class', classes: `.${prefixTheme}Pass` },
       { title: 'Bool Type', description: 'Bool Type의 컬럼에서 사용되는 Class', classes: [{selector: `.${prefixTheme}Bool`}, {selector: `.${prefixTheme}Bool0, .${prefixTheme}Bool0RO`}, {selector: `.${prefixTheme}Bool1, .${prefixTheme}Bool1RO`}, {selector: `.${prefixTheme}BoolX, .${prefixTheme}BoolXRO`}, {selector: `.${prefixTheme}Bool2, .${prefixTheme}Bool2RO`}, {selector: `.${prefixTheme}Bool3, .${prefixTheme}Bool3RO`} ] },
-      { title: 'SolidRow', description: 'Header나 Footer에 출력되는 고정 행', classes: `.${prefixTheme}SolidRow` }
+      { title: 'SolidRow', description: 'Header나 Footer에 출력되는 고정 행', classes: `.${prefixTheme}SolidRow`, placement: 'bottom' }
     ];
 
     configs.forEach((config, index) => {
       if (mainSheetInfoAreas[index]) {
         tippy(mainSheetInfoAreas[index], {
-          content: createTippyContent(config.title, config.description, config.classes)
+          content: createTippyContent(config.title, config.description, config.classes),
+          placement: config.placement ? config.placement : undefined
         });
       }
     });
@@ -128,14 +129,14 @@ if (MainContent) {
     const mainTab1InfoAreas = mainTab1Area.querySelectorAll('.infoArea');
     const tab1Configs = [
       { title: `.${prefixTheme}PickBL`, description: '이전 달로 이동', classes: `.${prefixTheme}PickBL` },
-      { title: `.${prefixTheme}PickBR`, description: '다음 달로 이동', classes: `.${prefixTheme}PickBR` },
-      { title: `.${prefixTheme}PickMYDown`, description: '년/월 달력 닫힘, 클릭 시 월 달력에서 년/월 달력으로 전환합니다.', classes: `.${prefixTheme}PickMYDown` },
+      { title: `.${prefixTheme}PickBR`, description: '다음 달로 이동', classes: `.${prefixTheme}PickBR`, placement: 'right' },
+      { title: `.${prefixTheme}PickMYDown`, description: '년/월 달력 닫힘, 클릭 시 월 달력에서 년/월 달력으로 전환합니다.', classes: `.${prefixTheme}PickMYDown`, placement: 'top' },
       { title: `.${prefixTheme}PickSu`, description: '일요일 표시', classes: `.${prefixTheme}PickWDN.${prefixTheme}PickSu` },
       { title: `.${prefixTheme}PickWDN`, description: '요일 표시', classes: `.${prefixTheme}PickWDN` },
-      { title: `.${prefixTheme}PickSa`, description: '토요일 표시', classes: `.${prefixTheme}PickWDN.${prefixTheme}PickSa` },
+      { title: `.${prefixTheme}PickSa`, description: '토요일 표시', classes: `.${prefixTheme}PickWDN.${prefixTheme}PickSa`, placement: 'right' },
       { title: `.${prefixTheme}PickOM`, description: '주간 표기 시 지난 달 혹은 다음 달 표시', classes: `.${prefixTheme}PickOM, .${prefixTheme}PickOMNE, .${prefixTheme}PickOM button` },
       { title: `.${prefixTheme}PickSel`, description: '선택 된 날짜', classes: `.${prefixTheme}PickSel, .${prefixTheme}Pick2MSel, .${prefixTheme}Pick2YSel` },
-      { title: `.${prefixTheme}PickHover`, description: 'Hover 상태인 날짜', classes: `.${prefixTheme}PickHover, .${prefixTheme}Pick2MHover, .${prefixTheme}Pick2YHover` },
+      { title: `.${prefixTheme}PickHover`, description: 'Hover 상태인 날짜', classes: `.${prefixTheme}PickHover, .${prefixTheme}Pick2MHover, .${prefixTheme}Pick2YHover`, placement: 'right' },
       { title: `.${prefixTheme}PickWD`, description: '이번 달 날짜 표시', classes: `.${prefixTheme}PickHover, .${prefixTheme}PickSelHover, .${prefixTheme}PickWD, .${prefixTheme}PickSa, .${prefixTheme}PickSu, .${prefixTheme}PickSel, .${prefixTheme}PickNow, .${prefixTheme}PickWDNE, .${prefixTheme}PickSaNE, .${prefixTheme}PickSuNE, .${prefixTheme}PickSelNE, .${prefixTheme}PickNowNE, .${prefixTheme}PickOM, .${prefixTheme}PickOMNE` },
       { title: `.${prefixTheme}PickNow`, description: '오늘 날짜 표시', classes: `.${prefixTheme}PickNow` },
     ];
@@ -143,7 +144,8 @@ if (MainContent) {
     tab1Configs.forEach((config, index) => {
       if (mainTab1InfoAreas[index]) {
         tippy(mainTab1InfoAreas[index], {
-          content: createTippyContent(config.title, config.description, config.classes)
+          content: createTippyContent(config.title, config.description, config.classes),
+          placement: config.placement ? config.placement : undefined
         });
       }
     });
@@ -155,22 +157,23 @@ if (MainContent) {
     const tab2Configs = [
       { title: `.${prefixTheme}PickBL`, description: '이전 달로 이동', classes: `.${prefixTheme}PickBL` },
       { title: `.${prefixTheme}PickBR`, description: '다음 달로 이동', classes: `.${prefixTheme}PickBR` },
-      { title: `.${prefixTheme}PickMYUp`, description: '년/월 달력 열림. 클릭 시 년/월 달력에서 월 달력으로 전환합니다.', classes: `.${prefixTheme}PickMYUp` },
+      { title: `.${prefixTheme}PickMYUp`, description: '년/월 달력 열림. 클릭 시 년/월 달력에서 월 달력으로 전환합니다.', classes: `.${prefixTheme}PickMYUp`, placement: 'top' },
       { title: `.${prefixTheme}Pick2BL`, description: '이전 년도로 이동', classes: `.${prefixTheme}Pick2BL` },
-      { title: `.${prefixTheme}Pick2BR`, description: '다음 년도로 이동', classes: `.${prefixTheme}Pick2BR` },
+      { title: `.${prefixTheme}Pick2BR`, description: '다음 년도로 이동', classes: `.${prefixTheme}Pick2BR`, placement: 'right' },
       { title: `.${prefixTheme}Pick2YHover`, description: '년월 달력에서 Hover 상태인 년도', classes: `.${prefixTheme}PickHover, .${prefixTheme}Pick2MHover, .${prefixTheme}Pick2YHover` },
       { title: `.${prefixTheme}IBPick2YSel`, description: '년월 달력에서 선택된 년도', classes: `.${prefixTheme}PickSel, .${prefixTheme}Pick2MSel, .${prefixTheme}Pick2YSel` },
-      { title: `.${prefixTheme}IBPick2MHover`, description: '년월 달력에서 Hover 상태인 월', classes: `.${prefixTheme}PickHover, .${prefixTheme}Pick2MHover, .${prefixTheme}Pick2YHover` },
-      { title: `.${prefixTheme}Pick2MSel`, description: '년월 달력에서 선택된 월', classes: `.${prefixTheme}PickSel, .${prefixTheme}Pick2MSel, .${prefixTheme}Pick2YSel` },
+      { title: `.${prefixTheme}IBPick2MHover`, description: '년월 달력에서 Hover 상태인 월', classes: `.${prefixTheme}PickHover, .${prefixTheme}Pick2MHover, .${prefixTheme}Pick2YHover`, placement: 'right' },
+      { title: `.${prefixTheme}Pick2MSel`, description: '년월 달력에서 선택된 월', classes: `.${prefixTheme}PickSel, .${prefixTheme}Pick2MSel, .${prefixTheme}Pick2YSel`, placement: 'right' },
       { title: `.${prefixTheme}Pick2Y`, description: '년월 달력에서 년도 출력 공통', classes: `.${prefixTheme}Pick2M, .${prefixTheme}Pick2Y` },
-      { title: `.${prefixTheme}Pick2M`, description: '년월 달력에서 월 출력 공통', classes: `.${prefixTheme}Pick2M, .${prefixTheme}Pick2Y` },
-      { title: `.${prefixTheme}DialogButton`, description: '확인 버튼', classes: `.${prefixTheme}DialogButton, u.${prefixTheme}SheetButton` }
+      { title: `.${prefixTheme}Pick2M`, description: '년월 달력에서 월 출력 공통', classes: `.${prefixTheme}Pick2M, .${prefixTheme}Pick2Y`, placement: 'right' },
+      { title: `.${prefixTheme}DialogButton`, description: '확인 버튼', classes: `.${prefixTheme}DialogButton, u.${prefixTheme}SheetButton`, placement: 'bottom' }
     ];
     
     tab2Configs.forEach((config, index) => {
       if (mainTab2InfoAreas[index]) {
         tippy(mainTab2InfoAreas[index], {
-          content: createTippyContent(config.title, config.description, config.classes)
+          content: createTippyContent(config.title, config.description, config.classes),
+          placement: config.placement ? config.placement : undefined
         });
       }
     });

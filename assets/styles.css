@@ -85,16 +85,23 @@ html, body {
   gap: 4px;
 }
 
+.theme-selector-container {
+  position: absolute;
+  top: 10px;
+  left: 13%;
+  z-index: 9999;
+}
+
 /* 테마 셀렉터 스타일 - 탭 버튼과 일관성 있는 디자인 */
 #theme-selector {
-  background: rgba(255, 255, 255, 0.7);
+  background: rgb(21 21 21 / 70%);
   backdrop-filter: blur(8px);
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  border: 1px solid rgb(115 115 115);
   padding: 12px 20px;
   cursor: pointer;
   font-size: 14px;
   font-weight: 500;
-  color: #4a5568;
+  color: #dfdfdf;
   border-radius: 10px;
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
@@ -115,6 +122,7 @@ html, body {
   background-position: right 12px center;
   background-size: 16px;
   padding-right: 40px;
+  margin: 0 auto;
 }
 
 #theme-selector::before {
@@ -291,57 +299,28 @@ html, body {
 
 /* Tab content 내부 요소들 스타일링 */
 .tab-content h2 {
-  color: #2c3e50;
+  color: #555; /* 중간 회색 텍스트 */
   font-size: 1.8rem;
   font-weight: 700;
   margin: 0 0 24px 0;
   padding-bottom: 12px;
-  border-bottom: 3px solid #3498db;
+  border-bottom: 3px solid #bbb; /* 테두리 색상 변경 */
   letter-spacing: -0.02em;
 }
 
 .tab-content .explain {
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  background: linear-gradient(135deg, #e6e6e6, #f9f9f9); /* 부드러운 그라데이션 배경 */
+  border-left: 4px solid #888; /* 더 세련된 회색 테두리 */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 약간의 그림자 추가 */
   padding: 16px 20px;
   margin: 20px 0;
   border-radius: 8px;
-  border-left: 4px solid #17a2b8;
-  font-size: 14px;
-  color: #495057;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  position: relative;
 }
 
 .tab-content .explain p {
   margin: 0;
   line-height: 1.5;
-}
-
-/* 설명 영역 스타일 개선 */
-.tab-content .explain {
-  background: linear-gradient(135deg, #e8f4fd 0%, #f0f8ff 100%);
-  padding: 20px 24px;
-  margin: 24px 0;
-  border-radius: 12px;
-  border-left: 4px solid #0d6efd;
-  font-size: 14px;
-  color: #495057;
-  box-shadow: 0 4px 12px rgba(13, 110, 253, 0.1);
-  position: relative;
-}
-
-.tab-content .explain::before {
-  content: "💡";
-  position: absolute;
-  top: 50%;
-  left: 10px;
-  transform: translateY(-50%);
-  font-size: 18px;
-}
-
-.tab-content .explain p {
-  margin: 0;
-  line-height: 1.6;
-  padding-left: 24px;
 }
 
 /* 구분선 추가 */
@@ -353,9 +332,13 @@ html, body {
 }
 
 .tab-content .infoArea {
-  box-shadow: inset 0 0 0 2px rgb(203 60 182);
+  box-shadow: inset 0 0 0 3px #cbcbcb;
   border-radius: 5px;
   box-sizing: border-box;
+}
+
+.tab-content .infoAreaRound {
+  border-radius: 12px !important;
 }
 
 .tab-content .tabSheetMainDivTag, .tab-content .tabFocusCursorTag {
@@ -368,15 +351,9 @@ html, body {
   padding: 32px 28px;
   box-sizing: border-box;
   text-align: center;
-  position: relative;
+  position: fixed;
   z-index: 2;
-}
-
-.inspector-guide-content .guide-icon {
-  font-size: 3em;
-  margin-bottom: 20px;
-  opacity: 0.8;
-  filter: grayscale(100%);
+  top: 30%;
 }
 
 .inspector-guide-content h3 {
@@ -447,7 +424,8 @@ html, body {
       rgba(255, 255, 255, 0.01) 0%, 
       transparent 50%);
   backdrop-filter: blur(40px) saturate(180%);
-  color: #ffffff;
+  /* color: #ffffff; */
+  color: #c6c6c6;
   z-index: 1000;
   box-shadow: 
     6px 0 40px rgba(0, 0, 0, 0.4),
@@ -458,7 +436,7 @@ html, body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'SF Pro Display', 'SF Pro Text', sans-serif;
   contain: none;
   border-radius: 0 24px 0 0;
-  animation: slideInLeft 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  /* animation: slideInLeft 0.6s cubic-bezier(0.4, 0, 0.2, 1); */
   overflow-y: auto;
 }
 
@@ -570,7 +548,8 @@ html, body {
 .inspector-panel strong {
   display: inline-block;
   font-size: 1.15em;
-  color: #ffffff;
+  /* color: #ffffff; */
+  color: #c6c6c6;
   font-weight: 700;
   margin-bottom: 16px;
   margin-top: 28px;
@@ -604,7 +583,7 @@ html, body {
   top: 0;
   bottom: 0;
   width: 3px;
-  background: linear-gradient(135deg, #2196f3 0%, #9c27b0 100%);
+  background: linear-gradient(135deg, #c6c6c6 0%, #272727 100%);
   border-radius: 0 2px 2px 0;
 }
 
@@ -675,13 +654,12 @@ html, body {
 .css-class-name {
   font-weight: 600;
   font-size: 1.1em;
-  color: #a5d6a7;
   margin: 6px 0 6px 0;
   padding: 6px 16px;
-  background: linear-gradient(135deg, rgba(129, 199, 132, 0.15) 0%, rgba(102, 187, 106, 0.15) 100%);
-  border: 1px solid rgba(129, 199, 132, 0.3);
+  background: linear-gradient(135deg, rgb(175 181 175 / 15%) 0%, rgb(105 108 105 / 15%) 100%);
+  border: 1px solid rgb(143 152 143 / 30%);
   border-radius: 8px;
-  border-left: 4px solid #81c784;
+  border-left: 4px solid #bebebe;
   position: relative;
   letter-spacing: -0.01em;
   backdrop-filter: blur(4px);
@@ -872,42 +850,17 @@ html, body {
 
 /* 버튼 스타일 - 개선된 디자인 */
 .css-apply-btn, #custom-css-apply, #custom-css-download {
-  background: linear-gradient(135deg, #64b5f6 0%, #42a5f5 100%);
-  color: white;
-  border: 1px solid rgba(255,255,255,0.2);
-  padding: 6px 12px;
-  border-radius: 6px;
+  padding: 0.5em 1em;
+  margin-bottom: 10px;
+  border: none;
+  border-bottom: 1px solid #ddd;
+  color: #222;
+  font-size: 0.92rem;
   cursor: pointer;
-  font-size: 11px;
-  font-weight: 500;
-  margin-top: 8px;
-  margin-right: 6px;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 
-    0 2px 6px rgba(100, 181, 246, 0.3),
-    inset 0 1px 0 rgba(255,255,255,0.2);
-  text-transform: uppercase;
-  letter-spacing: 0.3px;
-  font-family: inherit;
-}
-
-.css-apply-btn:hover, #custom-css-apply:hover {
-  background: linear-gradient(135deg, #42a5f5 0%, #2196f3 100%);
-  transform: translateY(-1px);
-  box-shadow: 
-    0 4px 12px rgba(66, 165, 245, 0.4),
-    inset 0 1px 0 rgba(255,255,255,0.3);
-}
-
-.css-apply-btn:active, #custom-css-apply:active {
-  transform: translateY(0);
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-}
-
-.css-apply-btn {
-  display: block !important;
-  margin: 6px auto !important;
-  text-align: center !important;
+  border-radius: 4px;
+  
+  width: 100%;
+  transition: background-color 0.25s ease-in-out;
 }
 
 /* 섹션 구분 */
@@ -1313,16 +1266,13 @@ body > .suggest-widget {
   background: 
     repeating-linear-gradient(
       -45deg,
-      rgba(34, 197, 94, 0.3) 0px,
-      rgba(34, 197, 94, 0.3) 10px,
-      rgba(74, 222, 128, 0.2) 10px,
-      rgba(74, 222, 128, 0.2) 20px
+      rgba(128, 128, 128, 0.3) 0px,
+      rgba(128, 128, 128, 0.3) 10px,
+      rgba(192, 192, 192, 0.2) 10px,
+      rgba(192, 192, 192, 0.2) 20px
     ) !important;
   background-attachment: fixed !important;
   animation: css-editing-shimmer 2s linear infinite !important;
-  box-shadow: 
-    inset 0 0 0 2px rgba(34, 197, 94, 0.6),
-    0 0 0 1px rgba(34, 197, 94, 0.3) !important;
   z-index: 50 !important;
 }
 
@@ -1338,9 +1288,6 @@ body > .suggest-widget {
     ) !important;
   background-attachment: fixed !important;
   animation: css-editing-shimmer 2s linear infinite !important;
-  box-shadow: 
-    inset 0 0 0 2px rgba(30, 144, 255, 0.6),
-    0 0 0 1px rgba(30, 144, 255, 0.3) !important;
   z-index: 50 !important;
 }
 
@@ -1410,4 +1357,12 @@ body > .suggest-widget {
 
 .monaco-editor .readonly-line:hover::after {
   opacity: 0.9;
+}
+
+.inspector-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 !important;
+  height: 70px;
 }
