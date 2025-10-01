@@ -184,10 +184,11 @@ async function loadMonacoEditor() {
     const monacoRequire = window.require;
     
     // Monaco Editor 경로 설정
+    const baseUrl = window.location.origin + window.location.pathname.replace(/\/[^/]*$/, '');
     monacoRequire.config({ 
       paths: { 
-        'vs': 'https://cdn.jsdelivr.net/npm/monaco-editor@0.52.0/min/vs' 
-        // 'vs': '/assets/monaco-editor/min/vs' // 로컬 경로로 설정
+        // 'vs': 'https://cdn.jsdelivr.net/npm/monaco-editor@0.52.0/min/vs' 
+        'vs': baseUrl + '/assets/monaco-editor/min/vs' // 절대 URL로 설정
       }
     });
     
@@ -1501,7 +1502,7 @@ async function showInspector(element) {
             }
             
             // 인덱스가 3 이상인 경우 마지막 div에 더 큰 margin-bottom 적용
-            const marginBottom = idx >= 2 && idx == classNames.length -1 ? '200px' : '16px';
+            const marginBottom = idx >= 2 && idx == classNames.length -1 ? '200px' : '10px';
             
             if (monacoLoaded) {
               return `
@@ -1509,7 +1510,7 @@ async function showInspector(element) {
                   <div class='css-class-name'>
                     ▷ .${cn}
                   </div>
-                  <div id="css-edit-${idx}" style="width:100%;height:120px;border:1px solid #333;margin-bottom:4px;"></div>
+                  <div id="css-edit-${idx}" style="width:100%;height:120px;border:1px solid #333;margin-bottom:8px;"></div>
                   <button class="css-apply-btn" data-idx="${idx}" data-classname="${cn}" style="margin-top:4px;">적용</button>
                 </div>
               `;

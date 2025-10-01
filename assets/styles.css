@@ -1,12 +1,3 @@
-/* 전역 애니메이션 설정 */
-* {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-*:hover {
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
 html, body {
   margin: 0;
   padding: 0;
@@ -27,8 +18,6 @@ html, body {
   grid-template-rows: 1fr;
   grid-template-columns: 420px 1fr;
   grid-template-areas: "inspector main-area";
-  /* height: 100vh; */
-  /* width: 100vw; */
   height: 1080px;
   width: 1920px;
   overflow: hidden;
@@ -103,7 +92,6 @@ html, body {
   font-weight: 500;
   color: #dfdfdf;
   border-radius: 10px;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   font-family: inherit;
   min-height: 44px;
@@ -133,7 +121,6 @@ html, body {
   width: 100%;
   height: 100%;
   background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.05), transparent);
-  transition: left 0.4s ease;
 }
 
 #theme-selector:hover::before {
@@ -177,7 +164,6 @@ html, body {
   font-weight: 500;
   color: #4a5568;
   border-radius: 10px;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   font-family: inherit;
   min-height: 44px;
@@ -281,20 +267,7 @@ html, body {
 }
 
 .tab-content.active { 
-  display: block; 
-  animation: slideInUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  /* overflow-x: auto; */
-}
-
-@keyframes slideInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  display: block;
 }
 
 /* Tab content 내부 요소들 스타일링 */
@@ -394,22 +367,10 @@ html, body {
   overflow: hidden; */
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 /* Inspector 패널 - 프리미엄 모노크롬 디자인 */
 .inspector-panel {
   grid-area: inspector;
   position: relative;
-  /* height: 100vh; */
   height: 1080px;
   background: 
     linear-gradient(145deg, 
@@ -424,7 +385,6 @@ html, body {
       rgba(255, 255, 255, 0.01) 0%, 
       transparent 50%);
   backdrop-filter: blur(40px) saturate(180%);
-  /* color: #ffffff; */
   color: #c6c6c6;
   z-index: 1000;
   box-shadow: 
@@ -436,19 +396,7 @@ html, body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'SF Pro Display', 'SF Pro Text', sans-serif;
   contain: none;
   border-radius: 0 24px 0 0;
-  /* animation: slideInLeft 0.6s cubic-bezier(0.4, 0, 0.2, 1); */
   overflow-y: auto;
-}
-
-@keyframes slideInLeft {
-  from {
-    transform: translateX(-100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
 }
 
 /* 프리미엄 스크롤바 디자인 */
@@ -487,11 +435,6 @@ html, body {
     0 2px 6px rgba(0, 0, 0, 0.4);
 }
 
-@keyframes shimmer {
-  0% { left: -100%; }
-  100% { left: 100%; }
-}
-
 .guide-steps {
   text-align: left;
   background: linear-gradient(135deg, 
@@ -511,7 +454,6 @@ html, body {
   padding-left: 20px;
   position: relative;
   line-height: 1.5;
-  transition: all 0.2s ease;
 }
 
 .step:last-child {
@@ -565,7 +507,6 @@ html, body {
   box-shadow: 
     0 4px 12px rgba(0, 0, 0, 0.2),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  transition: all 0.3s ease;
 }
 
 .inspector-panel strong:hover {
@@ -597,59 +538,6 @@ html, body {
   line-height: 1.6;
 }
 
-/* 프리미엄 리스트 스타일 */
-.inspector-panel ul {
-  margin: 16px 0;
-  padding-left: 0;
-  list-style-type: none;
-}
-
-.inspector-panel ul li {
-  position: relative;
-  padding: 10px 16px 10px 40px;
-  color: rgba(255, 255, 255, 0.85);
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 1.5;
-  margin-bottom: 8px;
-  background: linear-gradient(135deg, 
-    rgba(255, 255, 255, 0.03) 0%, 
-    rgba(255, 255, 255, 0.01) 100%);
-  border-radius: 8px;
-  border-left: 2px solid rgba(255, 255, 255, 0.1);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  backdrop-filter: blur(5px);
-}
-
-.inspector-panel ul li:hover {
-  color: #ffffff;
-  background: linear-gradient(135deg, 
-    rgba(255, 255, 255, 0.08) 0%, 
-    rgba(255, 255, 255, 0.04) 100%);
-  border-left-color: rgba(255, 255, 255, 0.4);
-  transform: translateX(4px);
-  box-shadow: 
-    0 4px 12px rgba(0, 0, 0, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
-}
-
-.inspector-panel ul li:before {
-  content: "⦿";
-  color: rgba(255, 255, 255, 0.6);
-  font-weight: normal;
-  font-size: 12px;
-  position: absolute;
-  left: 16px;
-  top: 50%;
-  transform: translateY(-50%);
-  transition: all 0.3s ease;
-}
-
-.inspector-panel ul li:hover:before {
-  color: rgba(255, 255, 255, 0.9);
-  transform: translateY(-50%) scale(1.2);
-}
-
 /* CSS 클래스 이름 스타일 - 개선된 디자인 */
 .css-class-name {
   font-weight: 600;
@@ -663,32 +551,6 @@ html, body {
   position: relative;
   letter-spacing: -0.01em;
   backdrop-filter: blur(4px);
-}
-
-/* Monaco Editor 컨테이너 - base64 배경 이미지 최적화 포함 */
-#custom-css-editor-container,
-[id^="css-edit-container-"] {
-  width: 100%;
-  height: 140px; /* 높이 20px 증가 */
-  margin: 12px 0;
-  border: 1px solid #505050;
-  border-radius: 8px;
-  overflow: visible; /* colorpicker가 표시될 수 있도록 변경 */
-  position: relative; /* 위젯 컨테이너 역할 */
-  z-index: 1001; /* inspector-panel보다 높게 설정 */
-  box-shadow: 
-    0 4px 12px rgba(0,0,0,0.3),
-    inset 0 1px 0 rgba(255,255,255,0.1);
-  backdrop-filter: blur(4px);
-  transition: all 0.2s ease;
-}
-
-#custom-css-editor-container:hover,
-[id^="css-edit-container-"]:hover {
-  border-color: #64b5f6;
-  box-shadow: 
-    0 4px 20px rgba(0,0,0,0.4),
-    0 0 0 1px rgba(100, 181, 246, 0.3);
 }
 
 /* CSS 에디터 */
@@ -705,47 +567,12 @@ html, body {
   font-size: 13px;
   line-height: 1.4;
   resize: vertical;
-  transition: border-color 0.2s ease;
 }
 
 .css-edit:focus {
   outline: none;
   border-color: #64b5f6;
   box-shadow: 0 0 0 2px rgba(100, 181, 246, 0.2);
-}
-
-/* 컬러 라벨 - 개선된 스타일 */
-.label-color {
-  display: flex;
-  align-items: center;
-  margin-bottom: 12px;
-  font-size: 0.9em;
-  padding: 8px 12px;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.05) 100%);
-  border-radius: 6px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  transition: all 0.2s ease;
-  backdrop-filter: blur(4px);
-}
-
-.label-color:hover {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.08) 100%);
-  border-color: rgba(255, 255, 255, 0.2);
-  transform: translateY(-1px);
-}
-
-.label-color input[type="color"] {
-  margin-left: 8px;
-  width: 32px;
-  height: 24px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: transform 0.2s ease;
-}
-
-.label-color input[type="color"]:hover {
-  transform: scale(1.1);
 }
 
 /* 코드 섹션 스타일 - Monaco Editor 스타일 */
@@ -858,9 +685,7 @@ html, body {
   font-size: 0.92rem;
   cursor: pointer;
   border-radius: 4px;
-  
   width: 100%;
-  transition: background-color 0.25s ease-in-out;
 }
 
 /* 섹션 구분 */
@@ -914,10 +739,7 @@ html, body {
 .monaco-editor .view-lines div,
 .monaco-editor .view-line,
 .monaco-editor .overflow-guard div,
-.monaco-editor .monaco-scrollable-element div,
-#custom-css-editor-container div,
-#css-edit-container div,
-[id*="css-edit-container"] div {
+.monaco-editor .monaco-scrollable-element div {
   margin-bottom: 0 !important;
   line-height: normal !important;
   font-size: 14px !important;
@@ -958,123 +780,6 @@ body > .monaco-hover + .monaco-hover {
 
 .monaco-editor .colorpicker-widget .colorpicker-body {
   background-color: black;
-}
-
-/* 반응형 디자인 - 작은 화면 */
-@media (max-width: 1200px) {
-  .container {
-    grid-template-columns: 360px 1fr;
-  }
-  
-  .inspector-panel h2 {
-    font-size: 1.3rem;
-    padding: 20px 16px 16px 16px;
-  }
-  
-  .inspector-panel > div {
-    padding: 0 16px 20px 16px;
-  }
-  
-  .tab-bar {
-    padding: 8px 16px;
-    gap: 2px;
-  }
-  
-  .tab-btn {
-    padding: 10px 18px;
-    font-size: 13px;
-    min-height: 40px;
-  }
-  
-  #theme-selector {
-    min-width: 130px;
-    font-size: 13px;
-    padding: 10px 18px;
-    padding-right: 36px;
-    min-height: 40px;
-  }
-}
-
-@media (max-width: 768px) {
-  .container {
-    grid-template-columns: 320px 1fr;
-  }
-  
-  .tab-btn {
-    padding: 8px 12px;
-    font-size: 12px;
-    min-height: 36px;
-    border-radius: 8px;
-  }
-  
-  .tab-bar {
-    height: 60px;
-    padding: 6px 12px;
-    gap: 1px;
-    overflow-x: auto;
-    overflow-y: hidden;
-    flex-wrap: nowrap;
-  }
-  
-  .tab-bar::-webkit-scrollbar {
-    height: 2px;
-  }
-  
-  .tab-bar::-webkit-scrollbar-thumb {
-    background: rgba(99, 102, 241, 0.3);
-    border-radius: 1px;
-  }
-  
-  .main-area {
-    grid-template-rows: 60px 1fr;
-  }
-  
-  #theme-selector {
-    min-width: 110px;
-    font-size: 12px;
-    padding: 8px 12px;
-    padding-right: 32px;
-    min-height: 36px;
-    border-radius: 8px;
-    background-size: 14px;
-    background-position: right 10px center;
-  }
-}
-
-@media (max-width: 480px) {
-  .container {
-    grid-template-columns: 280px 1fr;
-  }
-  
-  .tab-btn {
-    padding: 6px 10px;
-    font-size: 11px;
-    min-height: 32px;
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
-  
-  .tab-bar {
-    height: 50px;
-    padding: 4px 8px;
-    flex-wrap: wrap;
-    gap: 2px;
-  }
-  
-  .main-area {
-    grid-template-rows: 50px 1fr;
-  }
-  
-  #theme-selector {
-    min-width: 90px;
-    font-size: 11px;
-    padding: 6px 8px;
-    padding-right: 28px;
-    min-height: 32px;
-    background-size: 12px;
-    background-position: right 8px center;
-    flex-shrink: 0;
-  }
 }
 
 /* 스크롤바 전역 스타일링 */
@@ -1131,69 +836,6 @@ body > .monaco-hover + .monaco-hover {
     0 0 0 4px rgba(255, 255, 255, 0.3),
     0 4px 20px rgba(45, 55, 72, 0.4),
     0 1px 3px rgba(0, 0, 0, 0.2);
-}
-
-/* 색상 대비 개선 */
-.tab-btn {
-  color: #374151; /* 더 어두운 회색으로 대비 개선 */
-}
-
-.tab-btn:hover {
-  color: #1f2937; /* 호버 시 더 진한 색상 */
-}
-
-/* 고대비 모드 지원 */
-@media (prefers-contrast: high) {
-  .tab-btn {
-    border: 2px solid #374151;
-    color: #000000;
-  }
-  
-  .tab-btn:hover {
-    border-color: #4a5568;
-    background: #f7fafc;
-  }
-  
-  .tab-btn.active {
-    background: #2d3748;
-    border: 2px solid #2d3748;
-    color: #ffffff;
-  }
-  
-  .tab-btn:focus {
-    outline: 3px solid #4a5568;
-    outline-offset: 2px;
-  }
-  
-  #theme-selector {
-    border: 2px solid #374151;
-    color: #000000;
-    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000000' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
-  }
-  
-  #theme-selector:hover {
-    border-color: #4a5568;
-    background: #f7fafc;
-    color: #000000;
-    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000000' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
-    background-repeat: no-repeat;
-    background-position: right 12px center;
-    background-size: 16px;
-  }
-  
-  #theme-selector:focus {
-    outline: 3px solid #4a5568;
-    outline-offset: 2px;
-  }
-}
-
-/* 접근성 개선 */
-@media (prefers-reduced-motion: reduce) {
-  * {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
 }
 
 /* Monaco Editor 위젯이 inspector-content 영역 밖에서도 보이도록 설정 */
@@ -1272,7 +914,6 @@ body > .suggest-widget {
       rgba(192, 192, 192, 0.2) 20px
     ) !important;
   background-attachment: fixed !important;
-  animation: css-editing-shimmer 2s linear infinite !important;
   z-index: 50 !important;
 }
 
@@ -1287,17 +928,7 @@ body > .suggest-widget {
       rgba(100, 181, 246, 0.2) 20px
     ) !important;
   background-attachment: fixed !important;
-  animation: css-editing-shimmer 2s linear infinite !important;
   z-index: 50 !important;
-}
-
-@keyframes css-editing-shimmer {
-  0% {
-    background-position: 0 0;
-  }
-  100% {
-    background-position: 28px 28px;
-  }
 }
 
 .monaco-hover-content {
@@ -1357,12 +988,4 @@ body > .suggest-widget {
 
 .monaco-editor .readonly-line:hover::after {
   opacity: 0.9;
-}
-
-.inspector-header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 !important;
-  height: 70px;
 }

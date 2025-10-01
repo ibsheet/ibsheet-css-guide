@@ -196,8 +196,6 @@ tabs.forEach(tab => {
 
 // 최초 메인 탭 로드
 loadTab('main-content');
-// loadTab('group-content');
-// loadTab('icon-content1');
 
 document.getElementById('theme-selector').addEventListener('change', function() {
   const selectedTheme = this.value;
