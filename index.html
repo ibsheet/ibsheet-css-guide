@@ -2,9 +2,11 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <title>Element Inspector</title>
+  <title>IBSheetCSSGuide</title>
   <link rel="stylesheet" href="assets/styles.css" />
   <link rel="stylesheet" href="assets/tippy/light.css" />
+  <link rel="stylesheet" href="assets/tippy/svg-arrow.css" />
+  <link rel="stylesheet" href="assets/driver/driver.css" />
   <!--
   <link rel="stylesheet" href="https://demo.ibsheet.com/ibsheet/v8/samples/customer-sample/assets/ibsheet/css/default/main.css" crossorigin="anonymous"/>
   <link rel="stylesheet" href="https://demo.ibsheet.com/ibsheet/v8/samples/customer-sample/assets/ibsheet/css/grace/main.css" crossorigin="anonymous"/>
@@ -19,14 +21,21 @@
   <link rel="stylesheet" href="assets/ibsheet/css/mint/main.css" crossorigin="anonymous"/>
   <link rel="stylesheet" href="assets/ibsheet/css/simple/main.css" crossorigin="anonymous"/>
   <link rel="stylesheet" href="assets/ibsheet/css/gray/main.css" crossorigin="anonymous"/>
+  <link rel="stylesheet" href="assets/ibsheet/css/black/main.css" crossorigin="anonymous"/>
+  <link rel="stylesheet" href="assets/ibsheet/css/journal/main.css" crossorigin="anonymous"/>
   
-  <!--
   <script src="assets/ibsheet/ibsheet.js"></script>
   <script src="assets/ibsheet/locale/ko.js"></script>
-  -->
+
+  <script src="assets/ibsheet/plugins/ibsheet-common.js"></script>
+  <script src="assets/ibsheet/plugins/ibsheet-dialog.js"></script>
+  <script src="assets/ibsheet/plugins/ibsheet-excel.js"></script>  
 
 </head>
 <body>
+  <!-- 커스텀 마우스 커서 -->
+  <div id="customCursor"></div>
+  
   <div class="container">
     <div id="inspector-panel" class="inspector-panel">
       <div id="inspector-guide" class="inspector-guide">
@@ -34,48 +43,162 @@
           <h3>Inspector 가이드</h3>
           <p>IBSheet 요소를 클릭하면<br>스타일 정보를 확인할 수 있습니다.</p>
           <div class="guide-steps">
-            <div class="step">1. 표의 셀이나 헤더를 클릭</div>
-            <div class="step">2. 스타일 정보가 여기에 표시됩니다</div>
+            <div class="step">1. 각 탭에서 회색 색상의 영역을 가진 요소를 클릭</div>
+            <div class="step">2. 해당 영역의 스타일 정보가 여기에 표시됩니다</div>
             <div class="step">3. CSS를 직접 편집하고 적용 가능</div>
           </div>
         </div>
       </div>
     </div>
+    <div id="resize-divider" class="resize-divider"></div>
     <div class="main-area">
       <div class="tab-bar">
-        <button class="tab-btn active" data-tab="main-content">기본</button>
+        <button data-tab="tutorial-content"    class="tab-btn ">Tutorial</button>
+        <button data-tab="layout-content"      class="tab-btn ">기본 구조</button>
+        <button data-tab="header-content"      class="tab-btn ">헤더 영역</button>
+        <button data-tab="type-content"        class="tab-btn ">컬럼 타입</button>
+        <button data-tab="type2-content"       class="tab-btn ">기타 컬럼 타입</button>
+        <button data-tab="filternsort-content" class="tab-btn ">필터와 정렬</button>
+        <button data-tab="focus-content"       class="tab-btn ">포커스</button>
+        <button data-tab="tree-content"        class="tab-btn ">트리</button>
+        <button data-tab="subtotal-content"    class="tab-btn ">소계</button>
+        <button data-tab="group-content"       class="tab-btn ">그룹</button>
+        <button data-tab="icon-content"        class="tab-btn ">아이콘</button>
         <!--
-        <button class="tab-btn" data-tab="sort-content">정렬</button>
-        <button class="tab-btn" data-tab="filter-content">필터</button>
+        <button data-tab="style-content"       class="tab-btn ">스타일 적용</button>
         -->
-        <button class="tab-btn" data-tab="filternsort-content">필터와 정렬</button>
-        <button class="tab-btn" data-tab="focus-content">포커스</button>
-        <button class="tab-btn" data-tab="tree-content">트리</button>
-        <button class="tab-btn" data-tab="subtotal-content">소계</button>
-        <button class="tab-btn" data-tab="group-content">그룹</button>
-        
-        <button class="tab-btn" data-tab="icon-content1">아이콘-Bool, Radio컬럼</button>
-        <button class="tab-btn" data-tab="icon-content2">아이콘-기타 컬럼</button>
-        <button class="tab-btn" data-tab="icon-content3">아이콘-헤더</button>
-        <button class="tab-btn" data-tab="icon-content4">아이콘-필터</button>
-        <button class="tab-btn" data-tab="icon-content5">아이콘-기타</button>
+        <!--
+        <button data-tab="icon1-content"       class="tab-btn ">아이콘-Bool, Radio컬럼</button>
+        <button data-tab="icon2-content"       class="tab-btn ">아이콘-기타 컬럼</button>
+        <button data-tab="icon3-content"       class="tab-btn ">아이콘-헤더</button>
+        <button data-tab="icon4-content"       class="tab-btn ">아이콘-필터</button>
+        <button data-tab="icon5-content"       class="tab-btn ">아이콘-기타</button>
+        <button data-tab="aggrid-content"      class="tab-btn ">타사 Grid 테마 예제</button>
+        -->
+      </div>
+      <div class="theme-bar">
+        <div class="theme-preview-container">
+          <div class="theme-preview-item" data-theme="gray">
+            <div class="previewStyle">
+              <div class="customStyleView theme_gray"></div>
+            </div>
+            <!--
+            <div class="theme-preview-card">
+              <div class="preview-header">Gray</div>
+              <div class="preview-grid">
+                <div class="preview-cell header">Header</div>
+                <div class="preview-cell data">Data 1</div>
+                <div class="preview-cell data alt">Data 2</div>
+                <div class="preview-cell data">Data 3</div>
+              </div>
+            </div>
+            -->
+          </div>
+          <div class="theme-preview-item" data-theme="default">
+            <div class="previewStyle">
+              <div class="customStyleView theme_default"></div>
+            </div>
+            <!--
+            <div class="theme-preview-card">
+              <div class="preview-header">Default</div>
+              <div class="preview-grid">
+                <div class="preview-cell header">Header</div>
+                <div class="preview-cell data">Data 1</div>
+                <div class="preview-cell data alt">Data 2</div>
+                <div class="preview-cell data">Data 3</div>
+              </div>
+            </div>
+            -->
+          </div>
+          <div class="theme-preview-item" data-theme="grace">
+            <div class="previewStyle">
+              <div class="customStyleView theme_grace"></div>
+            </div>
+            <!--
+            <div class="theme-preview-card">
+              <div class="preview-header">Grace</div>
+              <div class="preview-grid">
+                <div class="preview-cell header">Header</div>
+                <div class="preview-cell data">Data 1</div>
+                <div class="preview-cell data alt">Data 2</div>
+                <div class="preview-cell data">Data 3</div>
+              </div>
+            </div>
+            -->
+          </div>
+          <div class="theme-preview-item" data-theme="material">
+            <div class="previewStyle">
+              <div class="customStyleView theme_material"></div>
+            </div>
+            <!--
+            <div class="theme-preview-card">
+              <div class="preview-header">Material</div>
+              <div class="preview-grid">
+                <div class="preview-cell header">Header</div>
+                <div class="preview-cell data">Data 1</div>
+                <div class="preview-cell data alt">Data 2</div>
+                <div class="preview-cell data">Data 3</div>
+              </div>
+            </div>
+            -->
+          </div>
+          <div class="theme-preview-item" data-theme="mint">
+            <div class="previewStyle">
+              <div class="customStyleView theme_mint"></div>
+            </div>
+            <!--
+            <div class="theme-preview-card">
+              <div class="preview-header">Mint</div>
+              <div class="preview-grid">
+                <div class="preview-cell header">Header</div>
+                <div class="preview-cell data">Data 1</div>
+                <div class="preview-cell data alt">Data 2</div>
+                <div class="preview-cell data">Data 3</div>
+              </div>
+            </div>
+            -->
+          </div>
+          <div class="theme-preview-item" data-theme="simple">
+            <div class="previewStyle">
+              <div class="customStyleView theme_simple"></div>
+            </div>
+            <!--
+            <div class="theme-preview-card">
+              <div class="preview-header">Simple</div>
+              <div class="preview-grid">
+                <div class="preview-cell header">Header</div>
+                <div class="preview-cell data">Data 1</div>
+                <div class="preview-cell data alt">Data 2</div>
+                <div class="preview-cell data">Data 3</div>
+              </div>
+            </div>
+            -->
+          </div>
+        </div>
       </div>
       <div id="tab-views" class="tab-content-area">
-        <div class="tab-content active" id="main-content"></div>
+        <div id="tutorial-content"    class="tab-content "></div>
+        <div id="layout-content"      class="tab-content "></div>
+        <div id="header-content"      class="tab-content "></div>
+        <div id="type-content"        class="tab-content "></div>
+        <div id="type2-content"       class="tab-content "></div>
+        <div id="filternsort-content" class="tab-content " ></div>
+        <div id="focus-content"       class="tab-content " ></div>
+        <div id="tree-content"        class="tab-content " ></div>
+        <div id="subtotal-content"    class="tab-content " ></div>
+        <div id="group-content"       class="tab-content " ></div>
+        <div id="icon-content"        class="tab-content " ></div>
         <!--
-        <div class="tab-content" id="sort-content"></div>
-        <div class="tab-content" id="filter-content"></div>
+        <div id="style-content"       class="tab-content " ></div>
         -->
-        <div class="tab-content" id="filternsort-content"></div>
-        <div class="tab-content" id="focus-content"></div>
-        <div class="tab-content" id="tree-content"></div>
-        <div class="tab-content" id="subtotal-content"></div>
-        <div class="tab-content" id="group-content"></div>
-        <div class="tab-content" id="icon-content1"></div>
-        <div class="tab-content" id="icon-content2"></div>
-        <div class="tab-content" id="icon-content3"></div>
-        <div class="tab-content" id="icon-content4"></div>
-        <div class="tab-content" id="icon-content5"></div>
+        <!--
+        <div id="icon1-content"       class="tab-content " ></div>
+        <div id="icon2-content"       class="tab-content " ></div>
+        <div id="icon3-content"       class="tab-content " ></div>
+        <div id="icon4-content"       class="tab-content " ></div>
+        <div id="icon5-content"       class="tab-content " ></div>
+        <div id="aggrid-content"      class="tab-content " ></div>
+        -->
       </div>
     </div>
     <div id="theme-selector-container" class="theme-selector-container">
@@ -97,6 +220,13 @@
   <script src="assets/css-utils.js"></script>
   <script src="assets/tippy-manager.js"></script>
   <script src="assets/css-highlighter.js"></script>
+  <script src="assets/gsap/gsap.min.js"></script>
+  <script src="assets/gsap/TextPlugin.min.js"></script>
+  <script src="assets/gsap/gsap_common.js"></script>
+  <!--
+  <script src="https://cdn.jsdelivr.net/npm/driver.js@latest/dist/driver.js.iife.js"></script>
+  -->
+  <script src="assets/driver/driver.js.iife.js"></script>
   <script src="index.js"></script>
   
   <!-- Monaco Editor CDN (다른 스크립트들 이후에 로드) -->

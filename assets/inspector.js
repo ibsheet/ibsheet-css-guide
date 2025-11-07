@@ -350,93 +350,93 @@ function createCustomCssEditor(containerId, value = '') {
       const lineCount = model.getLineCount();
       if (lineCount >= 2) {
         // 첫 번째 라인과 마지막 라인의 범위 설정
-        const readOnlyRanges = [
-          {
-            range: new window.monaco.Range(1, 1, 1, model.getLineMaxColumn(1)),
-            options: {
-              className: 'readonly-line',
-              isWholeLine: true
-            }
-          }
-        ];
+        // const readOnlyRanges = [
+        //   {
+        //     range: new window.monaco.Range(1, 1, 1, model.getLineMaxColumn(1)),
+        //     options: {
+        //       className: 'readonly-line',
+        //       isWholeLine: true
+        //     }
+        //   }
+        // ];
         
-        // 마지막 라인이 닫는 중괄호만 있는 경우에만 읽기 전용으로 설정
-        const lastLineContent = model.getLineContent(lineCount).trim();
-        if (lastLineContent === '}') {
-          readOnlyRanges.push({
-            range: new window.monaco.Range(lineCount, 1, lineCount, model.getLineMaxColumn(lineCount)),
-            options: {
-              className: 'readonly-line',
-              isWholeLine: true
-            }
-          });
-        }
+        // // 마지막 라인이 닫는 중괄호만 있는 경우에만 읽기 전용으로 설정
+        // const lastLineContent = model.getLineContent(lineCount).trim();
+        // if (lastLineContent === '}') {
+        //   readOnlyRanges.push({
+        //     range: new window.monaco.Range(lineCount, 1, lineCount, model.getLineMaxColumn(lineCount)),
+        //     options: {
+        //       className: 'readonly-line',
+        //       isWholeLine: true
+        //     }
+        //   });
+        // }
         
         // 키보드 입력 제한
         editor.onKeyDown((e) => {
-          const position = editor.getPosition();
-          if (position) {
-            const lineNumber = position.lineNumber;
-            const currentModel = editor.getModel();
+          // const position = editor.getPosition();
+          // if (position) {
+          //   const lineNumber = position.lineNumber;
+          //   const currentModel = editor.getModel();
 
-            if (currentModel) {
-              const currentLineCount = currentModel.getLineCount();
-              const lastLineContent = currentModel.getLineContent(currentLineCount).trim();
-              const currentLineContent = currentModel.getLineContent(lineNumber).trim();
-              const beforeLineContent = lineNumber > 1 ? currentModel.getLineContent(lineNumber - 1).trim() : '';
+          //   if (currentModel) {
+          //     const currentLineCount = currentModel.getLineCount();
+          //     const lastLineContent = currentModel.getLineContent(currentLineCount).trim();
+          //     const currentLineContent = currentModel.getLineContent(lineNumber).trim();
+          //     const beforeLineContent = lineNumber > 1 ? currentModel.getLineContent(lineNumber - 1).trim() : '';
               
-              // 첫 번째 라인이나 마지막 라인(닫는 중괄호)에서 편집 시도 시 차단
-              if (lineNumber === 1 || (lineNumber === currentLineCount && lastLineContent === '}') || (beforeLineContent && beforeLineContent.startsWith('.') && currentLineContent === '{') || (beforeLineContent === '' && currentLineContent.startsWith('.')) || (currentLineContent.startsWith('}') && currentLineContent.endsWith('}')) ) {
-                // 방향키, 복사, 선택 등은 허용
-                const allowedKeys = [
-                  window.monaco.KeyCode.UpArrow,
-                  window.monaco.KeyCode.DownArrow,
-                  window.monaco.KeyCode.LeftArrow,
-                  window.monaco.KeyCode.RightArrow,
-                  window.monaco.KeyCode.Home,
-                  window.monaco.KeyCode.End,
-                  window.monaco.KeyCode.PageUp,
-                  window.monaco.KeyCode.PageDown,
-                  window.monaco.KeyCode.Tab,
-                  window.monaco.KeyCode.Escape
-                ];
+          //     // 첫 번째 라인이나 마지막 라인(닫는 중괄호)에서 편집 시도 시 차단
+          //     if (lineNumber === 1 || (lineNumber === currentLineCount && lastLineContent === '}') || (beforeLineContent && beforeLineContent.startsWith('.') && currentLineContent === '{') || (beforeLineContent === '' && currentLineContent.startsWith('.')) || (currentLineContent.startsWith('}') && currentLineContent.endsWith('}')) ) {
+          //       // 방향키, 복사, 선택 등은 허용
+          //       const allowedKeys = [
+          //         window.monaco.KeyCode.UpArrow,
+          //         window.monaco.KeyCode.DownArrow,
+          //         window.monaco.KeyCode.LeftArrow,
+          //         window.monaco.KeyCode.RightArrow,
+          //         window.monaco.KeyCode.Home,
+          //         window.monaco.KeyCode.End,
+          //         window.monaco.KeyCode.PageUp,
+          //         window.monaco.KeyCode.PageDown,
+          //         window.monaco.KeyCode.Tab,
+          //         window.monaco.KeyCode.Escape
+          //       ];
                 
-                // Ctrl 키 조합 (복사, 붙여넣기 등)은 허용하되 편집은 차단
-                if (e.ctrlKey || e.metaKey) {
-                  if (e.keyCode === window.monaco.KeyCode.KeyV || 
-                      e.keyCode === window.monaco.KeyCode.KeyX ||
-                      e.keyCode === window.monaco.KeyCode.Backspace ||
-                      e.keyCode === window.monaco.KeyCode.Delete) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                  }
-                } else if (!allowedKeys.includes(e.keyCode)) {
-                  e.preventDefault();
-                  e.stopPropagation();
-                }
-              }
-            }
-          }
+          //       // Ctrl 키 조합 (복사, 붙여넣기 등)은 허용하되 편집은 차단
+          //       if (e.ctrlKey || e.metaKey) {
+          //         if (e.keyCode === window.monaco.KeyCode.KeyV || 
+          //             e.keyCode === window.monaco.KeyCode.KeyX ||
+          //             e.keyCode === window.monaco.KeyCode.Backspace ||
+          //             e.keyCode === window.monaco.KeyCode.Delete) {
+          //           e.preventDefault();
+          //           e.stopPropagation();
+          //         }
+          //       } else if (!allowedKeys.includes(e.keyCode)) {
+          //         e.preventDefault();
+          //         e.stopPropagation();
+          //       }
+          //     }
+          //   }
+          // }
         });
         
         // 붙여넣기 차단
         editor.onDidPaste((e) => {
-          const position = editor.getPosition();
-          if (position) {
-            const lineNumber = position.lineNumber;
-            const currentModel = editor.getModel();
-            if (currentModel) {
-              const currentLineCount = currentModel.getLineCount();
-              const lastLineContent = currentModel.getLineContent(currentLineCount).trim();
+          // const position = editor.getPosition();
+          // if (position) {
+          //   const lineNumber = position.lineNumber;
+          //   const currentModel = editor.getModel();
+          //   if (currentModel) {
+          //     const currentLineCount = currentModel.getLineCount();
+          //     const lastLineContent = currentModel.getLineContent(currentLineCount).trim();
               
-              if (lineNumber === 1 || (lineNumber === currentLineCount && lastLineContent === '}')) {
-                // 붙여넣기 실행 취소
-                setTimeout(() => {
-                  editor.trigger('undo', 'undo', null);
-                }, 10);
-              }
-            }
-          }
+          //     if (lineNumber === 1 || (lineNumber === currentLineCount && lastLineContent === '}')) {
+          //       // 붙여넣기 실행 취소
+          //       setTimeout(() => {
+          //         editor.trigger('undo', 'undo', null);
+          //       }, 10);
+          //     }
+          //   }
+          // }
         });
       }
     }
@@ -497,6 +497,16 @@ function createCustomCssEditor(containerId, value = '') {
         console.warn('Error in blur event handler:', error);
       }
     });
+
+    let timeout;
+    // CustomCss 내용 변경 이벤트 핸들러 추가, 2초 디바운스, 2000ms이내에 새로운 입력이 없으면 적용
+    editor.onDidChangeModelContent(() => {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        // 에디터 내용 전체를 스타일에 적용
+        applyCustomCssFromEditor();
+      }, 2000);
+    });
     
     // 커서 위치 변경 이벤트 핸들러 추가 - 안전한 model 접근
     editor.onDidChangeCursorPosition(() => {
@@ -509,25 +519,26 @@ function createCustomCssEditor(containerId, value = '') {
             const currentLine = position.lineNumber;
             let cssBlock = '';
             
+            // 커스텀css 수정 전체 허용
             // 현재 라인부터 위로 올라가면서 클래스 선택자 찾기
-            for (let i = currentLine; i >= 1; i--) {
-              const lineContent = model.getLineContent(i);
-              cssBlock = lineContent + '\n' + cssBlock;
+            // for (let i = currentLine; i >= 1; i--) {
+            //   const lineContent = model.getLineContent(i);
+            //   cssBlock = lineContent + '\n' + cssBlock;
               
-              if (lineContent.includes('{')) {
-                break;
-              }
-            }
+            //   if (lineContent.includes('{')) {
+            //     break;
+            //   }
+            // }
             
-            // 현재 라인부터 아래로 내려가면서 닫는 브래킷 찾기
-            for (let i = currentLine + 1; i <= model.getLineCount(); i++) {
-              const lineContent = model.getLineContent(i);
-              cssBlock += lineContent + '\n';
+            // // 현재 라인부터 아래로 내려가면서 닫는 브래킷 찾기
+            // for (let i = currentLine + 1; i <= model.getLineCount(); i++) {
+            //   const lineContent = model.getLineContent(i);
+            //   cssBlock += lineContent + '\n';
               
-              if (lineContent.includes('}')) {
-                break;
-              }
-            }
+            //   if (lineContent.includes('}')) {
+            //     break;
+            //   }
+            // }
             
             const extractedClassName = extractClassNameFromCSS(cssBlock.trim());
             if (extractedClassName) {
@@ -612,93 +623,93 @@ function createClassCssEditor(containerId, value = '', className = '') {
       const lineCount = model.getLineCount();
       if (lineCount >= 2) {
         // 첫 번째 라인과 마지막 라인의 범위 설정
-        const readOnlyRanges = [
-          {
-            range: new window.monaco.Range(1, 1, 1, model.getLineMaxColumn(1)),
-            options: {
-              className: 'readonly-line',
-              isWholeLine: true
-            }
-          }
-        ];
+        // const readOnlyRanges = [
+        //   {
+        //     range: new window.monaco.Range(1, 1, 1, model.getLineMaxColumn(1)),
+        //     options: {
+        //       className: 'readonly-line',
+        //       isWholeLine: true
+        //     }
+        //   }
+        // ];
         
-        // 마지막 라인이 닫는 중괄호만 있는 경우에만 읽기 전용으로 설정
-        const lastLineContent = model.getLineContent(lineCount).trim();
-        if (lastLineContent === '}') {
-          readOnlyRanges.push({
-            range: new window.monaco.Range(lineCount, 1, lineCount, model.getLineMaxColumn(lineCount)),
-            options: {
-              className: 'readonly-line',
-              isWholeLine: true
-            }
-          });
-        }
+        // // 마지막 라인이 닫는 중괄호만 있는 경우에만 읽기 전용으로 설정
+        // const lastLineContent = model.getLineContent(lineCount).trim();
+        // if (lastLineContent === '}') {
+        //   readOnlyRanges.push({
+        //     range: new window.monaco.Range(lineCount, 1, lineCount, model.getLineMaxColumn(lineCount)),
+        //     options: {
+        //       className: 'readonly-line',
+        //       isWholeLine: true
+        //     }
+        //   });
+        // }
         
         // 키보드 입력 제한
         editor.onKeyDown((e) => {
-          const position = editor.getPosition();
-          if (position) {
-            const lineNumber = position.lineNumber;
-            const currentModel = editor.getModel();
+          // const position = editor.getPosition();
+          // if (position) {
+          //   const lineNumber = position.lineNumber;
+          //   const currentModel = editor.getModel();
 
-            if (currentModel) {
-              const currentLineCount = currentModel.getLineCount();
-              const lastLineContent = currentModel.getLineContent(currentLineCount).trim();
-              const currentLineContent = currentModel.getLineContent(lineNumber).trim();
-              const beforeLineContent = lineNumber > 1 ? currentModel.getLineContent(lineNumber - 1).trim() : '';
+          //   if (currentModel) {
+          //     const currentLineCount = currentModel.getLineCount();
+          //     const lastLineContent = currentModel.getLineContent(currentLineCount).trim();
+          //     const currentLineContent = currentModel.getLineContent(lineNumber).trim();
+          //     const beforeLineContent = lineNumber > 1 ? currentModel.getLineContent(lineNumber - 1).trim() : '';
               
-              // 첫 번째 라인이나 마지막 라인(닫는 중괄호)에서 편집 시도 시 차단
-              if (lineNumber === 1 || (lineNumber === currentLineCount && lastLineContent === '}') || (beforeLineContent && beforeLineContent.startsWith('.') && currentLineContent === '{')) {
-                // 방향키, 복사, 선택 등은 허용
-                const allowedKeys = [
-                  window.monaco.KeyCode.UpArrow,
-                  window.monaco.KeyCode.DownArrow,
-                  window.monaco.KeyCode.LeftArrow,
-                  window.monaco.KeyCode.RightArrow,
-                  window.monaco.KeyCode.Home,
-                  window.monaco.KeyCode.End,
-                  window.monaco.KeyCode.PageUp,
-                  window.monaco.KeyCode.PageDown,
-                  window.monaco.KeyCode.Tab,
-                  window.monaco.KeyCode.Escape
-                ];
+          //     // 첫 번째 라인이나 마지막 라인(닫는 중괄호)에서 편집 시도 시 차단
+          //     if (lineNumber === 1 || (lineNumber === currentLineCount && lastLineContent === '}') || (beforeLineContent && beforeLineContent.startsWith('.') && currentLineContent === '{')) {
+          //       // 방향키, 복사, 선택 등은 허용
+          //       const allowedKeys = [
+          //         window.monaco.KeyCode.UpArrow,
+          //         window.monaco.KeyCode.DownArrow,
+          //         window.monaco.KeyCode.LeftArrow,
+          //         window.monaco.KeyCode.RightArrow,
+          //         window.monaco.KeyCode.Home,
+          //         window.monaco.KeyCode.End,
+          //         window.monaco.KeyCode.PageUp,
+          //         window.monaco.KeyCode.PageDown,
+          //         window.monaco.KeyCode.Tab,
+          //         window.monaco.KeyCode.Escape
+          //       ];
                 
-                // Ctrl 키 조합 (복사, 붙여넣기 등)은 허용하되 편집은 차단
-                if (e.ctrlKey || e.metaKey) {
-                  if (e.keyCode === window.monaco.KeyCode.KeyV || 
-                      e.keyCode === window.monaco.KeyCode.KeyX ||
-                      e.keyCode === window.monaco.KeyCode.Backspace ||
-                      e.keyCode === window.monaco.KeyCode.Delete) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                  }
-                } else if (!allowedKeys.includes(e.keyCode)) {
-                  e.preventDefault();
-                  e.stopPropagation();
-                }
-              }
-            }
-          }
+          //       // Ctrl 키 조합 (복사, 붙여넣기 등)은 허용하되 편집은 차단
+          //       if (e.ctrlKey || e.metaKey) {
+          //         if (e.keyCode === window.monaco.KeyCode.KeyV || 
+          //             e.keyCode === window.monaco.KeyCode.KeyX ||
+          //             e.keyCode === window.monaco.KeyCode.Backspace ||
+          //             e.keyCode === window.monaco.KeyCode.Delete) {
+          //           e.preventDefault();
+          //           e.stopPropagation();
+          //         }
+          //       } else if (!allowedKeys.includes(e.keyCode)) {
+          //         e.preventDefault();
+          //         e.stopPropagation();
+          //       }
+          //     }
+          //   }
+          // }
         });
         
         // 붙여넣기 차단
         editor.onDidPaste((e) => {
-          const position = editor.getPosition();
-          if (position) {
-            const lineNumber = position.lineNumber;
-            const currentModel = editor.getModel();
-            if (currentModel) {
-              const currentLineCount = currentModel.getLineCount();
-              const lastLineContent = currentModel.getLineContent(currentLineCount).trim();
+          // const position = editor.getPosition();
+          // if (position) {
+          //   const lineNumber = position.lineNumber;
+          //   const currentModel = editor.getModel();
+          //   if (currentModel) {
+          //     const currentLineCount = currentModel.getLineCount();
+          //     const lastLineContent = currentModel.getLineContent(currentLineCount).trim();
               
-              if (lineNumber === 1 || (lineNumber === currentLineCount && lastLineContent === '}')) {
-                // 붙여넣기 실행 취소
-                setTimeout(() => {
-                  editor.trigger('undo', 'undo', null);
-                }, 10);
-              }
-            }
-          }
+          //     if (lineNumber === 1 || (lineNumber === currentLineCount && lastLineContent === '}')) {
+          //       // 붙여넣기 실행 취소
+          //       setTimeout(() => {
+          //         editor.trigger('undo', 'undo', null);
+          //       }, 10);
+          //     }
+          //   }
+          // }
         });
       }
     }
@@ -728,6 +739,12 @@ function createClassCssEditor(containerId, value = '', className = '') {
         // 에디터 컨테이너의 상단에 있는 .css-class-name에서 클래스명 추출
         const className = getClassNameFromEditorContainer(editor);
         if (className) {
+          // if (tuto3) {
+          //   console.log('tuto3Hide :', tuto3Hide);
+          //   if (tuto3Hide) {
+          //     tuto3Hide();
+          //   }
+          // }
           applyHighlightToClass(className);
         }
       } catch (error) {
@@ -742,6 +759,16 @@ function createClassCssEditor(containerId, value = '', className = '') {
       } catch (error) {
         console.warn('Error in blur event handler for class editor:', error);
       }
+    });
+
+    let timeout;
+    // ClassCss 내용 변경 이벤트 핸들러 추가, 2초 디바운스, 2000ms이내에 새로운 입력이 없으면 적용
+    editor.onDidChangeModelContent(() => {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        // 에디터 내용 전체를 스타일에 적용
+        applyClassCssFromEditor(editor);
+      }, 2000);
     });
     
     // 내용 변경 이벤트 핸들러 추가 (실시간으로 클래스명 변경 감지) - 안전한 model 접근
@@ -766,6 +793,30 @@ function createClassCssEditor(containerId, value = '', className = '') {
         console.warn('Error in content change handler for class editor:', error);
       }
     });
+
+    // editor.onDidBlurEditorText(() => {
+    //   try {
+    //     console.log('@@@ onDidBlurEditorText called');
+    //   } catch (error) {
+    //     console.warn('Error in blur event handler for class editor:', error);
+    //   }
+    // });
+
+    // editor.onDidBlurEditorWidget(() => {
+    //   try {
+    //     console.log('@@@ onDidBlurEditorWidget called');
+    //   } catch (error) {
+    //     console.warn('Error in blur event handler for class editor:', error);
+    //   }
+    // });
+
+    // editor.onMouseLeave(() => {
+    //   try {
+    //     console.log('@@@ onMouseLeave called');
+    //   } catch (error) {
+    //     console.warn('Error in mouse leave event handler for class editor:', error);
+    //   }
+    // });
     
     // 레이아웃 강제 업데이트
     setTimeout(() => {
@@ -808,9 +859,150 @@ function disposeCssEditors() {
   cssClassEditors.clear();
 }
 
+function applyCustomCssFromEditor() {
+  if (customCssEditor) {
+    const newCSS = customCssEditor.getValue();
+    const styleElem = ensureCustomStyleTag();
+    styleElem.textContent = newCSS;
+
+    // IBColorAlternate 클래스들을 찾아서 background-color 적용
+    const colorAlternateMatches = newCSS.match(/\.([A-Za-z0-9_-]*ColorAlternate[A-Za-z0-9_-]*)\s*\{[^}]*\}/g);
+    if (colorAlternateMatches) {
+      colorAlternateMatches.forEach(match => {
+        const classNameMatch = match.match(/\.([A-Za-z0-9_-]*ColorAlternate[A-Za-z0-9_-]*)/);
+        if (classNameMatch) {
+          applyAlternateBackgroundColor(classNameMatch[1], match);
+        }
+      });
+    }
+
+    const colorReadOnlyMatches = newCSS.match(/\.([A-Za-z0-9_-]*ColorReadOnly[A-Za-z0-9_-]*)\s*\{[^}]*\}/g);
+    if (colorReadOnlyMatches) {
+      colorReadOnlyMatches.forEach(match => {
+        const classNameMatch = match.match(/\.([A-Za-z0-9_-]*ColorReadOnly[A-Za-z0-9_-]*)/);
+        if (classNameMatch) {
+          applyReadOnlyBackgroundColor(classNameMatch[1], match);
+        }
+      });
+    }
+
+    const panel = document.getElementById("inspector-panel");
+
+    // 커스텀 CSS 영역 리렌더 및 바인딩 재설정
+    const customCssWrap = panel.querySelector('#custom-css-edit-wrap');
+    customCssWrap.innerHTML = renderCustomCssEditor(newCSS);
+    
+    // 기존 에디터 정리 후 새로 생성
+    if (customCssEditor) {
+      customCssEditor.dispose();
+    }
+    setTimeout(() => {
+      customCssEditor = createCustomCssEditor('custom-css-editor', newCSS);
+      // bindCustomCssApplyButton();
+      bindCustomCssDownloadButton();
+    }, 100);
+  }
+}
+
+function applyClassCssFromEditor(editor) {
+  const styleElem = ensureCustomStyleTag();
+  const panel = document.getElementById("inspector-panel");
+
+  // const idx = btn.getAttribute('data-idx');
+  // const className = btn.getAttribute('data-classname');
+  // const editor = cssClassEditors.get(className);
+        
+  if (editor) {
+    const cssText = editor.getValue();
+    
+    const classNameMatch = cssText.match(/^\s*\.([A-Za-z0-9_-]+)(?:\s*,\s*[^{]*)*\s*\{/);
+    if (!classNameMatch) return;
+    const extractedClassName = classNameMatch[1];
+
+    // 기본 CSS에서 해당 클래스의 정의를 가져옴
+    const defaultClassCSS = getDefaultClassCSS(extractedClassName, cssRules);
+    
+    // 현재 CSS 텍스트와 기본 CSS를 비교
+    if (defaultClassCSS && isSameCSSContent(cssText, defaultClassCSS)) {
+      // 동일한 내용이면 커스텀 CSS에서 제거
+      let customCSS = styleElem.textContent || "";
+      customCSS = removeClassFromCustomCSS(customCSS, extractedClassName);
+      styleElem.textContent = customCSS;
+      
+      console.log(`클래스 .${extractedClassName}이(가) 기본 CSS와 동일하여 커스텀 CSS에서 제거되었습니다.`);
+      
+      // 사용자에게 시각적 피드백 제공
+      // btn.textContent = '제거됨';
+      // btn.style.setProperty('background', '#dc3545', 'important');
+      // btn.style.color = 'white';
+      // setTimeout(() => {
+      //   btn.textContent = '적용';
+      //   btn.style.removeProperty('background');
+      //   btn.style.removeProperty('color');
+      // }, 1000);
+    } else {
+      // 다른 내용이면 기존 로직대로 추가/수정
+      let customCSS = styleElem.textContent || "";
+      
+      const escapedClassName = extractedClassName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const regex = new RegExp(`\\.${escapedClassName}(?:\\s*,\\s*[^{]*)*\\s*\\{[^}]*\\}`, 'g');
+      
+      if (regex.test(customCSS)) {
+        customCSS = customCSS.replace(regex, cssText);
+      } else {
+        customCSS += (customCSS.trim() ? '\n\n' : '') + cssText;
+      }
+      
+      styleElem.textContent = customCSS;
+      
+      // IBColorAlternate의 background-color를 IBClassAlternate > td에 적용
+      applyAlternateBackgroundColor(extractedClassName, cssText);
+      applyReadOnlyBackgroundColor(extractedClassName, cssText);
+      
+      // 사용자에게 시각적 피드백 제공
+      // btn.textContent = '적용됨';
+      // btn.style.setProperty('background', '#28a745', 'important');
+      // btn.style.color = 'white';
+      // setTimeout(() => {
+      //   btn.textContent = '적용';
+      //   btn.style.removeProperty('background');
+      //   btn.style.removeProperty('color');
+      // }, 1000);
+    }
+    
+    // 커스텀 CSS 영역만 리렌더
+    const customCssWrap = panel.querySelector('#custom-css-edit-wrap');
+    customCssWrap.innerHTML = renderCustomCssEditor(styleElem.textContent);
+    
+    // 커스텀 CSS 에디터 재생성
+    if (customCssEditor) {
+      customCssEditor.dispose();
+    }
+    setTimeout(() => {
+      customCssEditor = createCustomCssEditor('custom-css-editor', styleElem.textContent);
+      // bindCustomCssApplyButton();
+      bindCustomCssDownloadButton();
+    }, 100);
+  }
+}
+
+// "CSS 파일로 저장" 버튼
+function bindCustomCssDownloadButton() {
+  const downloadBtn = document.getElementById('custom-css-download');
+  if (downloadBtn) {
+    downloadBtn.onclick = () => {
+      if (customCssEditor) {
+        const cssContent = customCssEditor.getValue();
+        downloadCSSFile(cssContent);
+      }
+    };
+  }
+}
+
 // Monaco Editor용 이벤트 바인딩
 function bindMonacoEditorEvents(panel, styleElem, classNames, classCSS, cssRules) {
   // "수정 적용" 버튼: Monaco Editor 값 전체를 styleElem에 반영
+  /*
   function bindCustomCssApplyButton() {
     const applyBtn = document.getElementById('custom-css-apply');
     if (applyBtn) {
@@ -857,247 +1049,240 @@ function bindMonacoEditorEvents(panel, styleElem, classNames, classCSS, cssRules
       };
     }
   }
-
-  // "CSS 파일로 저장" 버튼
-  function bindCustomCssDownloadButton() {
-    const downloadBtn = document.getElementById('custom-css-download');
-    if (downloadBtn) {
-      downloadBtn.onclick = () => {
-        if (customCssEditor) {
-          const cssContent = customCssEditor.getValue();
-          downloadCSSFile(cssContent);
-        }
-      };
-    }
-  }
+  */
   
   setTimeout(() => {
-    bindCustomCssApplyButton();
+    // bindCustomCssApplyButton();
     bindCustomCssDownloadButton();
   }, 150);
 
   // 각 클래스별 CSS 적용 버튼
-  setTimeout(() => {
-    const applyBtns = panel.querySelectorAll('.css-apply-btn');
-    applyBtns.forEach(btn => {
-      btn.onclick = () => {
-        const idx = btn.getAttribute('data-idx');
-        const className = btn.getAttribute('data-classname');
-        const editor = cssClassEditors.get(className);
+//   setTimeout(() => {
+//     const applyBtns = panel.querySelectorAll('.css-apply-btn');
+//     applyBtns.forEach(btn => {
+//       btn.onclick = () => {
+//         // if (tuto4) {
+//         //   if (tutoHideAll) {
+//         //     tutoHideAll();
+//         //   }
+//         // }
+//         const idx = btn.getAttribute('data-idx');
+//         const className = btn.getAttribute('data-classname');
+//         const editor = cssClassEditors.get(className);
         
-        if (editor) {
-          const cssText = editor.getValue();
+//         if (editor) {
+//           const cssText = editor.getValue();
           
-          const classNameMatch = cssText.match(/^\s*\.([A-Za-z0-9_-]+)(?:\s*,\s*[^{]*)*\s*\{/);
-          if (!classNameMatch) return;
-          const extractedClassName = classNameMatch[1];
+//           const classNameMatch = cssText.match(/^\s*\.([A-Za-z0-9_-]+)(?:\s*,\s*[^{]*)*\s*\{/);
+//           if (!classNameMatch) return;
+//           const extractedClassName = classNameMatch[1];
 
-          // 기본 CSS에서 해당 클래스의 정의를 가져옴
-          const defaultClassCSS = getDefaultClassCSS(extractedClassName, cssRules);
+//           // 기본 CSS에서 해당 클래스의 정의를 가져옴
+//           const defaultClassCSS = getDefaultClassCSS(extractedClassName, cssRules);
           
-          // 현재 CSS 텍스트와 기본 CSS를 비교
-          if (defaultClassCSS && isSameCSSContent(cssText, defaultClassCSS)) {
-            // 동일한 내용이면 커스텀 CSS에서 제거
-            let customCSS = styleElem.textContent || "";
-            customCSS = removeClassFromCustomCSS(customCSS, extractedClassName);
-            styleElem.textContent = customCSS;
+//           // 현재 CSS 텍스트와 기본 CSS를 비교
+//           if (defaultClassCSS && isSameCSSContent(cssText, defaultClassCSS)) {
+//             // 동일한 내용이면 커스텀 CSS에서 제거
+//             let customCSS = styleElem.textContent || "";
+//             customCSS = removeClassFromCustomCSS(customCSS, extractedClassName);
+//             styleElem.textContent = customCSS;
             
-            console.log(`클래스 .${extractedClassName}이(가) 기본 CSS와 동일하여 커스텀 CSS에서 제거되었습니다.`);
+//             console.log(`클래스 .${extractedClassName}이(가) 기본 CSS와 동일하여 커스텀 CSS에서 제거되었습니다.`);
             
-            // 사용자에게 시각적 피드백 제공
-            btn.textContent = '제거됨';
-            btn.style.setProperty('background', '#dc3545', 'important');
-            btn.style.color = 'white';
-            setTimeout(() => {
-              btn.textContent = '적용';
-              btn.style.removeProperty('background');
-              btn.style.removeProperty('color');
-            }, 1000);
-          } else {
-            // 다른 내용이면 기존 로직대로 추가/수정
-            let customCSS = styleElem.textContent || "";
+//             // 사용자에게 시각적 피드백 제공
+//             btn.textContent = '제거됨';
+//             btn.style.setProperty('background', '#dc3545', 'important');
+//             btn.style.color = 'white';
+//             setTimeout(() => {
+//               btn.textContent = '적용';
+//               btn.style.removeProperty('background');
+//               btn.style.removeProperty('color');
+//             }, 1000);
+//           } else {
+//             // 다른 내용이면 기존 로직대로 추가/수정
+//             let customCSS = styleElem.textContent || "";
             
-            const escapedClassName = extractedClassName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-            const regex = new RegExp(`\\.${escapedClassName}(?:\\s*,\\s*[^{]*)*\\s*\\{[^}]*\\}`, 'g');
+//             const escapedClassName = extractedClassName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+//             const regex = new RegExp(`\\.${escapedClassName}(?:\\s*,\\s*[^{]*)*\\s*\\{[^}]*\\}`, 'g');
             
-            if (regex.test(customCSS)) {
-              customCSS = customCSS.replace(regex, cssText);
-            } else {
-              customCSS += (customCSS.trim() ? '\n\n' : '') + cssText;
-            }
+//             if (regex.test(customCSS)) {
+//               customCSS = customCSS.replace(regex, cssText);
+//             } else {
+//               customCSS += (customCSS.trim() ? '\n\n' : '') + cssText;
+//             }
             
-            styleElem.textContent = customCSS;
+//             styleElem.textContent = customCSS;
             
-            // IBColorAlternate의 background-color를 IBClassAlternate > td에 적용
-            applyAlternateBackgroundColor(extractedClassName, cssText);
-            applyReadOnlyBackgroundColor(extractedClassName, cssText);
+//             // IBColorAlternate의 background-color를 IBClassAlternate > td에 적용
+//             applyAlternateBackgroundColor(extractedClassName, cssText);
+//             applyReadOnlyBackgroundColor(extractedClassName, cssText);
             
-            // 사용자에게 시각적 피드백 제공
-            btn.textContent = '적용됨';
-            btn.style.setProperty('background', '#28a745', 'important');
-            btn.style.color = 'white';
-            setTimeout(() => {
-              btn.textContent = '적용';
-              btn.style.removeProperty('background');
-              btn.style.removeProperty('color');
-            }, 1000);
-          }
+//             // 사용자에게 시각적 피드백 제공
+//             btn.textContent = '적용됨';
+//             btn.style.setProperty('background', '#28a745', 'important');
+//             btn.style.color = 'white';
+//             setTimeout(() => {
+//               btn.textContent = '적용';
+//               btn.style.removeProperty('background');
+//               btn.style.removeProperty('color');
+//             }, 1000);
+//           }
           
-          // 커스텀 CSS 영역만 리렌더
-          const customCssWrap = panel.querySelector('#custom-css-edit-wrap');
-          customCssWrap.innerHTML = renderCustomCssEditor(styleElem.textContent);
+//           // 커스텀 CSS 영역만 리렌더
+//           const customCssWrap = panel.querySelector('#custom-css-edit-wrap');
+//           customCssWrap.innerHTML = renderCustomCssEditor(styleElem.textContent);
           
-          // 커스텀 CSS 에디터 재생성
-          if (customCssEditor) {
-            customCssEditor.dispose();
-          }
-          setTimeout(() => {
-            customCssEditor = createCustomCssEditor('custom-css-editor', styleElem.textContent);
-            bindCustomCssApplyButton();
-            bindCustomCssDownloadButton();
-          }, 100);
-        }
-      };
-    });
-  }, 200);
+//           // 커스텀 CSS 에디터 재생성
+//           if (customCssEditor) {
+//             customCssEditor.dispose();
+//           }
+//           setTimeout(() => {
+//             customCssEditor = createCustomCssEditor('custom-css-editor', styleElem.textContent);
+//             bindCustomCssApplyButton();
+//             bindCustomCssDownloadButton();
+//           }, 100);
+//         }
+//       };
+//     });
+//   }, 200);
 }
 
 // Textarea Fallback용 이벤트 바인딩
 function bindTextareaEvents(panel, styleElem, cssRules) {
   // "수정 적용" 버튼: textarea 값 전체를 styleElem에 반영
-  function bindCustomCssApplyButton() {
-    const applyBtn = document.getElementById('custom-css-apply');
-    if (applyBtn) {
-      applyBtn.onclick = () => {
-        const cssArea = document.getElementById('custom-css-area');
-        if (cssArea) {
-          const newCSS = cssArea.value;
-          styleElem.textContent = newCSS;
+  // function bindCustomCssApplyButton() {
+  //   const applyBtn = document.getElementById('custom-css-apply');
+  //   if (applyBtn) {
+  //     applyBtn.onclick = () => {
+  //       const cssArea = document.getElementById('custom-css-area');
+  //       if (cssArea) {
+  //         const newCSS = cssArea.value;
+  //         styleElem.textContent = newCSS;
 
-          // IBColorAlternate 클래스들을 찾아서 background-color 적용
-          const colorAlternateMatches = newCSS.match(/\.([A-Za-z0-9_-]*ColorAlternate[A-Za-z0-9_-]*)\s*\{[^}]*\}/g);
-          if (colorAlternateMatches) {
-            colorAlternateMatches.forEach(match => {
-              const classNameMatch = match.match(/\.([A-Za-z0-9_-]*ColorAlternate[A-Za-z0-9_-]*)/);
-              if (classNameMatch) {
-                applyAlternateBackgroundColor(classNameMatch[1], match);
-              }
-            });
-          }
+  //         // IBColorAlternate 클래스들을 찾아서 background-color 적용
+  //         const colorAlternateMatches = newCSS.match(/\.([A-Za-z0-9_-]*ColorAlternate[A-Za-z0-9_-]*)\s*\{[^}]*\}/g);
+  //         if (colorAlternateMatches) {
+  //           colorAlternateMatches.forEach(match => {
+  //             const classNameMatch = match.match(/\.([A-Za-z0-9_-]*ColorAlternate[A-Za-z0-9_-]*)/);
+  //             if (classNameMatch) {
+  //               applyAlternateBackgroundColor(classNameMatch[1], match);
+  //             }
+  //           });
+  //         }
 
-          const colorReadOnlyMatches = newCSS.match(/\.([A-Za-z0-9_-]*ColorReadOnly[A-Za-z0-9_-]*)\s*\{[^}]*\}/g);
-          if (colorReadOnlyMatches) {
-            colorReadOnlyMatches.forEach(match => {
-              const classNameMatch = match.match(/\.([A-Za-z0-9_-]*ColorReadOnly[A-Za-z0-9_-]*)/);
-              if (classNameMatch) {
-                applyReadOnlyBackgroundColor(classNameMatch[1], match);
-              }
-            });
-          }
+  //         const colorReadOnlyMatches = newCSS.match(/\.([A-Za-z0-9_-]*ColorReadOnly[A-Za-z0-9_-]*)\s*\{[^}]*\}/g);
+  //         if (colorReadOnlyMatches) {
+  //           colorReadOnlyMatches.forEach(match => {
+  //             const classNameMatch = match.match(/\.([A-Za-z0-9_-]*ColorReadOnly[A-Za-z0-9_-]*)/);
+  //             if (classNameMatch) {
+  //               applyReadOnlyBackgroundColor(classNameMatch[1], match);
+  //             }
+  //           });
+  //         }
 
-          // 커스텀 CSS 영역 리렌더 및 바인딩 재설정
-          const customCssWrap = panel.querySelector('#custom-css-edit-wrap');
-          customCssWrap.innerHTML = renderCustomCssEditor(newCSS);
-          bindCustomCssApplyButton();
-          bindCustomCssDownloadButton();
-        }
-      };
-    }
-  }
+  //         // 커스텀 CSS 영역 리렌더 및 바인딩 재설정
+  //         const customCssWrap = panel.querySelector('#custom-css-edit-wrap');
+  //         customCssWrap.innerHTML = renderCustomCssEditor(newCSS);
+  //         bindCustomCssApplyButton();
+  //         bindCustomCssDownloadButton();
+  //       }
+  //     };
+  //   }
+  // }
 
   // "CSS 파일로 저장" 버튼
-  function bindCustomCssDownloadButton() {
-    const downloadBtn = document.getElementById('custom-css-download');
-    if (downloadBtn) {
-      downloadBtn.onclick = () => {
-        const cssArea = document.getElementById('custom-css-area');
-        if (cssArea) {
-          const cssContent = cssArea.value;
-          downloadCSSFile(cssContent);
-        }
-      };
-    }
-  }
+  // function bindCustomCssDownloadButton() {
+  //   const downloadBtn = document.getElementById('custom-css-download');
+  //   if (downloadBtn) {
+  //     downloadBtn.onclick = () => {
+  //       const cssArea = document.getElementById('custom-css-area');
+  //       if (cssArea) {
+  //         const cssContent = cssArea.value;
+  //         downloadCSSFile(cssContent);
+  //       }
+  //     };
+  //   }
+  // }
   
-  setTimeout(() => {
-    bindCustomCssApplyButton();
-    bindCustomCssDownloadButton();
-  }, 150);
+  // setTimeout(() => {
+  //   bindCustomCssApplyButton();
+  //   bindCustomCssDownloadButton();
+  // }, 150);
 
   // 각 클래스별 CSS 적용 버튼
-  setTimeout(() => {
-    const applyBtns = panel.querySelectorAll('.css-apply-btn');
-    applyBtns.forEach(btn => {
-      btn.onclick = () => {
-        const idx = btn.getAttribute('data-idx');
-        const cssTextarea = document.getElementById(`css-edit-${idx}`);
+  // setTimeout(() => {
+  //   const applyBtns = panel.querySelectorAll('.css-apply-btn');
+  //   applyBtns.forEach(btn => {
+  //     btn.onclick = () => {
+  //       const idx = btn.getAttribute('data-idx');
+  //       const cssTextarea = document.getElementById(`css-edit-${idx}`);
         
-        if (cssTextarea) {
-          const cssText = cssTextarea.value;
+  //       if (cssTextarea) {
+  //         const cssText = cssTextarea.value;
           
-          const classNameMatch = cssText.match(/^\s*\.([A-Za-z0-9_-]+)(?:\s*,\s*[^{]*)*\s*\{/);
-          if (!classNameMatch) return;
-          const className = classNameMatch[1];
+  //         const classNameMatch = cssText.match(/^\s*\.([A-Za-z0-9_-]+)(?:\s*,\s*[^{]*)*\s*\{/);
+  //         if (!classNameMatch) return;
+  //         const className = classNameMatch[1];
 
-          // 기본 CSS에서 해당 클래스의 정의를 가져옴
-          const defaultClassCSS = getDefaultClassCSS(className, cssRules);
+  //         // 기본 CSS에서 해당 클래스의 정의를 가져옴
+  //         const defaultClassCSS = getDefaultClassCSS(className, cssRules);
           
-          // 현재 CSS 텍스트와 기본 CSS를 비교
-          if (defaultClassCSS && isSameCSSContent(cssText, defaultClassCSS)) {
-            // 동일한 내용이면 커스텀 CSS에서 제거
-            let customCSS = styleElem.textContent || "";
-            customCSS = removeClassFromCustomCSS(customCSS, className);
-            styleElem.textContent = customCSS;
+  //         // 현재 CSS 텍스트와 기본 CSS를 비교
+  //         if (defaultClassCSS && isSameCSSContent(cssText, defaultClassCSS)) {
+  //           // 동일한 내용이면 커스텀 CSS에서 제거
+  //           let customCSS = styleElem.textContent || "";
+  //           customCSS = removeClassFromCustomCSS(customCSS, className);
+  //           styleElem.textContent = customCSS;
             
-            console.log(`클래스 .${className}이(가) 기본 CSS와 동일하여 커스텀 CSS에서 제거되었습니다.`);
+  //           console.log(`클래스 .${className}이(가) 기본 CSS와 동일하여 커스텀 CSS에서 제거되었습니다.`);
             
-            // 사용자에게 시각적 피드백 제공
-            btn.textContent = '제거됨';
-            btn.style.setProperty('background', '#dc3545', 'important');
-            btn.style.color = 'white';
-            setTimeout(() => {
-              btn.textContent = '적용';
-              btn.style.removeProperty('background');
-              btn.style.removeProperty('color');
-            }, 1000);
-          } else {
-            // 다른 내용이면 기존 로직대로 추가/수정
-            let customCSS = styleElem.textContent || "";
+  //           // 사용자에게 시각적 피드백 제공
+  //           btn.textContent = '제거됨';
+  //           btn.style.setProperty('background', '#dc3545', 'important');
+  //           btn.style.color = 'white';
+  //           setTimeout(() => {
+  //             btn.textContent = '적용';
+  //             btn.style.removeProperty('background');
+  //             btn.style.removeProperty('color');
+  //           }, 1000);
+  //         } else {
+  //           // 다른 내용이면 기존 로직대로 추가/수정
+  //           let customCSS = styleElem.textContent || "";
             
-            const escapedClassName = className.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-            const regex = new RegExp(`\\.${escapedClassName}(?:\\s*,\\s*[^{]*)*\\s*\\{[^}]*\\}`, 'g');
+  //           const escapedClassName = className.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  //           const regex = new RegExp(`\\.${escapedClassName}(?:\\s*,\\s*[^{]*)*\\s*\\{[^}]*\\}`, 'g');
             
-            if (regex.test(customCSS)) {
-              customCSS = customCSS.replace(regex, cssText);
-            } else {
-              customCSS += (customCSS.trim() ? '\n\n' : '') + cssText;
-            }
+  //           if (regex.test(customCSS)) {
+  //             customCSS = customCSS.replace(regex, cssText);
+  //           } else {
+  //             customCSS += (customCSS.trim() ? '\n\n' : '') + cssText;
+  //           }
             
-            styleElem.textContent = customCSS;
+  //           styleElem.textContent = customCSS;
             
-            // IBColorAlternate의 background-color를 IBClassAlternate > td에 적용
-            applyAlternateBackgroundColor(className, cssText);
+  //           // IBColorAlternate의 background-color를 IBClassAlternate > td에 적용
+  //           applyAlternateBackgroundColor(className, cssText);
             
-            // 사용자에게 시각적 피드백 제공
-            btn.textContent = '적용됨';
-            btn.style.setProperty('background', '#28a745', 'important');
-            btn.style.color = 'white';
-            setTimeout(() => {
-              btn.textContent = '적용';
-              btn.style.removeProperty('background');
-              btn.style.removeProperty('color');
-            }, 1000);
-          }
+  //           // 사용자에게 시각적 피드백 제공
+  //           btn.textContent = '적용됨';
+  //           btn.style.setProperty('background', '#28a745', 'important');
+  //           btn.style.color = 'white';
+  //           setTimeout(() => {
+  //             btn.textContent = '적용';
+  //             btn.style.removeProperty('background');
+  //             btn.style.removeProperty('color');
+  //           }, 1000);
+  //         }
           
-          // 커스텀 CSS 영역만 리렌더
-          const customCssWrap = panel.querySelector('#custom-css-edit-wrap');
-          customCssWrap.innerHTML = renderCustomCssEditor(styleElem.textContent);
-          bindCustomCssApplyButton();
-          bindCustomCssDownloadButton();
-        }
-      };
-    });
-  }, 200);
+  //         // 커스텀 CSS 영역만 리렌더
+  //         const customCssWrap = panel.querySelector('#custom-css-edit-wrap');
+  //         customCssWrap.innerHTML = renderCustomCssEditor(styleElem.textContent);
+  //         bindCustomCssApplyButton();
+  //         bindCustomCssDownloadButton();
+  //       }
+  //     };
+  //   });
+  // }, 200);
 }
 
 // CSSRule을 예쁘게 포매팅
@@ -1380,11 +1565,13 @@ function applyReadOnlyBackgroundColor(className, cssText) {
 
 // 커스텀 CSS 영역 렌더링 함수
 function renderCustomCssEditor(cssText) {
+
+  // loaded <button id="custom-css-apply" style="padding:8px 16px;border:1px solid #007acc;background:#007acc;color:white;border-radius:4px;cursor:pointer;">적용</button>
+  // false <button id="custom-css-apply" style="padding:8px 16px;border:1px solid #007acc;background:#007acc;color:white;border-radius:4px;cursor:pointer;">적용</button>
   if (monacoLoaded) {
     return `
       <div id="custom-css-editor" style="width:100%;height:120px;border:1px solid #333;margin-bottom:8px;"></div>
       <div style="margin-bottom:16px;display:block;gap:8px;text-align:center;">
-        <button id="custom-css-apply" style="padding:8px 16px;border:1px solid #007acc;background:#007acc;color:white;border-radius:4px;cursor:pointer;">적용</button>
         <button id="custom-css-download" style="padding:8px 16px;border:1px solid #28a745;background:#28a745;color:white;border-radius:4px;cursor:pointer;">CSS 파일로 저장</button>
       </div>
     `;
@@ -1393,7 +1580,6 @@ function renderCustomCssEditor(cssText) {
     return `
       <textarea id="custom-css-area" style="width:100%;height:120px;font-family:monospace;background:#212121;color:#f8f8f2; margin-bottom:8px;">${cssText}</textarea>
       <div style="margin-bottom:16px;display:block;gap:8px;text-align:center;">
-        <button id="custom-css-apply" style="padding:8px 16px;border:1px solid #007acc;background:#007acc;color:white;border-radius:4px;cursor:pointer;">적용</button>
         <button id="custom-css-download" style="padding:8px 16px;border:1px solid #28a745;background:#28a745;color:white;border-radius:4px;cursor:pointer;">CSS 파일로 저장</button>
       </div>
     `;
@@ -1412,7 +1598,7 @@ function ensureCustomStyleTag() {
 }
 
 // 색상/이미지 속성을 가진 CSS 텍스트 중에서 가장 적절한 것을 선택하는 함수
-function selectBestCssText(cssTextArray) {
+function selectBestCssText(cssTextArray, notUseFilter) {
   if (!cssTextArray || cssTextArray.length === 0) return '';
   
   // 문자열만 필터링
@@ -1421,23 +1607,33 @@ function selectBestCssText(cssTextArray) {
   );
   
   if (validCssTexts.length === 0) return '';
-  
+
   // 색상이나 이미지 속성을 가진 CSS 텍스트들을 필터링
-  const cssWithColorOrImage = validCssTexts.filter(cssText => hasColorOrImageProps(cssText));
-  
-  // 색상/이미지 속성을 가진 CSS가 있다면 그 중 첫 번째를 반환
-  if (cssWithColorOrImage.length > 0) {
-    return cssWithColorOrImage[0];
+  let cssWithColorOrImage = validCssTexts;
+  if (!notUseFilter) {
+    cssWithColorOrImage = validCssTexts.filter(cssText => hasColorOrImageProps(cssText));
+
+    // 색상/이미지 속성을 가진 CSS가 있다면 그 중 첫 번째를 반환
+    if (cssWithColorOrImage.length > 0) {
+      return cssWithColorOrImage[0];
+    }
+    
+    // 색상/이미지 속성이 없다면 첫 번째 CSS 반환
+    return validCssTexts[0] || '';
   }
-  
-  // 색상/이미지 속성이 없다면 첫 번째 CSS 반환
-  return validCssTexts[0] || '';
+
+  return validCssTexts.map((cssText, idx) => {
+      if (idx == validCssTexts.length - 1) {
+        return `${cssText}\n`;
+      }
+      return `${cssText} \n\n`
+    }).join("");
 }
 
 // Inspector 패널 렌더링 및 이벤트 바인딩
-async function showInspector(element) {
+async function showInspector(element, notUseFilter) {
   const panel = document.getElementById("inspector-panel");
-  
+
   // 패널 활성화 (가이드 숨김)
   // panel.classList.add('active');
   
@@ -1456,21 +1652,28 @@ async function showInspector(element) {
       monacoLoaded = false;
     }
   }
-  
-  const excludeClasses = ['infoArea'];
-  let classNames_before = Array.from(element.classList).filter(cls => !excludeClasses.includes(cls));
 
   const newStyleArr = styleArr.map(cls => {
     return prefixTheme + cls;
   });
 
-  if (element.classList.contains(`${prefixTheme}ClassAlternate`)) {
-    classNames_before = [`${prefixTheme}ColorAlternate`]
-  } else if (element.classList.contains(`${prefixTheme}ClassReadOnly`)) {
-    classNames_before.push(`${prefixTheme}ColorReadOnly`);
-  }
+  let classNames_before = element && element.classList? Array.from(element.classList) : [];
 
-  const classNames = classNames_before.filter(cls => newStyleArr.includes(cls));
+  if (!notUseFilter) {
+    const excludeClasses = ['infoArea'];
+    classNames_before = classNames_before.filter(cls => !excludeClasses.includes(cls));
+
+    if (element.classList.contains(`${prefixTheme}ClassAlternate`)) {
+      classNames_before = [`${prefixTheme}ColorAlternate`]
+    } else if (element.classList.contains(`${prefixTheme}ClassReadOnly`)) {
+      classNames_before.push(`${prefixTheme}ColorReadOnly`);
+    }
+  }
+  
+  let classNames = classNames_before;
+  if (!notUseFilter) {
+    classNames = classNames_before.filter(cls => newStyleArr.includes(cls));
+  }
   const classCSS = getClassCSS(classNames, cssRules, true);
 
   const styleElem = ensureCustomStyleTag();
@@ -1484,7 +1687,6 @@ async function showInspector(element) {
       </div>
       <div id='css-define-section'>
         <strong>CSS 정의</strong>
-        ${classNames.length >= 2 ? '<div style="font-size:12px;margin:4px 0;">💡 아래쪽에 출력되는 클래스일수록 우선순위가 높습니다</div>' : ''}
         <div id="css-define-edit-wrap" style="margin-top:8px;">
           
           ${classNames.map((cn, idx) => {
@@ -1497,13 +1699,15 @@ async function showInspector(element) {
               cssText = customClassCSS;
             } else {
               // 전역 CSS에 없는 경우 기존 로직 사용
-              const bestCssText = selectBestCssText(classCSS[cn]);
+              const bestCssText = selectBestCssText(classCSS[cn], notUseFilter);
               cssText = bestCssText || `.${cn} {\n\n}`;
             }
             
             // 인덱스가 3 이상인 경우 마지막 div에 더 큰 margin-bottom 적용
             const marginBottom = idx >= 2 && idx == classNames.length -1 ? '200px' : '10px';
             
+            // loaded <button class="css-apply-btn" data-idx="${idx}" data-classname="${cn}" style="margin-top:4px;">적용</button>
+            // false <button class="css-apply-btn" data-idx="${idx}" data-classname="${cn}" style="margin-top:4px;">적용</button>
             if (monacoLoaded) {
               return `
                 <div style="margin-bottom:${marginBottom};">
@@ -1511,7 +1715,6 @@ async function showInspector(element) {
                     ▷ .${cn}
                   </div>
                   <div id="css-edit-${idx}" style="width:100%;height:120px;border:1px solid #333;margin-bottom:8px;"></div>
-                  <button class="css-apply-btn" data-idx="${idx}" data-classname="${cn}" style="margin-top:4px;">적용</button>
                 </div>
               `;
             } else {
@@ -1521,7 +1724,6 @@ async function showInspector(element) {
                     ▷ .${cn}
                   </div>
                   <textarea id="css-edit-${idx}" style="width:100%;height:120px;font-family:monospace;background:#212121;color:#f8f8f2; margin-bottom:4px;">${cssText}</textarea>
-                  <button class="css-apply-btn" data-idx="${idx}" data-classname="${cn}" style="margin-top:4px;">적용</button>
                 </div>
               `;
             }
@@ -1560,7 +1762,7 @@ async function showInspector(element) {
         if (customClassCSS) {
           cssText = customClassCSS;
         } else {
-          const bestCssText = selectBestCssText(classCSS[cn]);
+          const bestCssText = selectBestCssText(classCSS[cn], notUseFilter);
           cssText = bestCssText || `.${cn} {\n\n}`;
         }
         
@@ -1570,16 +1772,17 @@ async function showInspector(element) {
           editorIndex++;
           // 다음 에디터 생성을 위해 더 긴 지연
           setTimeout(createNextEditor, 0);
-        }, 50);
+        }, 10);
       }
       
       // 첫 번째 에디터 생성 시작 (커스텀 에디터 생성 후)
       setTimeout(createNextEditor, 0);
     }, 0);
-  } else {
-    // Textarea fallback용 이벤트 바인딩
-    bindTextareaEvents(panel, styleElem, cssRules);
-  }
+  } 
+  // else {
+  //   // Textarea fallback용 이벤트 바인딩
+  //   bindTextareaEvents(panel, styleElem, cssRules);
+  // }
 }
 
 let cssRules;
@@ -1628,42 +1831,68 @@ window.addEventListener('DOMContentLoaded', async () => {
 
     let isParentElement = false;
 
-    if (e.target.closest('#inspector-panel') || e.target.closest('#icon-content1') || e.target.closest('#icon-content2') || e.target.closest('#icon-content3')) {
+    if (e.target.closest('#inspector-panel') || 
+      e.target.closest('#layout-content') || 
+      e.target.closest('#icon1-content') || 
+      e.target.closest('#icon2-content') ||
+      e.target.closest('#icon3-content') || 
+      e.target.closest('#icon4-content') || 
+      e.target.closest('#icon5-content')) {
       return;
     }
     
     if (e.target && e.target.nodeType === 1) {
-      // console.log(e.target);
-      // IB로 시작하는 클래스와 infoArea를 가진 가장 가까운 요소 찾기
-      // let targetElement = e.target.closest('[class*="IB"]');
-      let targetElement = e.target.closest('[class*="infoArea"]');
-      // console.log('targetElement :', targetElement)
-      if (targetElement && Array.from(targetElement.classList).includes(`${prefixTheme}SpaceWidthInner`)) {
-        targetElement = e.target.parentElement;
-      } else if (targetElement && e.target.parentElement && 
-          (e.target.parentElement.classList.contains(`${prefixTheme}FormulaRow`) || e.target.parentElement.classList.contains(`${prefixTheme}ClassAlternate`))) {
-        // targetElement.classList.add('IBFormulaRow');
-        isParentElement = true;
-        targetElement = e.target.parentElement;
-        targetElement.classList.add('inspected-element-highlight');
-      }
-
-      if (targetElement && (Array.from(targetElement.classList).some(cn => cn.startsWith('IB')) || 
-        (targetElement.tagName.toLowerCase() === 'button' && Array.from(e.target.parentElement.classList).some(cn => cn.startsWith('IB')))) ) {
-
-        // console.log('showIspector for element:', targetElement);
-        if (document.getElementById('subtotal-content') && 
-          (document.getElementById('subtotal-content').querySelectorAll('.infoArea')[0] == targetElement || 
-          document.getElementById('subtotal-content').querySelectorAll('.infoArea')[1] == targetElement)) { // 소계/누계 선택 금지
-          return;
-        } else if (document.getElementById('group-content') && document.getElementById('group-content').querySelectorAll('.infoArea')[6] == targetElement) { // GroupFormat 선택 금지
-          return;
+      // 스타일 적용 페이지에선 선택된 Element의 제한은 오직 Sheet ELement만
+      if (e.target.closest('#style-content')) {
+        const sheetEX = document.querySelector('#sheetDivEX');
+        const exAllElements = sheetEX.querySelectorAll('*');
+        for(let i = 0; i < exAllElements.length; i++) {
+          const elem = exAllElements[i];
+          if (elem == e.target) {
+            // showInspectorExample2(elem);
+            showInspector(elem, true);
+            break;
+          }
         }
-
-        if (!isParentElement) {
+        // exAllElements.forEach(elem => {
+        //   if (elem == e.target) {
+        //     // showInspectorExample2(elem);
+        //     showInspector(elem, true);
+        //   }
+        // });
+      } else {
+        // console.log(e.target);
+        // IB로 시작하는 클래스와 infoArea를 가진 가장 가까운 요소 찾기
+        // let targetElement = e.target.closest('[class*="IB"]');
+        let targetElement = e.target.closest('[class*="infoArea"]');
+        // console.log('targetElement :', targetElement)
+        if (targetElement && Array.from(targetElement.classList).includes(`${prefixTheme}SpaceWidthInner`)) {
+          targetElement = e.target.parentElement;
+        } else if (targetElement && e.target.parentElement && 
+            (e.target.parentElement.classList.contains(`${prefixTheme}FormulaRow`) || e.target.parentElement.classList.contains(`${prefixTheme}ClassAlternate`))) {
+          // targetElement.classList.add('IBFormulaRow');
+          isParentElement = true;
+          targetElement = e.target.parentElement;
           targetElement.classList.add('inspected-element-highlight');
         }
-        showInspector(targetElement);
+  
+        if (targetElement && (Array.from(targetElement.classList).some(cn => cn.startsWith('IB')) || 
+          (targetElement.tagName.toLowerCase() === 'button' && Array.from(e.target.parentElement.classList).some(cn => cn.startsWith('IB')))) ) {
+  
+          // console.log('showIspector for element:', targetElement);
+          if (document.getElementById('subtotal-content') && 
+            (document.getElementById('subtotal-content').querySelectorAll('.infoArea')[0] == targetElement || 
+            document.getElementById('subtotal-content').querySelectorAll('.infoArea')[1] == targetElement)) { // 소계/누계 선택 금지
+            return;
+          } else if (document.getElementById('group-content') && document.getElementById('group-content').querySelectorAll('.infoArea')[6] == targetElement) { // GroupFormat 선택 금지
+            return;
+          }
+  
+          if (!isParentElement) {
+            targetElement.classList.add('inspected-element-highlight');
+          }
+          showInspector(targetElement);
+        }
       }
     }
   });
