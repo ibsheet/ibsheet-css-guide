@@ -18,21 +18,21 @@ html, body {
   grid-template-rows: 1fr;
   grid-template-columns: 420px 5px 1fr;
   grid-template-areas: "inspector divider main-area";
-  height: 1080px;
-  width: 1920px;
+  min-height: 1080px;
+  min-width: 1920px;
   overflow: hidden;
   backdrop-filter: blur(10px);
 }
 
 /* 메인 영역 (tab bar + theme bar + content) */
 .main-area {
-  grid-area: main-area;
+  /* grid-area: main-area;
   display: grid;
   grid-template-rows: 70px 100px 1fr;
   grid-template-areas:
     "tab-bar"
     "theme-bar"
-    "content";
+    "content"; */
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(20px);
   overflow: hidden;
@@ -357,8 +357,8 @@ html, body {
   backdrop-filter: blur(10px);
   flex: 1;
   /* height: calc(100vh - 70px); */
-  height: 910px;
-  max-height: 910px;
+  height: 100%;
+  min-height: 910px;
   overflow: auto;
   /*padding: 24px;*/
   /* padding-bottom: 0; */
@@ -505,7 +505,8 @@ html, body {
 .inspector-panel {
   grid-area: inspector;
   position: relative;
-  height: 1080px;
+  min-height: 1080px;
+  height: 100vh;
   background: 
     linear-gradient(145deg, 
       rgba(15, 15, 15, 0.95) 0%, 
@@ -1473,4 +1474,17 @@ button.iconBtn:focus {
   margin-top: -12px; /* height의 절반 */
   display: none;
   box-shadow: 0 0 10px rgba(255,0,0,0.5);
+}
+
+@media (max-width: 1919px) {
+  html, body {
+    overflow-x: auto;
+    overflow-y: auto;
+  }
+
+  .container {
+    overflow-x: auto;
+    overflow-y: hidden;
+    min-width: 1920px; /* 최소 너비 보장으로 스크롤 유발 */
+  }
 }

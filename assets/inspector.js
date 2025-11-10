@@ -1832,7 +1832,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     let isParentElement = false;
 
     if (e.target.closest('#inspector-panel') || 
-      e.target.closest('#layout-content') || 
+      // e.target.closest('#layout-content') || 
       e.target.closest('#icon1-content') || 
       e.target.closest('#icon2-content') ||
       e.target.closest('#icon3-content') || 
@@ -1891,6 +1891,9 @@ window.addEventListener('DOMContentLoaded', async () => {
           if (!isParentElement) {
             targetElement.classList.add('inspected-element-highlight');
           }
+          
+          if (e.target.closest('#layout-content')) return;
+
           showInspector(targetElement);
         }
       }
