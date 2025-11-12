@@ -3,6 +3,9 @@ document.getElementById('btn2').addEventListener('click', () => { loadContent('h
 document.getElementById('btn3').addEventListener('click', () => { loadContent('html/tab-icon3.html'); });
 document.getElementById('btn4').addEventListener('click', () => { loadContent('html/tab-icon4.html'); });
 document.getElementById('btn5').addEventListener('click', () => { loadContent('html/tab-icon5.html'); });
+document.getElementById('btn6').addEventListener('click', () => { loadContent('html/tab-icon6.html'); });
+document.getElementById('btn7').addEventListener('click', () => { loadContent('html/tab-icon7.html'); });
+document.getElementById('btn8').addEventListener('click', () => { loadContent('html/tab-icon8.html'); });
 
 document.getElementById('btn1').click();
 
@@ -18,6 +21,7 @@ function loadContent(filename) {
         
       // 해당 탭에 맞는 JavaScript 파일 로드
       const tabNumber = filename.match(/tab-icon(\d+)\.html$/)?.[1];
+      contentArea.className = `icon${tabNumber}-content`;
       if (tabNumber) {
         const scriptPath = `script/icon${tabNumber}-content.js`;
         loadScript(scriptPath);

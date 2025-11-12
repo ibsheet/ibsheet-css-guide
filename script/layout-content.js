@@ -96,15 +96,63 @@ if (layoutContent) {
     }
   }
 
+  function setTdOpacity(rows, opacity) {
+    if (rows && rows.length > 0) {
+      rows.forEach(row => {
+        const tds = row.querySelectorAll('td');
+        if (tds && tds.length > 0) {
+          tds.forEach(td => {
+            if (td.style.opacity !== undefined && td.style.opacity != '') {
+              td.style.opacity = opacity;
+            }
+          });
+        } 
+      });
+    }
+  }
+
+  function setAllTrTdOpacity(opacity) {
+    const allTrs = layoutSheetArea.querySelectorAll('tr');
+    if (allTrs && allTrs.length > 0) {
+      allTrs.forEach(tr => {
+        if (tr.style.opacity !== undefined && tr.style.opacity != '') {
+          tr.style.opacity = opacity;
+        }
+      });
+    }
+    const allTds = layoutSheetArea.querySelectorAll('td');
+    if (allTds && allTds.length > 0) {
+      allTds.forEach(td => {
+        if (td.style.opacity !== undefined && td.style.opacity != '') {
+          td.style.opacity = opacity;
+        }
+      });
+    } 
+  }
+
+  function setRowOpacity(sheetArea, className, opacity) {
+    if (sheetArea) {
+      const headerRows = sheetArea.querySelectorAll(`.${className}HeaderRow`);
+      setTdOpacity(headerRows, opacity);
+      const dataRows = sheetArea.querySelectorAll(`.${className}DataRow`);
+      setTdOpacity(dataRows, opacity);
+      setAllTrTdOpacity(opacity);
+    }
+  }
+
   function areaToggleClick(areaToggle) {
     const infoAreas = layoutContent.querySelectorAll('.infoArea');
     infoAreas.forEach(area => {
       if (area.classList.contains('infoAreaClear')) {
         area.classList.remove('infoAreaClear');
         areaToggle.textContent = '선택 영역 미표시';
+        setRowOpacity(layoutSheetArea, `${prefixTheme}`, '0.5');
+        setRowOpacity(layoutSheetArea, 'IB', '0.5');
       } else {
         area.classList.add('infoAreaClear');
         areaToggle.textContent = '선택 영역 표시';
+        setRowOpacity(layoutSheetArea, `${prefixTheme}`, '1');
+        setRowOpacity(layoutSheetArea, 'IB', '1');
       }
     });
   }

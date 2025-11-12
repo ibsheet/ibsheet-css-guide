@@ -181,7 +181,6 @@ const hashToTabMap = {
   'subtotal': 'subtotal-content',
   'group': 'group-content',
   'icon': 'icon-content',
-  // 'style': 'style-content'
 };
 
 // 탭 ID에서 해시값으로 변환하는 맵
@@ -204,13 +203,6 @@ const contents = {
   'subtotal-content':       './html/tab-subtotal.html',
   'group-content':          './html/tab-group.html',
   'icon-content':           './html/tab-icon.html',
-  // 'icon1-content':          './html/tab-icon1.html',
-  // 'icon2-content':          './html/tab-icon2.html',
-  // 'icon3-content':          './html/tab-icon3.html',
-  // 'icon4-content':          './html/tab-icon4.html',
-  // 'icon5-content':          './html/tab-icon5.html',
-  // 'aggrid-content':         './html/tab-aggrid.html',
-  // 'style-content':          './html/tab-style.html',
 };
 
 // 탭 활성화 함수
@@ -244,14 +236,6 @@ function activateTab(tabId, updateHash = true) {
   }
 
   if (tabId == 'tutorial-content') {
-    // if (window.hasOwnProperty('tuto1')) {
-    //   // tutorial 초기화
-    //   tuto1 = true;
-    //   tuto2 = false;
-    //   tuto3 = false;
-    //   tuto4 = false;
-    //   tuto1Show();
-    // }
     if (window.hasOwnProperty('tutorialSet')) tutorialSet();
   } else {
     // tutorial 관련 레이어 숨기기
@@ -596,81 +580,3 @@ function setReadOnlyColor() {
     element.style.backgroundColor = backgroundColor;
   });
 }
-
-// Panel Resize Functionality
-// document.addEventListener('DOMContentLoaded', function() {
-//   const resizeDivider = document.getElementById('resize-divider');
-//   const inspectorPanel = document.getElementById('inspector-panel');
-//   const mainArea = document.querySelector('.main-area');
-//   const container = document.querySelector('.container');
-  
-//   if (!resizeDivider || !inspectorPanel || !mainArea || !container) {
-//     console.warn('Resize elements not found');
-//     return;
-//   }
-  
-//   let isResizing = false;
-//   let startX = 0;
-//   let startInspectorWidth = 420; // 초기 너비
-  
-//   const minInspectorWidth = 250;  // 최소 너비
-//   const maxInspectorWidth = 800;  // 최대 너비
-  
-//   // 마우스 다운 이벤트
-//   resizeDivider.addEventListener('mousedown', function(e) {
-//     isResizing = true;
-//     startX = e.clientX;
-//     startInspectorWidth = inspectorPanel.offsetWidth;
-    
-//     // 드래그 중 상태 클래스 추가
-//     container.classList.add('resizing');
-//     document.body.style.cursor = 'col-resize';
-//     document.body.style.userSelect = 'none';
-    
-//     e.preventDefault();
-//     e.stopPropagation();
-//   });
-  
-//   // 마우스 이동 이벤트
-//   document.addEventListener('mousemove', function(e) {
-//     if (!isResizing) return;
-    
-//     const deltaX = e.clientX - startX;
-//     let newInspectorWidth = startInspectorWidth + deltaX;
-    
-//     // 최소/최대 너비 제한
-//     newInspectorWidth = Math.max(minInspectorWidth, Math.min(maxInspectorWidth, newInspectorWidth));
-    
-//     // CSS 그리드 컬럼 업데이트
-//     container.style.gridTemplateColumns = `${newInspectorWidth}px 5px 1fr`;
-    
-//     e.preventDefault();
-//   });
-  
-//   // 마우스 업 이벤트
-//   document.addEventListener('mouseup', function() {
-//     if (!isResizing) return;
-    
-//     isResizing = false;
-    
-//     // 상태 클래스 제거
-//     container.classList.remove('resizing');
-//     document.body.style.cursor = '';
-//     document.body.style.userSelect = '';
-//   });
-  
-//   // 더블클릭으로 기본 크기 복원
-//   resizeDivider.addEventListener('dblclick', function() {
-//     container.style.gridTemplateColumns = '420px 5px 1fr';
-//   });
-  
-//   // 창에서 마우스가 벗어날 때도 resize 종료
-//   document.addEventListener('mouseleave', function() {
-//     if (isResizing) {
-//       isResizing = false;
-//       container.classList.remove('resizing');
-//       document.body.style.cursor = '';
-//       document.body.style.userSelect = '';
-//     }
-//   });
-// });
